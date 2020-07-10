@@ -47,14 +47,17 @@ message LeaveResponse {}
 message Connect {
 	Player player = 1;
 	bool active = 2;
+	string deviceType = 3;
+	string room_id = 4;
 }
 
 // 消息协议
 message Message {
 	string player_id = 1;
-	string contentType = 2;
-	string content = 3;
-	string timestamp = 4;
+	string room_id = 2;
+	string contentType = 3;
+	string content = 4;
+	string timestamp = 5;
 }
 message Close {}
 

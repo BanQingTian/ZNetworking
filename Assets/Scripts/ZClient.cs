@@ -6,27 +6,23 @@ using Grpc.Core;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class ZClient 
+public class ZClient
 {
-    private bool m_Initialized = false;  
+    private bool m_Initialized = false;
     private bool m_Connected = false;    // connect server
     private bool m_Dispose = false;      // create stream dispose
 
     private string m_RoomID; // = "world";
-
     private string m_PlayerID;
 
     private Channel channel;
     private Exhibit.ExhibitClient client;
 
-
     GameObject Model;
 
-    public ZClient()
-    {
-        m_RoomID = "szcw";
-        m_PlayerID = "player";
-    }
+    public delegate void RevMsg(Message msg);
+    public event RevMsg RevMsgEvent;
+
     public ZClient(string roomID, GameObject prefab)
     {
         m_RoomID = roomID;
@@ -38,6 +34,12 @@ public class ZClient
     {
         m_PlayerID = "target";
     }
+
+    public void Run(string ip, string port)
+    {
+
+    }
+
 
     /// <summary>
     /// 连接服务器，并加入指定房间
@@ -59,6 +61,8 @@ public class ZClient
         m_PlayerID = res.PlayerId;
 
         m_Initialized = true;
+
+        CreateStream();
     }
 
     public async void CreateStream()
@@ -71,8 +75,11 @@ public class ZClient
     public void DisposeStream()
     {
         m_Dispose = true;
+        call?.Dispose();
     }
 
+
+    AsyncServerStreamingCall<Message> call;
     private async Task bindStream()
     {
         try
@@ -80,7 +87,7 @@ public class ZClient
             Vector3 pos = Model.transform.position;
             Vector3 euler = Model.transform.eulerAngles;
 
-            var call = client.CreateStream(new Zrime.Connect
+            call = client.CreateStream(new Zrime.Connect
             {
                 Player = new Player
                 {
@@ -99,43 +106,48 @@ public class ZClient
                         EulerZ = euler.z,
                     },
                 },
+                RoomId = m_RoomID,
                 Active = true,
                 DeviceType = "0",
             });
 
             m_Dispose = false;
 
-            while (true)
+
+            //Debug.Log("run");
+            //if (m_Dispose)
+            //{
+            //    call.Dispose();
+            //    Debug.Log(" stream dispose => " + m_PlayerID);
+            //    return;
+            //}
+
+            IAsyncStreamReader<Message> rs = call.ResponseStream;
+
+            while (await rs.MoveNext())
             {
-                if (m_Dispose)
+                Message msg = rs.Current;
+                Loom.QueueOnMainThread(() =>
                 {
-                    call.Dispose();
-                    return;
-                }
-
-                IAsyncStreamReader<Message> rs = call.ResponseStream;
-                
-                while (await rs.MoveNext())
-                {
-                    Message msg = rs.Current;
-                    Debug.Log(msg.Content);
-                }
-
+                    RevMsgEvent?.Invoke(msg);
+                });
             }
 
+            call.Dispose();
+            m_Dispose = true;
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-
             throw;
         }
     }
 
-    public async void SendMsg(string type,string content)
+    public async void SendMsg(string type, string content)
     {
         var res = await client.BroadcastMessageAsync(new Message
         {
             PlayerId = m_PlayerID,
+            RoomId = m_RoomID,
             ContentType = type,
             Content = content,
             Timestamp = "",
@@ -145,6 +157,7 @@ public class ZClient
 
     public void Leave()
     {
+        DisposeStream();
         client.Leave(new LeaveRequest
         {
             RoomId = m_RoomID,

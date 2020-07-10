@@ -26,6 +26,7 @@ var (
 type Connection struct {
 	stream pb.Exhibit_CreateStreamServer
 	id     string
+	roomID string
 	active bool
 	// 类型 0 = nreallight 1 = visit device
 	deviceType string
@@ -38,7 +39,8 @@ type Server struct {
 
 	players map[string]*pb.Player
 
-	Connection []*Connection
+	Connections map[string][]*Connection
+	//Connection []*Connection
 }
 
 func (s *Server) isExistPlayer(roomID string, playerID string) bool {
@@ -67,7 +69,7 @@ func (s *Server) getPlayer(roomid string) []*pb.Player {
 }
 
 // get index of romms map
-func getIndexOfRoomArray(ps []string, p string) int {
+func getIndexOfArr(ps []string, p string) int {
 	for i, _p := range ps {
 		if _p == p {
 			return i
@@ -158,10 +160,27 @@ func (s *Server) Leave(ctx context.Context, req *pb.LeaveRequest) (*pb.LeaveResp
 		return nil, errors.New(s)
 	}
 
-	index := getIndexOfRoomArray(s.rooms[roomID], playerID)
+	// remove out s.rooms
+	index := getIndexOfArr(s.rooms[roomID], playerID)
 	s.rooms[roomID] = unset(s.rooms[roomID], index)
 
-	log.Println("[ZLOG] [INFO] Leave Room ---> ", playerID)
+	// remove out s.players
+	delete(s.players, playerID)
+
+	// romove out s.connections
+	index = -1
+	arr := s.Connections[roomID]
+	for i, value := range arr {
+		if value.id == playerID {
+			index = i
+			break
+		}
+	}
+	if index < len(arr) {
+		s.Connections[roomID] = append(arr[:index], arr[index+1:]...)
+	}
+
+	log.Printf("[ZLOG] [INFO] Leave Room => %v", playerID)
 
 	return &pb.LeaveResponse{}, nil
 }
@@ -171,14 +190,40 @@ func (s *Server) CreateStream(pbconn *pb.Connect, stream pb.Exhibit_CreateStream
 	conn := &Connection{
 		stream:     stream,
 		id:         pbconn.Player.PlayerId,
+		roomID:     pbconn.RoomId,
 		active:     true,
 		deviceType: pbconn.DeviceType,
 		error:      make(chan error),
 	}
 
-	s.Connection = append(s.Connection, conn)
+	s.AddStreamToConnections(conn)
 
 	return <-conn.error
+}
+
+// AddStreamToConnections des
+func (s *Server) AddStreamToConnections(conn *Connection) {
+	_, exist := s.Connections[conn.roomID]
+	if exist {
+		s.Connections[conn.roomID] = append(s.Connections[conn.roomID], conn)
+		//fmt.Println("----", conn.roomID, "----", len(s.Connections[conn.roomID]))
+	}
+	// if exist {
+	// 	hav := true
+	// 	for _, value := range s.Connections[conn.roomID] {
+	// 		if value.id == conn.id {
+	// 			hav = false
+	// 			break
+	// 		}
+	// 	}
+	// 	if !hav {
+	// 		s.Connections[conn.roomID] = append(s.Connections[conn.roomID], conn)
+	// 	}
+	// } else {
+	// 	// var cs []*Connection
+	// 	// s.Connections[pbconn.RoomId] = cs
+	// 	s.Connections[conn.roomID] = append(s.Connections[conn.roomID], conn)
+	// }
 }
 
 // BroadcastMessage : broadcast msg to client
@@ -186,7 +231,13 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 	wait := sync.WaitGroup{}
 	done := make(chan int)
 
-	for _, conn := range s.Connection {
+	cs, exist := s.Connections[msg.RoomId]
+	if !exist {
+		s := fmt.Sprintf("[ZLOG] [ERROR] %s's roomid not found\n", msg.RoomId)
+		return nil, errors.New(s)
+	}
+
+	for _, conn := range cs {
 		wait.Add(1)
 
 		go func(msg *pb.Message, conn *Connection) {
@@ -194,7 +245,7 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 
 			if conn.active {
 				err := conn.stream.Send(msg)
-				log.Printf("[ZLOG] [INFO] Sending message to => Id : %v - msg.content : %s", conn.id, msg.Content)
+				log.Printf("[ZLOG] [INFO] Sending message to => roomId : %v - Id : %v - msg.content : %s", msg.RoomId, conn.id, msg.Content)
 
 				if err != nil {
 					log.Printf("[ZLOG] [ERROR] stream send msg => Stream: %v - Error: %v", conn.stream, err)
@@ -217,12 +268,10 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 func main() {
 	log.Println("[ZLOG] [INFO] Server run ...")
 
-	var connections []*Connection
-
 	server := &Server{
-		rooms:      map[string][]string{roomName: {}},
-		players:    map[string]*pb.Player{},
-		Connection: connections,
+		rooms:       map[string][]string{exhibit: {}, dragon: {}, seaworld: {}},
+		players:     map[string]*pb.Player{},
+		Connections: map[string][]*Connection{exhibit: {}, dragon: {}, seaworld: {}},
 	}
 
 	grpcServer := grpc.NewServer()

@@ -30,17 +30,18 @@ namespace Zrime {
             "BnBsYXllchgCIAEoCzINLnpyaW1lLlBsYXllciIuCgxTeW5jUmVzcG9uc2US",
             "HgoHcGxheWVycxgBIAMoCzINLnpyaW1lLlBsYXllciIyCgxMZWF2ZVJlcXVl",
             "c3QSDwoHcm9vbV9pZBgBIAEoCRIRCglwbGF5ZXJfaWQYAiABKAkiDwoNTGVh",
-            "dmVSZXNwb25zZSJMCgdDb25uZWN0Eh0KBnBsYXllchgBIAEoCzINLnpyaW1l",
-            "LlBsYXllchIOCgZhY3RpdmUYAiABKAgSEgoKZGV2aWNlVHlwZRgDIAEoCSJV",
-            "CgdNZXNzYWdlEhEKCXBsYXllcl9pZBgBIAEoCRITCgtjb250ZW50VHlwZRgC",
-            "IAEoCRIPCgdjb250ZW50GAMgASgJEhEKCXRpbWVzdGFtcBgEIAEoCSIHCgVD",
-            "bG9zZTKNAgoHRXhoaWJpdBIxCgRKb2luEhIuenJpbWUuSm9pblJlcXVlc3Qa",
-            "Ey56cmltZS5Kb2luUmVzcG9uc2UiABI1CghTeW5jUG9zZRISLnpyaW1lLlN5",
-            "bmNSZXF1ZXN0GhMuenJpbWUuU3luY1Jlc3BvbnNlIgASNAoFTGVhdmUSEy56",
-            "cmltZS5MZWF2ZVJlcXVlc3QaFC56cmltZS5MZWF2ZVJlc3BvbnNlIgASMAoM",
-            "Q3JlYXRlU3RyZWFtEg4uenJpbWUuQ29ubmVjdBoOLnpyaW1lLk1lc3NhZ2Uw",
-            "ARIwChBCcm9hZGNhc3RNZXNzYWdlEg4uenJpbWUuTWVzc2FnZRoMLnpyaW1l",
-            "LkNsb3NlYgZwcm90bzM="));
+            "dmVSZXNwb25zZSJdCgdDb25uZWN0Eh0KBnBsYXllchgBIAEoCzINLnpyaW1l",
+            "LlBsYXllchIOCgZhY3RpdmUYAiABKAgSEgoKZGV2aWNlVHlwZRgDIAEoCRIP",
+            "Cgdyb29tX2lkGAQgASgJImYKB01lc3NhZ2USEQoJcGxheWVyX2lkGAEgASgJ",
+            "Eg8KB3Jvb21faWQYAiABKAkSEwoLY29udGVudFR5cGUYAyABKAkSDwoHY29u",
+            "dGVudBgEIAEoCRIRCgl0aW1lc3RhbXAYBSABKAkiBwoFQ2xvc2UyjQIKB0V4",
+            "aGliaXQSMQoESm9pbhISLnpyaW1lLkpvaW5SZXF1ZXN0GhMuenJpbWUuSm9p",
+            "blJlc3BvbnNlIgASNQoIU3luY1Bvc2USEi56cmltZS5TeW5jUmVxdWVzdBoT",
+            "LnpyaW1lLlN5bmNSZXNwb25zZSIAEjQKBUxlYXZlEhMuenJpbWUuTGVhdmVS",
+            "ZXF1ZXN0GhQuenJpbWUuTGVhdmVSZXNwb25zZSIAEjAKDENyZWF0ZVN0cmVh",
+            "bRIOLnpyaW1lLkNvbm5lY3QaDi56cmltZS5NZXNzYWdlMAESMAoQQnJvYWRj",
+            "YXN0TWVzc2FnZRIOLnpyaW1lLk1lc3NhZ2UaDC56cmltZS5DbG9zZWIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Zrime.PlayerReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -50,8 +51,8 @@ namespace Zrime {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.SyncResponse), global::Zrime.SyncResponse.Parser, new[]{ "Players" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.LeaveRequest), global::Zrime.LeaveRequest.Parser, new[]{ "RoomId", "PlayerId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.LeaveResponse), global::Zrime.LeaveResponse.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Connect), global::Zrime.Connect.Parser, new[]{ "Player", "Active", "DeviceType" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Message), global::Zrime.Message.Parser, new[]{ "PlayerId", "ContentType", "Content", "Timestamp" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Connect), global::Zrime.Connect.Parser, new[]{ "Player", "Active", "DeviceType", "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Message), global::Zrime.Message.Parser, new[]{ "PlayerId", "RoomId", "ContentType", "Content", "Timestamp" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Close), global::Zrime.Close.Parser, null, null, null, null)
           }));
     }
@@ -890,6 +891,7 @@ namespace Zrime {
       player_ = other.player_ != null ? other.player_.Clone() : null;
       active_ = other.active_;
       deviceType_ = other.deviceType_;
+      roomId_ = other.roomId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -931,6 +933,17 @@ namespace Zrime {
       }
     }
 
+    /// <summary>Field number for the "room_id" field.</summary>
+    public const int RoomIdFieldNumber = 4;
+    private string roomId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Connect);
@@ -947,6 +960,7 @@ namespace Zrime {
       if (!object.Equals(Player, other.Player)) return false;
       if (Active != other.Active) return false;
       if (DeviceType != other.DeviceType) return false;
+      if (RoomId != other.RoomId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -956,6 +970,7 @@ namespace Zrime {
       if (player_ != null) hash ^= Player.GetHashCode();
       if (Active != false) hash ^= Active.GetHashCode();
       if (DeviceType.Length != 0) hash ^= DeviceType.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -981,6 +996,10 @@ namespace Zrime {
         output.WriteRawTag(26);
         output.WriteString(DeviceType);
       }
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(RoomId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -997,6 +1016,9 @@ namespace Zrime {
       }
       if (DeviceType.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DeviceType);
+      }
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1020,6 +1042,9 @@ namespace Zrime {
       }
       if (other.DeviceType.Length != 0) {
         DeviceType = other.DeviceType;
+      }
+      if (other.RoomId.Length != 0) {
+        RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1045,6 +1070,10 @@ namespace Zrime {
           }
           case 26: {
             DeviceType = input.ReadString();
+            break;
+          }
+          case 34: {
+            RoomId = input.ReadString();
             break;
           }
         }
@@ -1082,6 +1111,7 @@ namespace Zrime {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Message(Message other) : this() {
       playerId_ = other.playerId_;
+      roomId_ = other.roomId_;
       contentType_ = other.contentType_;
       content_ = other.content_;
       timestamp_ = other.timestamp_;
@@ -1104,8 +1134,19 @@ namespace Zrime {
       }
     }
 
+    /// <summary>Field number for the "room_id" field.</summary>
+    public const int RoomIdFieldNumber = 2;
+    private string roomId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "contentType" field.</summary>
-    public const int ContentTypeFieldNumber = 2;
+    public const int ContentTypeFieldNumber = 3;
     private string contentType_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ContentType {
@@ -1116,7 +1157,7 @@ namespace Zrime {
     }
 
     /// <summary>Field number for the "content" field.</summary>
-    public const int ContentFieldNumber = 3;
+    public const int ContentFieldNumber = 4;
     private string content_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Content {
@@ -1127,7 +1168,7 @@ namespace Zrime {
     }
 
     /// <summary>Field number for the "timestamp" field.</summary>
-    public const int TimestampFieldNumber = 4;
+    public const int TimestampFieldNumber = 5;
     private string timestamp_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Timestamp {
@@ -1151,6 +1192,7 @@ namespace Zrime {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
+      if (RoomId != other.RoomId) return false;
       if (ContentType != other.ContentType) return false;
       if (Content != other.Content) return false;
       if (Timestamp != other.Timestamp) return false;
@@ -1161,6 +1203,7 @@ namespace Zrime {
     public override int GetHashCode() {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (ContentType.Length != 0) hash ^= ContentType.GetHashCode();
       if (Content.Length != 0) hash ^= Content.GetHashCode();
       if (Timestamp.Length != 0) hash ^= Timestamp.GetHashCode();
@@ -1181,16 +1224,20 @@ namespace Zrime {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
-      if (ContentType.Length != 0) {
+      if (RoomId.Length != 0) {
         output.WriteRawTag(18);
+        output.WriteString(RoomId);
+      }
+      if (ContentType.Length != 0) {
+        output.WriteRawTag(26);
         output.WriteString(ContentType);
       }
       if (Content.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Content);
       }
       if (Timestamp.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(Timestamp);
       }
       if (_unknownFields != null) {
@@ -1203,6 +1250,9 @@ namespace Zrime {
       int size = 0;
       if (PlayerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
+      }
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (ContentType.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentType);
@@ -1226,6 +1276,9 @@ namespace Zrime {
       }
       if (other.PlayerId.Length != 0) {
         PlayerId = other.PlayerId;
+      }
+      if (other.RoomId.Length != 0) {
+        RoomId = other.RoomId;
       }
       if (other.ContentType.Length != 0) {
         ContentType = other.ContentType;
@@ -1252,14 +1305,18 @@ namespace Zrime {
             break;
           }
           case 18: {
-            ContentType = input.ReadString();
+            RoomId = input.ReadString();
             break;
           }
           case 26: {
-            Content = input.ReadString();
+            ContentType = input.ReadString();
             break;
           }
           case 34: {
+            Content = input.ReadString();
+            break;
+          }
+          case 42: {
             Timestamp = input.ReadString();
             break;
           }

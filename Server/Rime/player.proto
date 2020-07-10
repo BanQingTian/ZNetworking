@@ -12,6 +12,7 @@ message ZRotation {
 	float eulerX = 1;
 	float eulerY = 2;
 	float eulerZ = 3;
+	
 }
 
 message Player {
