@@ -1,4 +1,4 @@
-// <copyright file="RawImageVideoPlayer.cs" company="Google LLC">
+// <copyright file="RawImageVideoPlayer.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

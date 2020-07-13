@@ -27,6 +27,7 @@ message JoinRequest {
 }
 message JoinResponse {
 	string player_id = 1;
+	bool isHouseOwner = 2;
 }
 
 message SyncRequest {

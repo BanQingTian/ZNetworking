@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="FrameApi.cs" company="Google LLC">
+// <copyright file="FrameApi.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //
@@ -213,13 +213,6 @@ namespace GoogleARCoreInternal
             m_NativeSession.TrackableListApi.Destroy(listHandle);
         }
 
-        public int GetCameraTextureName()
-        {
-            int textureId = -1;
-            ExternApi.ArFrame_getCameraTextureName(
-                m_NativeSession.SessionHandle, m_NativeSession.FrameHandle, ref textureId);
-            return textureId;
-        }
 
         private struct ExternApi
         {
@@ -273,10 +266,6 @@ namespace GoogleARCoreInternal
             [AndroidImport(ApiConstants.ARCoreNativeApi)]
             public static extern ApiArStatus ArFrame_acquireImageMetadata(
                 IntPtr sessionHandle, IntPtr frameHandle, ref IntPtr outMetadata);
-
-            [AndroidImport(ApiConstants.ARCoreNativeApi)]
-            public static extern void ArFrame_getCameraTextureName(
-                IntPtr sessionHandle, IntPtr frameHandle, ref int outTextureId);
 #pragma warning restore 626
         }
     }

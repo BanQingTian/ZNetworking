@@ -100,16 +100,24 @@ func (s *Server) Join(ctx context.Context, req *pb.JoinRequest) (*pb.JoinRespons
 
 	s.rooms[roomID] = append(s.rooms[roomID], playerID)
 
+	isHouseOwner := false
+
+	if len(s.rooms[roomID]) == 1 {
+		isHouseOwner = true
+	}
+
 	s.players[playerID] = &pb.Player{
-		PlayerId: playerID,
-		Position: &pb.ZPosition{},
-		Rotation: &pb.ZRotation{},
+		PlayerId:     playerID,
+		Position:     &pb.ZPosition{},
+		Rotation:     &pb.ZRotation{},
+		IsHouseOwner: isHouseOwner,
 	}
 
 	log.Printf("[ZLOG] [INFO] Join Room => %s", playerID)
 
 	return &pb.JoinResponse{
-		PlayerId: playerID,
+		PlayerId:     playerID,
+		IsHouseOwner: isHouseOwner,
 	}, nil
 }
 
@@ -162,7 +170,15 @@ func (s *Server) Leave(ctx context.Context, req *pb.LeaveRequest) (*pb.LeaveResp
 
 	// remove out s.rooms
 	index := getIndexOfArr(s.rooms[roomID], playerID)
+
 	s.rooms[roomID] = unset(s.rooms[roomID], index)
+
+	if len(s.rooms[roomID]) > 0 {
+		if s.players[playerID].IsHouseOwner {
+			first := s.rooms[roomID][0]
+			s.players[first].IsHouseOwner = true
+		}
+	}
 
 	// remove out s.players
 	delete(s.players, playerID)
@@ -177,7 +193,9 @@ func (s *Server) Leave(ctx context.Context, req *pb.LeaveRequest) (*pb.LeaveResp
 		}
 	}
 	if index < len(arr) {
+		streamP := s.Connections[roomID][index].stream
 		s.Connections[roomID] = append(arr[:index], arr[index+1:]...)
+		streamP.Context().Done()
 	}
 
 	log.Printf("[ZLOG] [INFO] Leave Room => %v", playerID)

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ARCoreSupportedPreprocessBuild.cs" company="Google LLC">
+// <copyright file="ARCoreSupportedPreprocessBuild.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

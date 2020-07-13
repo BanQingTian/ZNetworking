@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CameraImageBytes.cs" company="Google LLC">
+// <copyright file="CameraImageBytes.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

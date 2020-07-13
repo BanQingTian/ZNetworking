@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ARCoreWorldOriginHelper.cs" company="Google LLC">
+// <copyright file="ARCoreWorldOriginHelper.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

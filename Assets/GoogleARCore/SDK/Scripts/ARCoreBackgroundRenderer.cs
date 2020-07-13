@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ARCoreBackgroundRenderer.cs" company="Google LLC">
+// <copyright file="ARCoreBackgroundRenderer.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //
@@ -246,27 +246,7 @@ namespace GoogleARCore
 
             m_CommandBuffer = new CommandBuffer();
 
-#if UNITY_ANDROID
-            if (SystemInfo.graphicsMultiThreaded && !InstantPreviewManager.IsProvidingPlatform)
-            {
-                m_CommandBuffer.IssuePluginEvent(ExternApi.ARCoreRenderingUtils_GetRenderEventFunc(),
-                                                (int)ApiRenderEvent.WaitOnPostUpdateFence);
-#if UNITY_2018_2_OR_NEWER
-                // There is a bug in Unity that IssuePluginEvent will reset the opengl state but it
-                // doesn't respect the value set to GL.invertCulling. Hence we need to reapply
-                // the invert culling in the command buffer for front camera session.
-                // Note that the CommandBuffer.SetInvertCulling is only available for 2018.2+.
-                var sessionComponent = LifecycleManager.Instance.SessionComponent;
-                if (sessionComponent != null &&
-                    sessionComponent.DeviceCameraDirection == DeviceCameraDirection.FrontFacing)
-                {
-                    m_CommandBuffer.SetInvertCulling(true);
-                }
-#endif
-            }
-
-#endif
-            m_CommandBuffer.Blit(null,
+            m_CommandBuffer.Blit(BackgroundMaterial.mainTexture,
                 BuiltinRenderTextureType.CameraTarget, BackgroundMaterial);
 
             m_Camera.AddCommandBuffer(CameraEvent.BeforeForwardOpaque, m_CommandBuffer);
@@ -286,11 +266,5 @@ namespace GoogleARCore
             m_Camera.RemoveCommandBuffer(CameraEvent.BeforeGBuffer, m_CommandBuffer);
         }
 
-#if UNITY_ANDROID
-        private struct ExternApi {
-            [DllImport(ApiConstants.ARRenderingUtilsApi)]
-            public static extern IntPtr ARCoreRenderingUtils_GetRenderEventFunc();
-        }
-#endif
     }
 }

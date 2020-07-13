@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="IAndroidPermissionsCheck.cs" company="Google LLC">
+// <copyright file="IAndroidPermissionsCheck.cs" company="Google">
 // Copyright 2019 Google LLC. All Rights Reserved.
 // </copyright>
 //-----------------------------------------------------------------------

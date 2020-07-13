@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ApiConstants.cs" company="Google LLC">
+// <copyright file="ApiConstants.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //
@@ -36,7 +36,6 @@ namespace GoogleARCoreInternal
         public const string MediaNdk = InstantPreviewManager.InstantPreviewNativeApi;
         public const string ARRenderingUtilsApi = "NOT_AVAILABLE";
         public const string NdkCameraApi = "NOT_AVAILABLE";
-        public const string GLESApi = "NOT_AVAILABLE";
 #elif UNITY_ANDROID
         public const string ARCoreNativeApi = "arcore_sdk_c";
         public const string ARCoreARKitIntegrationApi = "NOT_AVAILABLE";
@@ -45,7 +44,6 @@ namespace GoogleARCoreInternal
         public const string ARRenderingUtilsApi = "arcore_rendering_utils_api";
         public const string MediaNdk = "mediandk";
         public const string NdkCameraApi = "camera2ndk";
-        public const string GLESApi = "GLESv3";
 #elif UNITY_IOS
 #if ARCORE_IOS_SUPPORT
         public const string ARCoreNativeApi = "__Internal";
@@ -59,7 +57,6 @@ namespace GoogleARCoreInternal
         public const string ARRenderingUtilsApi = "NOT_AVAILABLE";
         public const string MediaNdk = "NOT_AVAILABLE";
         public const string NdkCameraApi = "NOT_AVAILABLE";
-        public const string GLESApi = "NOT_AVAILABLE";
 #else
         public const string ARCoreNativeApi = "NOT_AVAILABLE";
         public const string ARCoreARKitIntegrationApi = "NOT_AVAILABLE";
@@ -68,7 +65,6 @@ namespace GoogleARCoreInternal
         public const string ARRenderingUtilsApi = "NOT_AVAILABLE";
         public const string MediaNdk = "NOT_AVAILABLE";
         public const string NdkCameraApi = "NOT_AVAILABLE";
-        public const string GLESApi = "NOT_AVAILABLE";
 #endif
 
 #if UNITY_EDITOR_OSX

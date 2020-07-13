@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="SessionStatusExtensions.cs" company="Google LLC">
+// <copyright file="SessionStatusExtensions.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

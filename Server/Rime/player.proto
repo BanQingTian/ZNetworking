@@ -18,6 +18,8 @@ message ZRotation {
 message Player {
 	string player_id = 1;
 	string player_name = 2;
-	ZPosition position = 3;
-	ZRotation rotation = 4;
+	bool isHouseOwner = 3;
+	ZPosition position = 4;
+	ZRotation rotation = 5;
+	string extraContent = 6;
 }

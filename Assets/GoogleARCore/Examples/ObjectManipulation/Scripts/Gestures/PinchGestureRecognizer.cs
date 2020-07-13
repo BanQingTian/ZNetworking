@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="PinchGestureRecognizer.cs" company="Google LLC">
+// <copyright file="PinchGestureRecognizer.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

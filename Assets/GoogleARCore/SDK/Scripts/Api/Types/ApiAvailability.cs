@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ApiAvailability.cs" company="Google LLC">
+// <copyright file="ApiAvailability.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

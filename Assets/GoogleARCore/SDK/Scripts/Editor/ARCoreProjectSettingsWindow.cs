@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ARCoreProjectSettingsWindow.cs" company="Google LLC">
+// <copyright file="ARCoreProjectSettingsWindow.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

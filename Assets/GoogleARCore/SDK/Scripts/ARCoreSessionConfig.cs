@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ARCoreSessionConfig.cs" company="Google LLC">
+// <copyright file="ARCoreSessionConfig.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

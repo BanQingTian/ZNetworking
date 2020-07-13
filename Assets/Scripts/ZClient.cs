@@ -14,6 +14,7 @@ public class ZClient
 
     private string m_RoomID; // = "world";
     private string m_PlayerID;
+    private bool m_IsHouseOwner;
 
     private Channel channel;
     private Exhibit.ExhibitClient client;
@@ -35,12 +36,6 @@ public class ZClient
         m_PlayerID = "target";
     }
 
-    public void Run(string ip, string port)
-    {
-
-    }
-
-
     /// <summary>
     /// 连接服务器，并加入指定房间
     /// </summary>
@@ -59,6 +54,8 @@ public class ZClient
         var res = await client.JoinAsync(new JoinRequest { RoomId = m_RoomID });
 
         m_PlayerID = res.PlayerId;
+        m_IsHouseOwner = res.IsHouseOwner;
+        Debug.Log("m_IsHouseOwner =>" + m_IsHouseOwner);
 
         m_Initialized = true;
 
@@ -87,7 +84,7 @@ public class ZClient
             Vector3 pos = Model.transform.position;
             Vector3 euler = Model.transform.eulerAngles;
 
-            call = client.CreateStream(new Zrime.Connect
+            using (call = client.CreateStream(new Zrime.Connect
             {
                 Player = new Player
                 {
@@ -109,34 +106,21 @@ public class ZClient
                 RoomId = m_RoomID,
                 Active = true,
                 DeviceType = "0",
-            });
-
-            m_Dispose = false;
-
-
-            //Debug.Log("run");
-            //if (m_Dispose)
-            //{
-            //    call.Dispose();
-            //    Debug.Log(" stream dispose => " + m_PlayerID);
-            //    return;
-            //}
-
-            IAsyncStreamReader<Message> rs = call.ResponseStream;
-
-            while (await rs.MoveNext())
+            }))
             {
-                Message msg = rs.Current;
-                Loom.QueueOnMainThread(() =>
-                {
-                    RevMsgEvent?.Invoke(msg);
-                });
-            }
+                IAsyncStreamReader<Message> rs = call.ResponseStream;
 
-            call.Dispose();
-            m_Dispose = true;
+                while (await rs.MoveNext())
+                {
+                    Message msg = rs.Current;
+                    Loom.QueueOnMainThread(() =>
+                    {
+                        RevMsgEvent?.Invoke(msg);
+                    });
+                }
+            }
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             throw;
         }
@@ -157,12 +141,13 @@ public class ZClient
 
     public void Leave()
     {
-        DisposeStream();
         client.Leave(new LeaveRequest
         {
             RoomId = m_RoomID,
             PlayerId = m_PlayerID,
         });
+
+        DisposeStream();
 
         m_Initialized = false;
         m_Connected = false;

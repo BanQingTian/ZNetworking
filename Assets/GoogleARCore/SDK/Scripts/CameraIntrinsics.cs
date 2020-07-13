@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CameraIntrinsics.cs" company="Google LLC">
+// <copyright file="CameraIntrinsics.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CloudAnchorResult.cs" company="Google LLC">
+// <copyright file="CloudAnchorResult.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="HitTestApi.cs" company="Google LLC">
+// <copyright file="HitTestApi.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

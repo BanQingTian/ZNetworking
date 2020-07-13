@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="TrackingState.cs" company="Google LLC">
+// <copyright file="TrackingState.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

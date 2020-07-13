@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="LostTrackingReason.cs" company="Google LLC">
+// <copyright file="LostTrackingReason.cs" company="Google">
 //
 // Copyright 2019 Google LLC. All Rights Reserved.
 //

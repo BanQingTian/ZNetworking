@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ConversionHelper.cs" company="Google LLC">
+// <copyright file="ConversionHelper.cs" company="Google">
 //
 // Copyright 2016 Google LLC. All Rights Reserved.
 //

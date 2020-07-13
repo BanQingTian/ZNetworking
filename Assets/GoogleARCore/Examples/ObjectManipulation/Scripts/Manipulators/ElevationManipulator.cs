@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ElevationManipulator.cs" company="Google LLC">
+// <copyright file="ElevationManipulator.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="AugmentedFacesExampleController.cs" company="Google LLC">
+// <copyright file="AugmentedFacesExampleController.cs" company="Google">
 //
 // Copyright 2019 Google LLC. All Rights Reserved.
 //

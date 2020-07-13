@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ILifecycleManager.cs" company="Google LLC">
+// <copyright file="ILifecycleManager.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

@@ -76,10 +76,8 @@ public class RandomRun : MonoBehaviour
         {
             client.Leave();
         }
-
     }
-
-    private void OnApplicationQuit()
+    private void OnDisable()
     {
         client.Leave();
     }

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="DetectedPlaneFindingMode.cs" company="Google LLC">
+// <copyright file="DetectedPlaneFindingMode.cs" company="Google">
 //
 // Copyright 2018 Google LLC. All Rights Reserved.
 //

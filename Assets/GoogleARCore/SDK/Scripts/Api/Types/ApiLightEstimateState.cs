@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ApiLightEstimateState.cs" company="Google LLC">
+// <copyright file="ApiLightEstimateState.cs" company="Google">
 //
 // Copyright 2017 Google LLC. All Rights Reserved.
 //

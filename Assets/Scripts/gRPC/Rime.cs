@@ -25,28 +25,28 @@ namespace Zrime {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgpyaW1lLnByb3RvEgV6cmltZRoMcGxheWVyLnByb3RvIh4KC0pvaW5SZXF1",
-            "ZXN0Eg8KB3Jvb21faWQYASABKAkiIQoMSm9pblJlc3BvbnNlEhEKCXBsYXll",
-            "cl9pZBgBIAEoCSI9CgtTeW5jUmVxdWVzdBIPCgdyb29tX2lkGAEgASgJEh0K",
-            "BnBsYXllchgCIAEoCzINLnpyaW1lLlBsYXllciIuCgxTeW5jUmVzcG9uc2US",
-            "HgoHcGxheWVycxgBIAMoCzINLnpyaW1lLlBsYXllciIyCgxMZWF2ZVJlcXVl",
-            "c3QSDwoHcm9vbV9pZBgBIAEoCRIRCglwbGF5ZXJfaWQYAiABKAkiDwoNTGVh",
-            "dmVSZXNwb25zZSJdCgdDb25uZWN0Eh0KBnBsYXllchgBIAEoCzINLnpyaW1l",
-            "LlBsYXllchIOCgZhY3RpdmUYAiABKAgSEgoKZGV2aWNlVHlwZRgDIAEoCRIP",
-            "Cgdyb29tX2lkGAQgASgJImYKB01lc3NhZ2USEQoJcGxheWVyX2lkGAEgASgJ",
-            "Eg8KB3Jvb21faWQYAiABKAkSEwoLY29udGVudFR5cGUYAyABKAkSDwoHY29u",
-            "dGVudBgEIAEoCRIRCgl0aW1lc3RhbXAYBSABKAkiBwoFQ2xvc2UyjQIKB0V4",
-            "aGliaXQSMQoESm9pbhISLnpyaW1lLkpvaW5SZXF1ZXN0GhMuenJpbWUuSm9p",
-            "blJlc3BvbnNlIgASNQoIU3luY1Bvc2USEi56cmltZS5TeW5jUmVxdWVzdBoT",
-            "LnpyaW1lLlN5bmNSZXNwb25zZSIAEjQKBUxlYXZlEhMuenJpbWUuTGVhdmVS",
-            "ZXF1ZXN0GhQuenJpbWUuTGVhdmVSZXNwb25zZSIAEjAKDENyZWF0ZVN0cmVh",
-            "bRIOLnpyaW1lLkNvbm5lY3QaDi56cmltZS5NZXNzYWdlMAESMAoQQnJvYWRj",
-            "YXN0TWVzc2FnZRIOLnpyaW1lLk1lc3NhZ2UaDC56cmltZS5DbG9zZWIGcHJv",
-            "dG8z"));
+            "ZXN0Eg8KB3Jvb21faWQYASABKAkiNwoMSm9pblJlc3BvbnNlEhEKCXBsYXll",
+            "cl9pZBgBIAEoCRIUCgxpc0hvdXNlT3duZXIYAiABKAgiPQoLU3luY1JlcXVl",
+            "c3QSDwoHcm9vbV9pZBgBIAEoCRIdCgZwbGF5ZXIYAiABKAsyDS56cmltZS5Q",
+            "bGF5ZXIiLgoMU3luY1Jlc3BvbnNlEh4KB3BsYXllcnMYASADKAsyDS56cmlt",
+            "ZS5QbGF5ZXIiMgoMTGVhdmVSZXF1ZXN0Eg8KB3Jvb21faWQYASABKAkSEQoJ",
+            "cGxheWVyX2lkGAIgASgJIg8KDUxlYXZlUmVzcG9uc2UiXQoHQ29ubmVjdBId",
+            "CgZwbGF5ZXIYASABKAsyDS56cmltZS5QbGF5ZXISDgoGYWN0aXZlGAIgASgI",
+            "EhIKCmRldmljZVR5cGUYAyABKAkSDwoHcm9vbV9pZBgEIAEoCSJmCgdNZXNz",
+            "YWdlEhEKCXBsYXllcl9pZBgBIAEoCRIPCgdyb29tX2lkGAIgASgJEhMKC2Nv",
+            "bnRlbnRUeXBlGAMgASgJEg8KB2NvbnRlbnQYBCABKAkSEQoJdGltZXN0YW1w",
+            "GAUgASgJIgcKBUNsb3NlMo0CCgdFeGhpYml0EjEKBEpvaW4SEi56cmltZS5K",
+            "b2luUmVxdWVzdBoTLnpyaW1lLkpvaW5SZXNwb25zZSIAEjUKCFN5bmNQb3Nl",
+            "EhIuenJpbWUuU3luY1JlcXVlc3QaEy56cmltZS5TeW5jUmVzcG9uc2UiABI0",
+            "CgVMZWF2ZRITLnpyaW1lLkxlYXZlUmVxdWVzdBoULnpyaW1lLkxlYXZlUmVz",
+            "cG9uc2UiABIwCgxDcmVhdGVTdHJlYW0SDi56cmltZS5Db25uZWN0Gg4uenJp",
+            "bWUuTWVzc2FnZTABEjAKEEJyb2FkY2FzdE1lc3NhZ2USDi56cmltZS5NZXNz",
+            "YWdlGgwuenJpbWUuQ2xvc2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Zrime.PlayerReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.JoinRequest), global::Zrime.JoinRequest.Parser, new[]{ "RoomId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.JoinResponse), global::Zrime.JoinResponse.Parser, new[]{ "PlayerId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.JoinResponse), global::Zrime.JoinResponse.Parser, new[]{ "PlayerId", "IsHouseOwner" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.SyncRequest), global::Zrime.SyncRequest.Parser, new[]{ "RoomId", "Player" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.SyncResponse), global::Zrime.SyncResponse.Parser, new[]{ "Players" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.LeaveRequest), global::Zrime.LeaveRequest.Parser, new[]{ "RoomId", "PlayerId" }, null, null, null),
@@ -215,6 +215,7 @@ namespace Zrime {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public JoinResponse(JoinResponse other) : this() {
       playerId_ = other.playerId_;
+      isHouseOwner_ = other.isHouseOwner_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -234,6 +235,17 @@ namespace Zrime {
       }
     }
 
+    /// <summary>Field number for the "isHouseOwner" field.</summary>
+    public const int IsHouseOwnerFieldNumber = 2;
+    private bool isHouseOwner_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsHouseOwner {
+      get { return isHouseOwner_; }
+      set {
+        isHouseOwner_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as JoinResponse);
@@ -248,6 +260,7 @@ namespace Zrime {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
+      if (IsHouseOwner != other.IsHouseOwner) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -255,6 +268,7 @@ namespace Zrime {
     public override int GetHashCode() {
       int hash = 1;
       if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
+      if (IsHouseOwner != false) hash ^= IsHouseOwner.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -272,6 +286,10 @@ namespace Zrime {
         output.WriteRawTag(10);
         output.WriteString(PlayerId);
       }
+      if (IsHouseOwner != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(IsHouseOwner);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -282,6 +300,9 @@ namespace Zrime {
       int size = 0;
       if (PlayerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
+      }
+      if (IsHouseOwner != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -297,6 +318,9 @@ namespace Zrime {
       if (other.PlayerId.Length != 0) {
         PlayerId = other.PlayerId;
       }
+      if (other.IsHouseOwner != false) {
+        IsHouseOwner = other.IsHouseOwner;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -310,6 +334,10 @@ namespace Zrime {
             break;
           case 10: {
             PlayerId = input.ReadString();
+            break;
+          }
+          case 16: {
+            IsHouseOwner = input.ReadBool();
             break;
           }
         }
