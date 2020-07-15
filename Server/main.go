@@ -22,6 +22,13 @@ var (
 	dragon   string = "dragon"
 )
 
+var (
+	readyPlayMsg     string = "ready_play_msg"
+	joinNewPlayerMsg string = "join_new_player_msg"
+	leaveAPlayerMsg  string = "leave_a_player_msg"
+	playGameMsg      string = "play_Game_msg"
+)
+
 // Connection des
 type Connection struct {
 	stream pb.Exhibit_CreateStreamServer
@@ -30,6 +37,7 @@ type Connection struct {
 	active bool
 	// 类型 0 = nreallight 1 = visit device
 	deviceType string
+	ready      bool
 	error      chan error
 }
 
@@ -211,6 +219,7 @@ func (s *Server) CreateStream(pbconn *pb.Connect, stream pb.Exhibit_CreateStream
 		roomID:     pbconn.RoomId,
 		active:     true,
 		deviceType: pbconn.DeviceType,
+		ready:      false,
 		error:      make(chan error),
 	}
 
@@ -262,6 +271,16 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 			defer wait.Done()
 
 			if conn.active {
+
+				switch msg.ContentType {
+				case readyPlayMsg:
+					allReady := s.checkAllReady(msg)
+					if allReady {
+						msg.ContentType = playGameMsg
+					}
+				default:
+				}
+
 				err := conn.stream.Send(msg)
 				log.Printf("[ZLOG] [INFO] Sending message to => roomId : %v - Id : %v - msg.content : %s", msg.RoomId, conn.id, msg.Content)
 
@@ -270,6 +289,7 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 					conn.active = false
 					conn.error <- err
 				}
+
 			}
 		}(msg, conn)
 	}
@@ -281,6 +301,24 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 
 	<-done
 	return &pb.Close{}, nil
+}
+
+// checkAllReady .
+func (s *Server) checkAllReady(msg *pb.Message) bool {
+
+	for _, conn := range s.Connections[msg.RoomId] {
+		if conn.id == msg.PlayerId {
+			conn.ready = true
+			break
+		}
+	}
+	for _, conn := range s.Connections[msg.RoomId] {
+		if !conn.ready {
+			return false
+		}
+
+	}
+	return true
 }
 
 func main() {
