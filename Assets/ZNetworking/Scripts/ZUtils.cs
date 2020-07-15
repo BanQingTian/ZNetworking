@@ -55,4 +55,50 @@ public static class ZUtils {
             return false;
         }
     }
+
+    /// <summary>
+    /// 将pose转换成矩阵
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    /// <returns></returns>
+    public static Matrix4x4 GetTMatrix(Vector3 position, Quaternion rotation)
+    {
+        return Matrix4x4.TRS(position, rotation, Vector3.one);
+    }
+
+    /// <summary>
+    /// 对应点pos矩阵转换
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
+    public static Vector3 GetPositionFromTMatrix(Matrix4x4 matrix)
+    {
+        Vector3 position;
+        position.x = matrix.m03;
+        position.y = matrix.m13;
+        position.z = matrix.m23;
+
+        return position;
+    }
+
+    /// <summary>
+    /// 对应点rotation矩阵转换
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
+    public static Quaternion GetRotationFromTMatrix(Matrix4x4 matrix)
+    {
+        Vector3 forward;
+        forward.x = matrix.m02;
+        forward.y = matrix.m12;
+        forward.z = matrix.m22;
+
+        Vector3 upwards;
+        upwards.x = matrix.m01;
+        upwards.y = matrix.m11;
+        upwards.z = matrix.m21;
+
+        return Quaternion.LookRotation(forward, upwards);
+    }
 }
