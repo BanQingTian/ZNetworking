@@ -122,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 208669426}
   - component: {fileID: 208669425}
-  - component: {fileID: 208669424}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -130,22 +129,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &208669424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 208669423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d6c22d42e400a64d8ba6e35eaa4ab4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerPrafab: {fileID: 0}
-  OwnerTarget: {fileID: 0}
-  OwnerPose:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
 --- !u!114 &208669425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IS_MATCH: 0
+  RE: 0
+  DeviceType: 0
 --- !u!4 &208669426
 Transform:
   m_ObjectHideFlags: 0
