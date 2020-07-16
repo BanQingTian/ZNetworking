@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1815085631432060}
+  m_IsPrefabParent: 1
+--- !u!1 &1815085631432060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4037121989657854}
+  - component: {fileID: 114818800216317180}
+  m_Layer: 0
+  m_Name: Disperse Initiator Out 002.1.1 Cloudy Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4037121989657854
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1815085631432060}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114818800216317180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1815085631432060}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8357609cf2aba1a439309c6da9c40ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executionInterval: 0.1
+  targetObject:
+  - {fileID: 0}
+  mainCamera: {fileID: 0}
+  disperseCamera: {fileID: 20896293276476634, guid: 94815487ee9ccd746880d8e495e2fbba,
+    type: 2}
+  layerIndex: 31
+  randomizeLayer: 0
+  downsampling: 2
+  transparentTarget: 0
+  animator: {fileID: 0}
+  disperseParticle: {fileID: 198011400491760320, guid: cd04405f107cf8b44abc0fb9bf9b16d6,
+    type: 2}
+  reinstantiate: 0
+  destroyDelay: 3
+  destroyOnDisable: 0
+  tintingTime: 0
+  sizeMultiplier: 1
+  maxParticles: f4010000
+  maxParticlesMultiplier: 1
+  emitterBoxSize:
+  - {x: 1, y: 1, z: 0}
+  gizmoColor: {r: 1, g: 0.28676468, b: 0.28676468, a: 1}
+  pSystemOffset:
+  - {x: 0, y: 0, z: 0}
+  fadingMode: 3
+  fadingDelay: 0.2
+  fadingDuration: 0.3
+  animateAfterFadeIn: 1
+  outInNewPosition: {x: 2, y: 2, z: -2}
+  outInDuration: 1.8
+  materialSubstitute:
+  - {fileID: 0}
+  materialOriginal:
+  - {fileID: 0}
+  playSound: 1
+  audioSource: {fileID: 82165416476204086, guid: 81533155e5b7bdd4ab862445796ed156,
+    type: 2}
+  audioClip: {fileID: 8300000, guid: 06c45dd9a539d7b468a9d9cd3df1595d, type: 3}
+  soundOrigin: 0
+  soundOffset: {x: 0, y: 0, z: 0}
+  soundDelay: 0

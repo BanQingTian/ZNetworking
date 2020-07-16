@@ -1,0 +1,271 @@
+fileFormatVersion: 2
+guid: 2c83f8a1ac2b77547a14a7c41a8ee07f
+timeCreated: 1509855781
+licenseType: Store
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: arm.L
+    100002: arm.R
+    100004: arm.target.L
+    100006: arm.target.L_end
+    100008: arm.target.R
+    100010: arm.target.R_end
+    100012: Armature
+    100014: chest.C
+    100016: finger1.1.L
+    100018: finger1.1.R
+    100020: finger1.2.L
+    100022: finger1.2.L_end
+    100024: finger1.2.R
+    100026: finger1.2.R_end
+    100028: finger2.1.L
+    100030: finger2.1.R
+    100032: finger2.2.L
+    100034: finger2.2.R
+    100036: finger2.3.L
+    100038: finger2.3.L_end
+    100040: finger2.3.R
+    100042: finger2.3.R_end
+    100044: finger3.1.L
+    100046: finger3.1.R
+    100048: finger3.2.L
+    100050: finger3.2.R
+    100052: finger3.3.L
+    100054: finger3.3.L_end
+    100056: finger3.3.R
+    100058: finger3.3.R_end
+    100060: finger4.1.L
+    100062: finger4.1.R
+    100064: finger4.2.L
+    100066: finger4.2.R
+    100068: finger4.3.L
+    100070: finger4.3.L_end
+    100072: finger4.3.R
+    100074: finger4.3.R_end
+    100076: finger5.1.L
+    100078: finger5.1.R
+    100080: finger5.2.L
+    100082: finger5.2.R
+    100084: finger5.3.L
+    100086: finger5.3.L_end
+    100088: finger5.3.R
+    100090: finger5.3.R_end
+    100092: forearm.IK.L
+    100094: forearm.IK.R
+    100096: forearm.L
+    100098: forearm.R
+    100100: hand1.L
+    100102: hand1.R
+    100104: hand3.L
+    100106: hand3.R
+    100108: head.C
+    100110: head.C_end
+    100112: hip.C
+    100114: leg.IK.L
+    100116: leg.IK.R
+    100118: leg.L
+    100120: leg.R
+    100122: neck.C
+    100124: shoulder.L
+    100126: shoulder.R
+    100128: sole.L
+    100130: sole.R
+    100132: spine.C
+    100134: Test Character 2
+    100136: //RootNode
+    100138: Test Character 2 eye ball
+    100140: thigh.L
+    100142: thigh.R
+    100144: thigh.target.L
+    100146: thigh.target.L_end
+    100148: thigh.target.R
+    100150: thigh.target.R_end
+    100152: toe.L
+    100154: toe.L_end
+    100156: toe.R
+    100158: toe.R_end
+    100160: forearm.L.001
+    100162: forearm.L.002
+    100164: forearm.R.001
+    100166: forearm.R.002
+    400000: arm.L
+    400002: arm.R
+    400004: arm.target.L
+    400006: arm.target.L_end
+    400008: arm.target.R
+    400010: arm.target.R_end
+    400012: Armature
+    400014: chest.C
+    400016: finger1.1.L
+    400018: finger1.1.R
+    400020: finger1.2.L
+    400022: finger1.2.L_end
+    400024: finger1.2.R
+    400026: finger1.2.R_end
+    400028: finger2.1.L
+    400030: finger2.1.R
+    400032: finger2.2.L
+    400034: finger2.2.R
+    400036: finger2.3.L
+    400038: finger2.3.L_end
+    400040: finger2.3.R
+    400042: finger2.3.R_end
+    400044: finger3.1.L
+    400046: finger3.1.R
+    400048: finger3.2.L
+    400050: finger3.2.R
+    400052: finger3.3.L
+    400054: finger3.3.L_end
+    400056: finger3.3.R
+    400058: finger3.3.R_end
+    400060: finger4.1.L
+    400062: finger4.1.R
+    400064: finger4.2.L
+    400066: finger4.2.R
+    400068: finger4.3.L
+    400070: finger4.3.L_end
+    400072: finger4.3.R
+    400074: finger4.3.R_end
+    400076: finger5.1.L
+    400078: finger5.1.R
+    400080: finger5.2.L
+    400082: finger5.2.R
+    400084: finger5.3.L
+    400086: finger5.3.L_end
+    400088: finger5.3.R
+    400090: finger5.3.R_end
+    400092: forearm.IK.L
+    400094: forearm.IK.R
+    400096: forearm.L
+    400098: forearm.R
+    400100: hand1.L
+    400102: hand1.R
+    400104: hand3.L
+    400106: hand3.R
+    400108: head.C
+    400110: head.C_end
+    400112: hip.C
+    400114: leg.IK.L
+    400116: leg.IK.R
+    400118: leg.L
+    400120: leg.R
+    400122: neck.C
+    400124: shoulder.L
+    400126: shoulder.R
+    400128: sole.L
+    400130: sole.R
+    400132: spine.C
+    400134: Test Character 2
+    400136: //RootNode
+    400138: Test Character 2 eye ball
+    400140: thigh.L
+    400142: thigh.R
+    400144: thigh.target.L
+    400146: thigh.target.L_end
+    400148: thigh.target.R
+    400150: thigh.target.R_end
+    400152: toe.L
+    400154: toe.L_end
+    400156: toe.R
+    400158: toe.R_end
+    400160: forearm.L.001
+    400162: forearm.L.002
+    400164: forearm.R.001
+    400166: forearm.R.002
+    2100000: No Name
+    4300000: Test Character 2
+    4300002: Test Character 2 eye ball
+    7400000: Armature|TC2 Cast
+    7400002: Armature|TC2 Idle
+    7400004: Test Character 2|TC2 Idle
+    7400006: Armature|TC2 Backflip
+    7400008: Test Character 2|TC2 Backflip
+    7400010: TC2 Backflip
+    7400012: Armature|Action
+    7400014: Test Character 2|Action
+    7400016: Armature|TC2 Idle.00
+    7400018: Armature|TC2 Idle.01
+    9500000: //RootNode
+    13700000: Test Character 2
+    13700002: Test Character 2 eye ball
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

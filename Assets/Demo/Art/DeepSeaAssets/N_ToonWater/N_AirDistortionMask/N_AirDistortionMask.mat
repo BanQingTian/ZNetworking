@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: N_AirDistortionMask
+  m_Shader: {fileID: 4800000, guid: f18049ce4963ef849a4258b3ccc31ae1, type: 3}
+  m_ShaderKeywords: _CLIPSCALING_ON _COLORGLITCHON_ON _DISPGLITCHON_ON _GLITCHFXON_ON
+    _SWIPE_ON
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpTex:
+        m_Texture: {fileID: 2800000, guid: c53bb6b8c40b02141be3fdec5cc582e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: c7604ac3474fb4d45a10b7b6a747d5fd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 2800000, guid: f66b8a5fc6e4ef744b22fb3f6a7b9644, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 443058b0b5124884992ddc54ee93530a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Center: 0
+    - _ClipScaling: 1
+    - _ColorGlitchOn: 1
+    - _Direction: 0
+    - _DispGlitchOn: 1
+    - _Distortion: 0.0495
+    - _Flash: 3.83
+    - _FromCenter: 1
+    - _GlitchFXOn: 1
+    - _GlitchInterval: 0.01
+    - _Idle: 0.58928573
+    - _IdleAmount: 1
+    - _IdleSpeed: 0
+    - _Parallax: 0.02
+    - _Phase: 0
+    - _PhaseEnd: 1
+    - _PhaseStart: 0
+    - _Power: 3.9
+    - _Scale: -1
+    - _ScaleBounce: 0
+    - _ScaleCenter: 0.363
+    - _ScaleX: 2
+    - _ScaleY: 5
+    - _Scatter: 1.22
+    - _Sharpness: 0.091
+    - _Speed: 2
+    - _Spread: 1
+    - _Swipe: 1
+    - _SwipeAngle: 0
+    - _SwipeDir: 0
+    - _TileNum: 5
+    - _TilingCorrect: 1
+    - _UOffset: 0.39
+    - _VOffset: 0
+    - _Vertical: 0
+    m_Colors:
+    - _Color: {r: 0.6792453, g: 0.3492346, b: 0.3492346, a: 1}
+    - _FlashColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FxArgs: {r: 0.5, g: 0.09, b: 2.7, a: 0.07}
+    - _ScaleRot: {r: 1, g: 1, b: 0, a: 0}
+    - _ScaleShift: {r: -10, g: -10, b: 0, a: 0}
+    - _TileCount: {r: 50, g: 50, b: 10, a: 0.5}

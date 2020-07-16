@@ -1,0 +1,277 @@
+fileFormatVersion: 2
+guid: 205422f114a594f4f85119f668ec0e38
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Bone
+    100002: Bone.001
+    100004: Bone.002
+    100006: Bone.003
+    100008: Bone.004
+    100010: Bone.005
+    100012: Bone.006
+    100014: Bone.007
+    100016: Bone.008
+    100018: Bone.009
+    100020: Bone.010
+    100022: Bone.011
+    100024: Bone.012
+    100026: Bone.013
+    100028: Bone.014
+    100030: Bone.014_end
+    100032: Bone.015
+    100034: Bone.016
+    100036: Bone.017
+    100038: Bone.018
+    100040: Bone.019
+    100042: Bone.019_end
+    100044: Bone.020
+    100046: Bone.021
+    100048: Bone.022
+    100050: Bone.023
+    100052: Bone.024
+    100054: Bone.025
+    100056: Bone.025_end
+    100058: Bone.026
+    100060: Bone.026_end
+    100062: Bone.027
+    100064: Bone.027_end
+    100066: Bone.028
+    100068: Bone.028_end
+    100070: Bone.029
+    100072: Bone.029_end
+    100074: Bone.030
+    100076: Bone.030_end
+    100078: Bone.031
+    100080: Bone.031_end
+    100082: Bone.032
+    100084: Bone.032_end
+    100086: CTRL Back.L
+    100088: CTRL Back.L_end
+    100090: CTRL Back.R
+    100092: CTRL Back.R_end
+    100094: CTRL End.R
+    100096: CTRL End.R_end
+    100098: CTRl Ends.L
+    100100: CTRl Ends.L_end
+    100102: CTRL Fin.L
+    100104: CTRL Fin.L_end
+    100106: CTRL Fin.R
+    100108: CTRL Fin.R_end
+    100110: CTRL Head
+    100112: CTRL Head_end
+    100114: CTRL Shoulder.L
+    100116: CTRL Shoulder.L_end
+    100118: CTRL Shoulder.R
+    100120: CTRL Shoulder.R_end
+    100122: 'Kemp '
+    100124: //RootNode
+    100126: KR Armature
+    100128: Master
+    100130: Sphere
+    100132: Sphere.002
+    400000: Bone
+    400002: Bone.001
+    400004: Bone.002
+    400006: Bone.003
+    400008: Bone.004
+    400010: Bone.005
+    400012: Bone.006
+    400014: Bone.007
+    400016: Bone.008
+    400018: Bone.009
+    400020: Bone.010
+    400022: Bone.011
+    400024: Bone.012
+    400026: Bone.013
+    400028: Bone.014
+    400030: Bone.014_end
+    400032: Bone.015
+    400034: Bone.016
+    400036: Bone.017
+    400038: Bone.018
+    400040: Bone.019
+    400042: Bone.019_end
+    400044: Bone.020
+    400046: Bone.021
+    400048: Bone.022
+    400050: Bone.023
+    400052: Bone.024
+    400054: Bone.025
+    400056: Bone.025_end
+    400058: Bone.026
+    400060: Bone.026_end
+    400062: Bone.027
+    400064: Bone.027_end
+    400066: Bone.028
+    400068: Bone.028_end
+    400070: Bone.029
+    400072: Bone.029_end
+    400074: Bone.030
+    400076: Bone.030_end
+    400078: Bone.031
+    400080: Bone.031_end
+    400082: Bone.032
+    400084: Bone.032_end
+    400086: CTRL Back.L
+    400088: CTRL Back.L_end
+    400090: CTRL Back.R
+    400092: CTRL Back.R_end
+    400094: CTRL End.R
+    400096: CTRL End.R_end
+    400098: CTRl Ends.L
+    400100: CTRl Ends.L_end
+    400102: CTRL Fin.L
+    400104: CTRL Fin.L_end
+    400106: CTRL Fin.R
+    400108: CTRL Fin.R_end
+    400110: CTRL Head
+    400112: CTRL Head_end
+    400114: CTRL Shoulder.L
+    400116: CTRL Shoulder.L_end
+    400118: CTRL Shoulder.R
+    400120: CTRL Shoulder.R_end
+    400122: 'Kemp '
+    400124: //RootNode
+    400126: KR Armature
+    400128: Master
+    400130: Sphere
+    400132: Sphere.002
+    2100000: Retop Material
+    2100002: Sclera.002
+    2100004: Outer_Eye.001
+    2300000: Sphere
+    2300002: Sphere.002
+    3300000: Sphere
+    3300002: Sphere.002
+    4300000: 'Kemp '
+    4300002: Sphere
+    4300004: Sphere.002
+    7400000: KR Armature|Action
+    9500000: //RootNode
+    13700000: 'Kemp '
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Outer_Eye.001
+    second: {fileID: 2100000, guid: b5b294a4969d95f47a9e67b92a2759dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Retop Material
+    second: {fileID: 2100000, guid: cc9df0e03718dbf4e850ef741d175cf2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sclera.002
+    second: {fileID: 2100000, guid: 7f0199eba817614458b5319cf295f264, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: KR Armature|Action
+      takeName: KR Armature|Action
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
