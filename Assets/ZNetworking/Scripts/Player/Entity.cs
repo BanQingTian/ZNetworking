@@ -21,16 +21,20 @@ public class Entity : MonoBehaviour
 
     public void UpdateData(Player info)
     {
-        if (isOwner) return;
+        //if (isOwner) return;
         PlayerInfo.Copy(info);
         UpdatePoseData();
     }
 
     public virtual void UpdatePoseData()
     {
-        this.transform.position = PlayerInfo.postion;
-        this.transform.eulerAngles = PlayerInfo.euler;
+        if (gameObject != null)
+        {
+            this.transform.position = PlayerInfo.postion;
+            this.transform.eulerAngles = PlayerInfo.euler;
+        }
     }
+
 }
 
 public class ZPlayer

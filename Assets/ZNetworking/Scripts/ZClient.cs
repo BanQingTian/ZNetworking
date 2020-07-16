@@ -44,6 +44,9 @@ public class ZClient
 
     public Dictionary<string, RevMsgListener> MsgListener;
 
+    /// <summary>
+    /// 同步位置的主物体
+    /// </summary>
     public GameObject Model;
 
     public string UUID;
@@ -124,7 +127,7 @@ public class ZClient
         CreateStream();
 
 
-        Model = ZNetworkingManager.Instance.CreateOwner(m_PlayerID, m_IsHouseOwner);
+        ZNetworkingManager.Instance.CreateOwner(m_PlayerID, m_IsHouseOwner);
         ClientUpdator.Instance.StartCoroutine(SyncPoseCor());
 
     }
@@ -182,9 +185,9 @@ public class ZClient
 
         while (enumerator.MoveNext())
         {
-
             Player player = enumerator.Current;
-            if (m_PlayerID != player.PlayerId)
+
+            //if (m_PlayerID != player.PlayerId)
             {
                 Entity entity;
                 PlayerEntity pe;
@@ -200,10 +203,10 @@ public class ZClient
 
                 exceptPlayerList.Remove(player.PlayerId);
             }
-            else
-            {
-                exceptPlayerList.Remove(m_PlayerID);
-            }
+            //else
+            //{
+            //    exceptPlayerList.Remove(m_PlayerID);
+            //}
         }
         foreach (var item in exceptPlayerList)
         {

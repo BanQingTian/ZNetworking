@@ -5,44 +5,69 @@ using NRKernal;
 
 public class ZMain : MonoBehaviour {
 
-    [HideInInspector]
-    public bool IS_MATCH = false;
+    
 
     [Space(12)]
-    public RoomEnum RE;
+    public RoomEnum RoomName;
 
     [Space(12)]
     public DeviceTypeEnum DeviceType;
 
-	void Start ()
+    [Space(12)]
+    public ZScanMarker MarkerHelper;
+
+    [Space(12)]
+    public bool IS_MATCH = false;
+
+
+    void Start ()
     {
-        Main();
+        Debug.Log("start1");
+        Begin();
 	}
 	
 	void Update () {
-		
-        if(Input.GetKeyDown(KeyCode.R) /*|| CheckMappingMatch()*/)
+
+        if (!IS_MATCH)
         {
-            IS_MATCH = true;
-            ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG, "nihao");
+            if (MarkerHelper.MarkerTrackingUpdate())
+            {
+                IS_MATCH = true;
+            }
         }
 
-        if (IS_MATCH)
-        {
-        }
+        //if(Input.GetKeyDown(KeyCode.R) /*|| CheckMappingMatch()*/)
+        //{
+        //    IS_MATCH = true;
+        //    ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG, "nihao");
+        //}
 	}
 
-    private void Main()
+    private void Begin()
     {
+        DeviceCheck();
         LoadNetworkingModule();
+    }
+
+    private void DeviceCheck()
+    {
+        if(DeviceType == DeviceTypeEnum.NRLight)
+        {
+            var nrCam = GameObject.Find("NRCameraRig");
+            ZClient.Instance.Model = nrCam;
+        }
+        else if(DeviceType == DeviceTypeEnum.Pad)
+        {
+            var nrCam = GameObject.Find("NRCameraRig");
+            ZClient.Instance.Model = nrCam;
+        }
     }
 
     // 网络所需组件，实例化网络组件
     private void LoadNetworkingModule()
     {
-        Global.CurRoom = Global.GetRoomName(RE);
+        Global.CurRoom = Global.GetRoomName(RoomName);
         Global.DeviceType = DeviceType;
-
         ZMessageManager.Instance.Init();
         ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.31.141", "50010");
     }
