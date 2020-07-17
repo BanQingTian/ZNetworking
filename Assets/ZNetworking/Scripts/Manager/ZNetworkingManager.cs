@@ -20,11 +20,25 @@ public class ZNetworkingManager : MonoBehaviour
         }
     }
 
-    public PlayerEntity PlayerPrefab;
+    public PlayerEntity PlayerEntityPrefab_Dragon;
+    public PlayerEntity PlayerEntityPrefab_Exhibit;
 
     private void Awake()
     {
         m_Instance = this;
+    }
+
+    public PlayerEntity GetPrefab()
+    {
+        if(Global.CurRoom == Global.dragon)
+        {
+            return PlayerEntityPrefab_Dragon;
+        }
+        else if(Global.CurRoom == Global.exhibit)
+        {
+            return PlayerEntityPrefab_Exhibit;
+        }
+        return PlayerEntityPrefab_Dragon;
     }
 
     public GameObject CreateOwner(string playerid, bool isOwner)
@@ -42,7 +56,7 @@ public class ZNetworkingManager : MonoBehaviour
         Debug.Log("createBBBB");
 
 
-        PlayerEntity pe = GameObject.Instantiate<PlayerEntity>(PlayerPrefab);
+        PlayerEntity pe = GameObject.Instantiate<PlayerEntity>(GetPrefab());
         pe.Init(virtualPlayer);
         pe.UpdatePoseData();
 

@@ -42,7 +42,6 @@ public class ZMessageManager {
 
         client = ZClient.Instance;
         client.Persist();
-
         client.AddListener(MsgId.__READY_PLAY_MSG, _S2C_ReadyPlay);
         client.AddListener(MsgId.__PLAY_GAME_MSG, _S2C_PlayGame);
         client.AddListener(MsgId.__JOIN_NEW_PLAYER_MSG_, _S2C_JoinNewPlayer);
@@ -72,7 +71,7 @@ public class ZMessageManager {
         Player player = msg as Player;
 
         Debug.Log("createAAAAAA");
-        PlayerEntity pe = GameObject.Instantiate<PlayerEntity>(ZNetworkingManager.Instance.PlayerPrefab);
+        PlayerEntity pe = GameObject.Instantiate<PlayerEntity>(ZNetworkingManager.Instance.GetPrefab());
         pe.Init(player);
         pe.UpdatePoseData();
 
@@ -81,15 +80,36 @@ public class ZMessageManager {
 
     public void _S2C_ReadyPlay(object msg)
     {
-        // todo 
+        // msg.content = playerid,true
         Message m = msg as Message;
         Debug.Log(m.Content);
+
+        var ms = m.Content.Split(',');
+
+        // todo - show ui 
+        if(client.RoomID == Global.dragon)
+        {
+            DragonManager.Instance.ReadyPlay(ms[0],ms[1]);
+        }
+        else if (client.RoomID == Global.exhibit)
+        {
+
+        }
     }
 
     public void _S2C_PlayGame(object msg)
     {
         Message m = msg as Message;
         Debug.Log(m.Content);
+
+        if (client.RoomID == Global.dragon)
+        {
+            DragonManager.Instance.Play();
+        }
+        else if (client.RoomID == Global.exhibit)
+        {
+
+        }
     }
 
     #endregion

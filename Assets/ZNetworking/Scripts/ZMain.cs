@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using NRKernal;
 
-public class ZMain : MonoBehaviour {
-
-    
+public class ZMain : MonoBehaviour
+{
 
     [Space(12)]
     public RoomEnum RoomName;
@@ -19,15 +18,13 @@ public class ZMain : MonoBehaviour {
     [Space(12)]
     public bool IS_MATCH = false;
 
-
-    void Start ()
+    void Start()
     {
-        Debug.Log("start1");
         Begin();
-	}
-	
-	void Update () {
+    }
 
+    void Update()
+    {
         if (!IS_MATCH)
         {
             if (MarkerHelper.MarkerTrackingUpdate())
@@ -41,30 +38,43 @@ public class ZMain : MonoBehaviour {
         //    IS_MATCH = true;
         //    ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG, "nihao");
         //}
-	}
+    }
 
     private void Begin()
     {
-        DeviceCheck();
-        LoadNetworkingModule();
+        deviceCheck();
+        loadRoomManager();
+        loadNetworkingModule();
     }
 
-    private void DeviceCheck()
+    private void deviceCheck()
     {
-        if(DeviceType == DeviceTypeEnum.NRLight)
+        if (DeviceType == DeviceTypeEnum.NRLight)
         {
             var nrCam = GameObject.Find("NRCameraRig");
             ZClient.Instance.Model = nrCam;
         }
-        else if(DeviceType == DeviceTypeEnum.Pad)
+        else if (DeviceType == DeviceTypeEnum.Pad)
         {
             var nrCam = GameObject.Find("NRCameraRig");
             ZClient.Instance.Model = nrCam;
+        }
+    }
+
+    public void loadRoomManager()
+    {
+        if (RoomName == RoomEnum.Dragon)
+        {
+            DragonManager.Instance.Init(this);
+        }
+        else if (RoomName == RoomEnum.Exhibit)
+        {
+
         }
     }
 
     // 网络所需组件，实例化网络组件
-    private void LoadNetworkingModule()
+    private void loadNetworkingModule()
     {
         Global.CurRoom = Global.GetRoomName(RoomName);
         Global.DeviceType = DeviceType;

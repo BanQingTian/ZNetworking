@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/ZNetworking/GoogleARCore/Examples/HelloAR/Scenes/HelloAR.unity
     guid: e6a6fa04348cb45c9b0221eb19c946da
   - enabled: 0
-    path: Assets/ZNetworking/Scenes/ServerTest.unity
-    guid: 76b78751d5c10b74ea68a40ca610f204
-  - enabled: 1
-    path: Assets/ZNetworking/Scenes/test2.unity
-    guid: 6342839494ab57346ae26e76029dd498
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

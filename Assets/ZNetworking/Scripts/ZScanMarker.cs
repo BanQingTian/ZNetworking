@@ -15,6 +15,9 @@ public class ZScanMarker : MonoBehaviour
 
     public bool MarkerTrackingUpdate()
     {
+#if UNITY_EDITOR
+        return true;
+#endif
         return Global.DeviceType == DeviceTypeEnum.NRLight ? NRLightMarkerTrackingUpdate() : ARCoreMarkerTrackingUpdate();
     }
 

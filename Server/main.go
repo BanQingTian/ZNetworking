@@ -272,14 +272,14 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 
 			if conn.active {
 
-				switch msg.ContentType {
-				case readyPlayMsg:
-					allReady := s.checkAllReady(msg)
-					if allReady {
-						msg.ContentType = playGameMsg
-					}
-				default:
-				}
+				// switch msg.ContentType {
+				// case readyPlayMsg:
+				// 	allReady := s.checkAllReady(msg)
+				// 	if allReady {
+				// 		msg.ContentType = playGameMsg
+				// 	}
+				// default:
+				// }
 
 				err := conn.stream.Send(msg)
 				log.Printf("[ZLOG] [INFO] Sending message to => roomId : %v - Id : %v - msg.content : %s", msg.RoomId, conn.id, msg.Content)
