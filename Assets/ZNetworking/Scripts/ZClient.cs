@@ -194,7 +194,8 @@ public class ZClient
                 if (ZPlayerMe.Instance.PlayerMap.TryGetValue(player.PlayerId, out entity))
                 {
                     pe = entity as PlayerEntity;
-                    pe.UpdateData(player);
+                    if (pe != null)
+                        pe.UpdateData(player);
                 }
                 else
                 {
@@ -259,9 +260,9 @@ public class ZClient
                 }
             }
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-            Debug.LogError("Create Stream Error");
+            Debug.LogError("Create Stream Error - " + e);
         }
     }
 
@@ -292,7 +293,7 @@ public class ZClient
 
     public void Leave()
     {
-        client.Leave(new LeaveRequest
+        client?.Leave(new LeaveRequest
         {
             RoomId = m_RoomID,
             PlayerId = m_PlayerID,

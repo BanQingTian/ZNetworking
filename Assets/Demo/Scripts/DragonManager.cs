@@ -96,14 +96,21 @@ public class DragonManager : MonoBehaviour {
 
     #endregion
 
+    public void ShootBubble(string playerId)
+    {
+
+    }
+
+    #region begin stage
+
     /// <summary>
     /// 有人准备
     /// </summary>
-    public void ReadyPlay(string playerId,string r)
+    public void ReadyPlay(string playerId, string r)
     {
-        bool allready = ZPlayerMe.Instance.SetPlayerReadyDic(playerId,r);
+        bool allready = ZPlayerMe.Instance.SetPlayerReadyDic(playerId, r);
 
-        if(allready && ZPlayerMe.Instance.PlayerMap[playerId].isHouseOwner)
+        if (allready && ZPlayerMe.Instance.PlayerMap[playerId].isHouseOwner)
         {
             ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG_, "Go");
         }
@@ -117,8 +124,6 @@ public class DragonManager : MonoBehaviour {
         ReadyBtn.gameObject.SetActive(false);
         Playing = true;
         Debug.Log("playing");
-
-        DragonAnim.Play("");
     }
 
     private void EndEvent()
@@ -127,8 +132,15 @@ public class DragonManager : MonoBehaviour {
         playFight();
     }
 
+    /// <summary>
+    /// 开始打龙
+    /// </summary>
     private void playFight()
     {
 
     }
+
+    #endregion
+
+
 }
