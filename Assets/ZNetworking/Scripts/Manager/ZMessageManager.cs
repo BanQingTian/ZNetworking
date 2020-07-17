@@ -9,10 +9,12 @@ public static class MsgId
 
     #region special id
 
-    public const string __READY_PLAY_MSG = "ready_play_msg";
+    public const string __READY_PLAY_MSG_ = "ready_play_msg";
     public const string __JOIN_NEW_PLAYER_MSG_ = "join_new_player_msg";
     public const string __LEAVE_A_PLAYER_MSG_ = "leave_a_player_msg";
-    public const string __PLAY_GAME_MSG = "play_Game_msg";
+    public const string __PLAY_GAME_MSG_ = "play_Game_msg";
+    public const string __SHOOT_BUBBLE_MSG_ = "shoot_bubble_msg";
+    public const string __DRAGON_BEHIT_MSG_ = "dragon_behit_msg";
 
     #endregion
 }
@@ -42,9 +44,14 @@ public class ZMessageManager {
 
         client = ZClient.Instance;
         client.Persist();
-        client.AddListener(MsgId.__READY_PLAY_MSG, _S2C_ReadyPlay);
-        client.AddListener(MsgId.__PLAY_GAME_MSG, _S2C_PlayGame);
+        client.AddListener(MsgId.__READY_PLAY_MSG_, _S2C_ReadyPlay);
+        client.AddListener(MsgId.__PLAY_GAME_MSG_, _S2C_PlayGame);
         client.AddListener(MsgId.__JOIN_NEW_PLAYER_MSG_, _S2C_JoinNewPlayer);
+        if(Global.CurRoom == Global.dragon)
+        {
+            client.AddListener(MsgId.__SHOOT_BUBBLE_MSG_, _S2C_ShootBubble);
+            client.AddListener(MsgId.__DRAGON_BEHIT_MSG_, _S2C_DragonBehit);
+        }
 
         m_Initialized = true;
     }
@@ -104,12 +111,23 @@ public class ZMessageManager {
 
         if (client.RoomID == Global.dragon)
         {
-            DragonManager.Instance.Play();
+            DragonManager.Instance.PlayAnim();
         }
         else if (client.RoomID == Global.exhibit)
         {
 
         }
+    }
+
+    public void _S2C_ShootBubble(object msg)
+    {
+        Message m = msg as Message;
+       // DragonManager.Instance.ShootBubble(playerId)
+    }
+
+    public void _S2C_DragonBehit(object msg)
+    {
+
     }
 
     #endregion

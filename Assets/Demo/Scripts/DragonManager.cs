@@ -15,7 +15,10 @@ public class DragonManager : MonoBehaviour {
 
     // 是否已经开始等待游戏开始
     private bool showReadyBtnYet = false;
+    // 准备状态
     private bool ready = false;
+    // 动画播放状态
+    private bool AnimEnd = false;
 
     #region file
 
@@ -39,12 +42,6 @@ public class DragonManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         onUpdate();
-
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    AnimationClip[] clips = DragonAnim.runtimeAnimatorController.animationClips;
-        //    Debug.Log(clips.Length);
-        //}
 	}
 
     #endregion
@@ -94,7 +91,7 @@ public class DragonManager : MonoBehaviour {
             Label.text = "已准备";
             ready = true;
         }
-        ZMessageManager.Instance.SendMsg(MsgId.__READY_PLAY_MSG, string.Format("{0},{1}", ZClient.Instance.PlayerID, ready ? "1" : "0"));
+        ZMessageManager.Instance.SendMsg(MsgId.__READY_PLAY_MSG_, string.Format("{0},{1}", ZClient.Instance.PlayerID, ready ? "1" : "0"));
     }
 
     #endregion
@@ -108,19 +105,30 @@ public class DragonManager : MonoBehaviour {
 
         if(allready && ZPlayerMe.Instance.PlayerMap[playerId].isHouseOwner)
         {
-            ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG, "Go");
+            ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG_, "Go");
         }
     }
 
     /// <summary>
     /// 开始 QAQ
     /// </summary>
-    public void Play()
+    public void PlayAnim()
     {
         ReadyBtn.gameObject.SetActive(false);
         Playing = true;
         Debug.Log("playing");
 
         DragonAnim.Play("");
+    }
+
+    private void EndEvent()
+    {
+        AnimEnd = true;
+        playFight();
+    }
+
+    private void playFight()
+    {
+
     }
 }
