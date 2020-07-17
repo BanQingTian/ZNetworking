@@ -1,0 +1,140 @@
+﻿#pragma kernel CSMain
+#define GROUP_SIZE 256
+
+#include "UnityCG.cginc"
+
+float hash(float n)
+{
+	return frac(sin(n)*43758.5453);
+}
+
+float noise1(float3 x)
+{
+	float3 p = floor(x);
+	float3 f = frac(x);
+
+	f = f * f*(3.0 - 2.0*f);
+	float n = p.x + p.y*57.0 + 113.0*p.z;
+
+	return lerp(lerp(lerp(hash(n + 0.0), hash(n + 1.0), f.x),
+		lerp(hash(n + 57.0), hash(n + 58.0), f.x), f.y),
+		lerp(lerp(hash(n + 113.0), hash(n + 114.0), f.x),
+			lerp(hash(n + 170.0), hash(n + 171.0), f.x), f.y), f.z);
+}
+
+struct FishBehaviourGPU
+{
+	float3 position;
+	float3 velocity;
+	float speed;
+	float rot_speed;
+	float speed_offset;
+};
+
+struct CollisionArea
+{
+	float3 position;
+	float3 size;
+};
+
+RWStructuredBuffer<FishBehaviourGPU> fishBuffer;
+
+RWStructuredBuffer<CollisionArea> collisionBuffer;
+
+CBUFFER_START(Params)
+	float deltaTime;
+	float3 target;
+	float neighbourDistance;
+	uint fishesCount;
+	uint collisionCount;
+	float collisionForce;
+	float speedVariation;
+	int movementMode;
+CBUFFER_END
+
+[numthreads(GROUP_SIZE, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+	uint instanceId = id.x;
+	FishBehaviourGPU fish = fishBuffer[instanceId];
+
+	float noise = clamp(noise1(_Time / 100.0 + fish.speed_offset), -1, 1) * 2.0 - 1.0;
+	float noise_dist = clamp(noise1(_Time / 100.0 + fish.speed_offset), -1, 1) * 2.0 - 1.0;
+
+	float speed = fish.speed * (1.0 + noise * speedVariation);
+
+	float3 fish_position = fish.position;
+	float3 fish_velocity = fish.velocity;
+
+	if(movementMode == 1) fish_position.z = fish_velocity.z = 0;
+	else if(movementMode == 2) fish_position.y = fish_velocity.y = 0;
+
+	float3 separation = float3(0, 0.0, 0);
+	float3 alignment = float3(0.0, 0.0, 0.0);
+	float3 cohesion = target;
+
+	float3 next_position = fish.position + (fish.velocity * 3) * (speed * deltaTime);
+	float3 avoidance = float3(0, 0, 0);
+	for (uint i = 0; i < collisionCount; i++)
+	{
+		CollisionArea ca = collisionBuffer[i];
+
+		float3 collider_pos = ca.position;
+		float3 collider_size = ca.size;
+
+		if ((next_position.x >= collider_pos.x && next_position.x <= collider_pos.x + collider_size.x)
+			&& (next_position.y >= collider_pos.y && next_position.y <= collider_pos.y + collider_size.y)
+			&& (next_position.z >= collider_pos.z && next_position.z <= collider_pos.z + collider_size.z))
+		{
+
+			float3 coll_point = collider_pos;
+			coll_point.x += collider_size.x / 2.0;
+			coll_point.y += collider_size.y / 2.0;
+			coll_point.z += collider_size.z / 2.0;
+
+			avoidance += next_position - coll_point;
+			avoidance = normalize(avoidance);
+			avoidance *= collisionForce;
+		}
+	}
+
+	uint neighboursCount = 1;
+	for (uint i = 0; i < fishesCount; i++) 
+	{
+		if (i == instanceId) continue;
+
+		if (distance(fish_position, fishBuffer[i].position) < neighbourDistance)
+		{
+			// tempBoid = fishBuffer[i];
+			float3 tempfish_position = fishBuffer[i].position;
+
+			float3 diff = fish_position - tempfish_position;
+			float diffLen = (length(diff));
+			float scaler = clamp(1.0 - diffLen / neighbourDistance * noise_dist, 0.0, 1.0);
+
+			separation += diff * (scaler / diffLen);
+			cohesion += tempfish_position;
+			alignment += fishBuffer[i].velocity;
+
+			neighboursCount += 1;
+		}
+	}
+
+	float avg = 1.0 / neighboursCount;
+	alignment *= avg;
+	cohesion *= avg;
+	cohesion = normalize(cohesion - fish_position);
+
+	float3 velocity = alignment + separation + cohesion;
+	velocity += avoidance;
+
+	if (movementMode == 1) velocity.z = 0;
+	else if (movementMode == 2) velocity.y = 0;
+
+	float ip = exp(-fish.rot_speed * deltaTime);
+	fish.velocity = lerp((velocity), normalize(fish_velocity), ip);
+
+	fish.position += (fish.velocity) * (speed * deltaTime);
+
+	fishBuffer[id.x] = fish;
+}

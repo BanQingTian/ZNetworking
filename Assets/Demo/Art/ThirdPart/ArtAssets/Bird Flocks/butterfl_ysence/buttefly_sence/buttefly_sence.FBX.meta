@@ -1,0 +1,185 @@
+fileFormatVersion: 2
+guid: c0c19ac92b19f2d4f9960fb94ad80b9a
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Barrier1__16_
+    100002: //RootNode
+    100004: Magic_Orb
+    100006: Object009
+    100008: Object010
+    100010: Waterfall2__5_
+    100012: ground
+    100014: Object011
+    100016: Object012
+    100018: tree01
+    100020: tree02
+    100022: Plane001
+    100024: Plane002
+    100026: "\u5BF9\u8C61011"
+    400000: Barrier1__16_
+    400002: //RootNode
+    400004: Magic_Orb
+    400006: Object009
+    400008: Object010
+    400010: Waterfall2__5_
+    400012: ground
+    400014: Object011
+    400016: Object012
+    400018: tree01
+    400020: tree02
+    400022: Plane001
+    400024: Plane002
+    400026: "\u5BF9\u8C61011"
+    2100000: sence
+    2100002: tree
+    2100004: mushrooms_tif
+    2100006: Bridge2
+    2300000: Barrier1__16_
+    2300002: Object009
+    2300004: Object010
+    2300006: ground
+    2300008: Object011
+    2300010: Object012
+    2300012: tree01
+    2300014: tree02
+    2300016: Plane001
+    2300018: Plane002
+    2300020: "\u5BF9\u8C61011"
+    2300022: //RootNode
+    3300000: Barrier1__16_
+    3300002: Object009
+    3300004: Object010
+    3300006: ground
+    3300008: Object011
+    3300010: Object012
+    3300012: tree01
+    3300014: tree02
+    3300016: Plane001
+    3300018: Plane002
+    3300020: "\u5BF9\u8C61011"
+    3300022: //RootNode
+    4300000: Barrier1__16_
+    4300002: Object009
+    4300004: Object010
+    4300006: tree01
+    4300008: Object011
+    4300010: Object012
+    4300012: ground
+    4300014: tree02
+    4300016: Plane001
+    4300018: Plane002
+    4300020: "\u5BF9\u8C61011"
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01 - Default
+    second: {fileID: 2100000, guid: 9b07dc2088fd11543be06f2e49ca1ec3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bridge2
+    second: {fileID: 2100000, guid: eae9079d84ffc0f41bede8b6aabfae86, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: c944cfd658a71734094fd7da682a6dc2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mushrooms_tif
+    second: {fileID: 2100000, guid: 07196a5240f282245a230dadc1cd946d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sence
+    second: {fileID: 2100000, guid: d8601ac2488bade44b939d223d7e0c48, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tree
+    second: {fileID: 2100000, guid: 7f8efcedc78e95e449a695de6bb89e67, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.2
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
