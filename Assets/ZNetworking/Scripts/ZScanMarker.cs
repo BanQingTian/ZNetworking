@@ -12,7 +12,6 @@ public class ZScanMarker : MonoBehaviour
 
     private Transform transformParent;
 
-
     public bool MarkerTrackingUpdate()
     {
 #if UNITY_EDITOR

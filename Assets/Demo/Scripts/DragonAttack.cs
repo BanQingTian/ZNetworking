@@ -4,11 +4,30 @@ using UnityEngine;
 
 public class DragonAttack : MonoBehaviour
 {
+    private static DragonAttack m_Instance;
+    public static DragonAttack Instance
+    {
+        get
+        {
+            if(m_Instance== null)
+            {
+                m_Instance = new DragonAttack();
+            }
+            return m_Instance;
+        }
+    }
+
+    private int HP = 99;
 
     public GameObject AttackPoint;
     public GameObject Fireball;
     public Rigidbody Rig;
     public Transform DragonParent;
+
+    public void SetDragonHp()
+    {
+
+    }
 
     public void ShootFireball()
     {
@@ -17,7 +36,7 @@ public class DragonAttack : MonoBehaviour
         Fireball.transform.position = AttackPoint.transform.position;
         Fireball.transform.rotation = AttackPoint.transform.rotation;
         Fireball.SetActive(true);
-        Rig.AddForce(AttackPoint.transform.forward * 300);
+        Rig.AddForce(AttackPoint.transform.forward * 600);
     }
 
     public void RotateHead()
@@ -27,8 +46,6 @@ public class DragonAttack : MonoBehaviour
 
         StopCoroutine(rotateHeadCor(DragonParent, random));
         StartCoroutine(rotateHeadCor(DragonParent, random));
-
-        Debug.Log(random);
     }
     private IEnumerator rotateHeadCor(Transform startTrans, float end)
     {

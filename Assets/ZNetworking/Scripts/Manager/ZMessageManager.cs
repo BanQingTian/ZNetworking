@@ -15,6 +15,7 @@ public static class MsgId
     public const string __PLAY_GAME_MSG_ = "play_Game_msg";
     public const string __SHOOT_BUBBLE_MSG_ = "shoot_bubble_msg";
     public const string __DRAGON_BEHIT_MSG_ = "dragon_behit_msg";
+    //public const string __DRAGON_
 
     #endregion
 }
