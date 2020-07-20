@@ -15,7 +15,7 @@ public static class MsgId
     public const string __PLAY_GAME_MSG_ = "play_Game_msg";
     public const string __SHOOT_BUBBLE_MSG_ = "shoot_bubble_msg";
     public const string __DRAGON_BEHIT_MSG_ = "dragon_behit_msg";
-    //public const string __DRAGON_
+    public const string __DRAGON_DEATH_MSG_ = "dragon_death_msg";
 
     #endregion
 }
@@ -52,6 +52,7 @@ public class ZMessageManager {
         {
             client.AddListener(MsgId.__SHOOT_BUBBLE_MSG_, _S2C_ShootBubble);
             client.AddListener(MsgId.__DRAGON_BEHIT_MSG_, _S2C_DragonBehit);
+            client.AddListener(MsgId.__DRAGON_DEATH_MSG_, _S2C_DragonDeath);
         }
 
         m_Initialized = true;
@@ -112,7 +113,7 @@ public class ZMessageManager {
 
         if (client.RoomID == Global.dragon)
         {
-            DragonManager.Instance.PlayAnim();
+            DragonManager.Instance.PlayGame();
         }
         else if (client.RoomID == Global.exhibit)
         {
@@ -128,7 +129,16 @@ public class ZMessageManager {
 
     public void _S2C_DragonBehit(object msg)
     {
+        Message m = msg as Message;
 
+        DragonManager.Instance.DamageDragon(int.Parse(m.Content));
+    }
+
+    public void _S2C_DragonDeath(object msg)
+    {
+        Message m = msg as Message;
+
+        DragonManager.Instance.DragonDead();
     }
 
     #endregion

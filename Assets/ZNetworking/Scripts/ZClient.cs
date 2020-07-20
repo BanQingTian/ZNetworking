@@ -32,6 +32,10 @@ public class ZClient
     {
         get { return m_PlayerID; }
     }
+    public bool IsHouseOwner
+    {
+        get { return m_IsHouseOwner; }
+    }
 
 
     private Channel channel;
@@ -48,6 +52,8 @@ public class ZClient
     /// 同步位置的主物体
     /// </summary>
     public GameObject Model;
+
+    public Transform Controller;
 
     public string UUID;
     private static ZClient m_Instance;
@@ -151,6 +157,14 @@ public class ZClient
 
     public async void Sync(Vector3 position, Vector3 euler, string extra)
     {
+        Vector3 cp = Vector3.zero;
+        Vector3 cr = Vector3.zero;
+        if (Global.DeviceType == DeviceTypeEnum.NRLight)
+        {
+            cp = Controller.position;
+            cr = Controller.eulerAngles;
+        }
+
         var response = await client.SyncPoseAsync(new SyncRequest
         {
             RoomId = m_RoomID,
@@ -171,6 +185,8 @@ public class ZClient
                     EulerY = euler.y,
                     EulerZ = euler.z,
                 },
+                SecondPosition = new ZPosition { X = cp.x, Y = cp.y, Z = cp.z },
+                SecondRotation = new ZRotation { EulerX = cr.x, EulerY = cr.y, EulerZ = cr.z},
                 ExtraContent = extra,
             }
         });
@@ -186,28 +202,20 @@ public class ZClient
         while (enumerator.MoveNext())
         {
             Player player = enumerator.Current;
-
-            //if (m_PlayerID != player.PlayerId)
+            Entity entity;
+            PlayerEntity pe;
+            if (ZPlayerMe.Instance.PlayerMap.TryGetValue(player.PlayerId, out entity))
             {
-                Entity entity;
-                PlayerEntity pe;
-                if (ZPlayerMe.Instance.PlayerMap.TryGetValue(player.PlayerId, out entity))
-                {
-                    pe = entity as PlayerEntity;
-                    if (pe != null)
-                        pe.UpdateData(player);
-                }
-                else
-                {
-                    MsgListener[MsgId.__JOIN_NEW_PLAYER_MSG_]?.Invoke(player);
-                }
-
-                exceptPlayerList.Remove(player.PlayerId);
+                pe = entity as PlayerEntity;
+                if (pe != null)
+                    pe.UpdateData(player);
             }
-            //else
-            //{
-            //    exceptPlayerList.Remove(m_PlayerID);
-            //}
+            else
+            {
+                MsgListener[MsgId.__JOIN_NEW_PLAYER_MSG_]?.Invoke(player);
+            }
+
+            exceptPlayerList.Remove(player.PlayerId);
         }
         foreach (var item in exceptPlayerList)
         {

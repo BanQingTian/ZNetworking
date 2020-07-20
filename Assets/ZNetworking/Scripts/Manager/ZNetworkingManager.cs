@@ -50,6 +50,8 @@ public class ZNetworkingManager : MonoBehaviour
             IsHouseOwner = isOwner,
             Position = new ZPosition(),
             Rotation = new ZRotation(),
+            SecondPosition = new ZPosition(),
+            SecondRotation = new ZRotation(),
             ExtraContent = "shelter",
         };
 

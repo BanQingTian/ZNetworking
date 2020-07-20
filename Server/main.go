@@ -115,10 +115,12 @@ func (s *Server) Join(ctx context.Context, req *pb.JoinRequest) (*pb.JoinRespons
 	}
 
 	s.players[playerID] = &pb.Player{
-		PlayerId:     playerID,
-		Position:     &pb.ZPosition{},
-		Rotation:     &pb.ZRotation{},
-		IsHouseOwner: isHouseOwner,
+		PlayerId:       playerID,
+		Position:       &pb.ZPosition{},
+		Rotation:       &pb.ZRotation{},
+		SecondPosition: &pb.ZPosition{},
+		SecondRotation: &pb.ZRotation{},
+		IsHouseOwner:   isHouseOwner,
 	}
 
 	log.Printf("[ZLOG] [INFO] Join Room => %s", playerID)
@@ -154,6 +156,14 @@ func (s *Server) SyncPose(ctx context.Context, req *pb.SyncRequest) (*pb.SyncRes
 	s.players[playerID].Rotation.EulerX = rotation.GetEulerX()
 	s.players[playerID].Rotation.EulerY = rotation.GetEulerY()
 	s.players[playerID].Rotation.EulerZ = rotation.GetEulerZ()
+	cposition := req.GetPlayer().GetSecondPosition()
+	s.players[playerID].SecondPosition.X = cposition.GetX()
+	s.players[playerID].SecondPosition.Y = cposition.GetY()
+	s.players[playerID].SecondPosition.Z = cposition.GetZ()
+	crotation := req.GetPlayer().GetSecondRotation()
+	s.players[playerID].SecondRotation.EulerX = crotation.GetEulerX()
+	s.players[playerID].SecondRotation.EulerY = crotation.GetEulerY()
+	s.players[playerID].SecondRotation.EulerZ = crotation.GetEulerZ()
 
 	return &pb.SyncResponse{
 		Players: s.getPlayer(roomID),

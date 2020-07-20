@@ -46,7 +46,7 @@ public class ZPlayerMe
 
     public void AddPlayer(string id, Entity player)
     {
-        Debug.Log("run1");
+        Debug.Log("AddPlayer : " + id);
         if (PlayerMap.ContainsKey(id))
         {
             Debug.LogError("######## Exit some ID player !!!! " + id);

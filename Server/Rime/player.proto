@@ -21,5 +21,7 @@ message Player {
 	bool isHouseOwner = 3;
 	ZPosition position = 4;
 	ZRotation rotation = 5;
-	string extraContent = 6;
+	ZPosition secondPosition = 6;
+	ZRotation secondRotation = 7;
+	string extraContent = 8;
 }

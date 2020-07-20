@@ -5,13 +5,12 @@ using UnityEngine.Playables;
 
 public class DragonAnimManager : MonoBehaviour {
 
-    public const string flyFire = "fly_Fire";
-
     // 进程动画
     public PlayableDirector MainTimeline;
 
     public Animator DragonAnimator;
 
+    public GameObject DeathEffSwitch;
 
     // 龙 入场动画
     public void PlayDragonEnterAnim()
@@ -34,22 +33,17 @@ public class DragonAnimManager : MonoBehaviour {
     }
 
 
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            PlayDragonEnterAnim();
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ZMessageManager.Instance.SendMsg(MsgId.__READY_PLAY_MSG_, string.Format("{0},{1}", ZClient.Instance.PlayerID, "aaaaaaaaa"));
-        }
-
+    public void ResetStatue()
+    {
+        DragonAnimator.SetBool("dead", false);
+        DeathEffSwitch.SetActive(false);
+    }
+    public void PlayDeadAnim()
+    {
+        DragonAnimator.SetBool("dead", true);
+    }
+    public void PlayDeathEff()
+    {
+        DeathEffSwitch.SetActive(true);
     }
 }

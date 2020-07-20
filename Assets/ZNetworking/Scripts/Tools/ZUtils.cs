@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ZUtils {
+public static class ZUtils
+{
 
 
     public static string GetUUID()

@@ -25,6 +25,15 @@ public class ZMain : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Time.timeScale = 5;
+        }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Time.timeScale = 1;
+        }
+
         if (!IS_MATCH)
         {
             if (MarkerHelper.MarkerTrackingUpdate())
@@ -52,7 +61,11 @@ public class ZMain : MonoBehaviour
         if (DeviceType == DeviceTypeEnum.NRLight)
         {
             var nrCam = GameObject.Find("NRCameraRig");
+            var nrInput = NRInput.AnchorsHelper.GetAnchor(ControllerAnchorEnum.RightModelAnchor);
             ZClient.Instance.Model = nrCam;
+            ZClient.Instance.Controller = nrInput;
+            ZClient.Instance.extraContent = "";
+
         }
         else if (DeviceType == DeviceTypeEnum.Pad)
         {

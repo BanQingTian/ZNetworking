@@ -9,6 +9,8 @@ using Zrime;
 /// </summary>
 public class PlayerEntity : Entity
 {
+    public Transform Weapon;
+
 
     public override void Init(Player info)
     {
@@ -18,7 +20,12 @@ public class PlayerEntity : Entity
     public override void UpdatePoseData()
     {
         base.UpdatePoseData();
-        //PlayerInfo.extraContent
+
+        if (Weapon != null)
+        {
+            Weapon.position = new Vector3(PlayerInfo.secondPostion.x, PlayerInfo.secondPostion.y, PlayerInfo.secondPostion.z);
+            Weapon.eulerAngles = new Vector3(PlayerInfo.secondEuler.x, PlayerInfo.secondEuler.y, PlayerInfo.secondEuler.z);
+        }
     }
 
 }

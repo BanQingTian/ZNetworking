@@ -26,17 +26,19 @@ namespace Zrime {
           string.Concat(
             "CgxwbGF5ZXIucHJvdG8SBXpyaW1lIiwKCVpQb3NpdGlvbhIJCgF4GAEgASgC",
             "EgkKAXkYAiABKAISCQoBehgDIAEoAiI7CglaUm90YXRpb24SDgoGZXVsZXJY",
-            "GAEgASgCEg4KBmV1bGVyWRgCIAEoAhIOCgZldWxlcloYAyABKAIipAEKBlBs",
+            "GAEgASgCEg4KBmV1bGVyWRgCIAEoAhIOCgZldWxlcloYAyABKAIi+AEKBlBs",
             "YXllchIRCglwbGF5ZXJfaWQYASABKAkSEwoLcGxheWVyX25hbWUYAiABKAkS",
             "FAoMaXNIb3VzZU93bmVyGAMgASgIEiIKCHBvc2l0aW9uGAQgASgLMhAuenJp",
             "bWUuWlBvc2l0aW9uEiIKCHJvdGF0aW9uGAUgASgLMhAuenJpbWUuWlJvdGF0",
-            "aW9uEhQKDGV4dHJhQ29udGVudBgGIAEoCWIGcHJvdG8z"));
+            "aW9uEigKDnNlY29uZFBvc2l0aW9uGAYgASgLMhAuenJpbWUuWlBvc2l0aW9u",
+            "EigKDnNlY29uZFJvdGF0aW9uGAcgASgLMhAuenJpbWUuWlJvdGF0aW9uEhQK",
+            "DGV4dHJhQ29udGVudBgIIAEoCWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.ZPosition), global::Zrime.ZPosition.Parser, new[]{ "X", "Y", "Z" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.ZRotation), global::Zrime.ZRotation.Parser, new[]{ "EulerX", "EulerY", "EulerZ" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Player), global::Zrime.Player.Parser, new[]{ "PlayerId", "PlayerName", "IsHouseOwner", "Position", "Rotation", "ExtraContent" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Zrime.Player), global::Zrime.Player.Parser, new[]{ "PlayerId", "PlayerName", "IsHouseOwner", "Position", "Rotation", "SecondPosition", "SecondRotation", "ExtraContent" }, null, null, null)
           }));
     }
     #endregion
@@ -446,6 +448,8 @@ namespace Zrime {
       isHouseOwner_ = other.isHouseOwner_;
       position_ = other.position_ != null ? other.position_.Clone() : null;
       rotation_ = other.rotation_ != null ? other.rotation_.Clone() : null;
+      secondPosition_ = other.secondPosition_ != null ? other.secondPosition_.Clone() : null;
+      secondRotation_ = other.secondRotation_ != null ? other.secondRotation_.Clone() : null;
       extraContent_ = other.extraContent_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -510,8 +514,30 @@ namespace Zrime {
       }
     }
 
+    /// <summary>Field number for the "secondPosition" field.</summary>
+    public const int SecondPositionFieldNumber = 6;
+    private global::Zrime.ZPosition secondPosition_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Zrime.ZPosition SecondPosition {
+      get { return secondPosition_; }
+      set {
+        secondPosition_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "secondRotation" field.</summary>
+    public const int SecondRotationFieldNumber = 7;
+    private global::Zrime.ZRotation secondRotation_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Zrime.ZRotation SecondRotation {
+      get { return secondRotation_; }
+      set {
+        secondRotation_ = value;
+      }
+    }
+
     /// <summary>Field number for the "extraContent" field.</summary>
-    public const int ExtraContentFieldNumber = 6;
+    public const int ExtraContentFieldNumber = 8;
     private string extraContent_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ExtraContent {
@@ -539,6 +565,8 @@ namespace Zrime {
       if (IsHouseOwner != other.IsHouseOwner) return false;
       if (!object.Equals(Position, other.Position)) return false;
       if (!object.Equals(Rotation, other.Rotation)) return false;
+      if (!object.Equals(SecondPosition, other.SecondPosition)) return false;
+      if (!object.Equals(SecondRotation, other.SecondRotation)) return false;
       if (ExtraContent != other.ExtraContent) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -551,6 +579,8 @@ namespace Zrime {
       if (IsHouseOwner != false) hash ^= IsHouseOwner.GetHashCode();
       if (position_ != null) hash ^= Position.GetHashCode();
       if (rotation_ != null) hash ^= Rotation.GetHashCode();
+      if (secondPosition_ != null) hash ^= SecondPosition.GetHashCode();
+      if (secondRotation_ != null) hash ^= SecondRotation.GetHashCode();
       if (ExtraContent.Length != 0) hash ^= ExtraContent.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -585,8 +615,16 @@ namespace Zrime {
         output.WriteRawTag(42);
         output.WriteMessage(Rotation);
       }
-      if (ExtraContent.Length != 0) {
+      if (secondPosition_ != null) {
         output.WriteRawTag(50);
+        output.WriteMessage(SecondPosition);
+      }
+      if (secondRotation_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(SecondRotation);
+      }
+      if (ExtraContent.Length != 0) {
+        output.WriteRawTag(66);
         output.WriteString(ExtraContent);
       }
       if (_unknownFields != null) {
@@ -611,6 +649,12 @@ namespace Zrime {
       }
       if (rotation_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Rotation);
+      }
+      if (secondPosition_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SecondPosition);
+      }
+      if (secondRotation_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SecondRotation);
       }
       if (ExtraContent.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtraContent);
@@ -646,6 +690,18 @@ namespace Zrime {
           Rotation = new global::Zrime.ZRotation();
         }
         Rotation.MergeFrom(other.Rotation);
+      }
+      if (other.secondPosition_ != null) {
+        if (secondPosition_ == null) {
+          SecondPosition = new global::Zrime.ZPosition();
+        }
+        SecondPosition.MergeFrom(other.SecondPosition);
+      }
+      if (other.secondRotation_ != null) {
+        if (secondRotation_ == null) {
+          SecondRotation = new global::Zrime.ZRotation();
+        }
+        SecondRotation.MergeFrom(other.SecondRotation);
       }
       if (other.ExtraContent.Length != 0) {
         ExtraContent = other.ExtraContent;
@@ -688,6 +744,20 @@ namespace Zrime {
             break;
           }
           case 50: {
+            if (secondPosition_ == null) {
+              SecondPosition = new global::Zrime.ZPosition();
+            }
+            input.ReadMessage(SecondPosition);
+            break;
+          }
+          case 58: {
+            if (secondRotation_ == null) {
+              SecondRotation = new global::Zrime.ZRotation();
+            }
+            input.ReadMessage(SecondRotation);
+            break;
+          }
+          case 66: {
             ExtraContent = input.ReadString();
             break;
           }

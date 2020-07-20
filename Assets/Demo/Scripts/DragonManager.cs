@@ -25,7 +25,11 @@ public class DragonManager : MonoBehaviour {
     public Button ReadyBtn;
     public Text Label;
 
-    public Animator DragonAnim;
+    
+    /// <summary>
+    /// 数据类
+    /// </summary>
+    public DragonAttack Dragon;
 
     #endregion
 
@@ -71,6 +75,87 @@ public class DragonManager : MonoBehaviour {
         }
 
     }
+   
+
+   
+    public void ShootBubble(string playerId)
+    {
+
+    }
+
+    public void DamageDragon(int damageHp)
+    {
+        Dragon.DamageDragon(damageHp);
+    }
+
+    public void DragonDead()
+    {
+        Dragon.DragonDeath();
+    }
+
+    #region begin stage
+
+    /// <summary>
+    /// 有人准备
+    /// </summary>
+    public void ReadyPlay(string playerId, string isReady)
+    {
+        bool allready = ZPlayerMe.Instance.SetPlayerReadyDic(playerId, isReady);
+
+        if (allready && ZPlayerMe.Instance.PlayerMap[playerId].isHouseOwner)
+        {
+            ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG_, "Go");
+        }
+    }
+
+    /// <summary>
+    /// 开始 QAQ
+    /// </summary>
+    public void PlayGame()
+    {
+        ReadyBtn.gameObject.SetActive(false);
+        Playing = true;
+        Debug.Log("playing");
+
+        playDragonAnim();
+        resetDragonHp();
+        
+    }
+
+    /// <summary>
+    /// 播放龙进场动画
+    /// </summary>
+    private void playDragonAnim()
+    {
+        // 播放龙进场动画
+        Dragon.AnimManager.PlayDragonEnterAnim();
+    }
+    /// <summary>
+    /// 根据人数动态设置龙的血量
+    /// </summary>
+    private void resetDragonHp()
+    {
+        Dragon.Init(ZPlayerMe.Instance.PlayerMap.Count);
+    }
+
+
+    private void EndEvent()
+    {
+        AnimEnd = true;
+        playFight();
+    }
+
+    /// <summary>
+    /// 开始打龙
+    /// </summary>
+    private void playFight()
+    {
+
+    }
+
+    #endregion
+    
+    
     #region UILogic
 
     public void ShowReadyBtn()
@@ -95,52 +180,5 @@ public class DragonManager : MonoBehaviour {
     }
 
     #endregion
-
-    public void ShootBubble(string playerId)
-    {
-
-    }
-
-    #region begin stage
-
-    /// <summary>
-    /// 有人准备
-    /// </summary>
-    public void ReadyPlay(string playerId, string r)
-    {
-        bool allready = ZPlayerMe.Instance.SetPlayerReadyDic(playerId, r);
-
-        if (allready && ZPlayerMe.Instance.PlayerMap[playerId].isHouseOwner)
-        {
-            ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG_, "Go");
-        }
-    }
-
-    /// <summary>
-    /// 开始 QAQ
-    /// </summary>
-    public void PlayAnim()
-    {
-        ReadyBtn.gameObject.SetActive(false);
-        Playing = true;
-        Debug.Log("playing");
-    }
-
-    private void EndEvent()
-    {
-        AnimEnd = true;
-        playFight();
-    }
-
-    /// <summary>
-    /// 开始打龙
-    /// </summary>
-    private void playFight()
-    {
-
-    }
-
-    #endregion
-
 
 }
