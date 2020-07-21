@@ -54,6 +54,8 @@ public class ZMain : MonoBehaviour
         deviceCheck();
         loadRoomManager();
         loadNetworkingModule();
+
+        ZPlayerMe.Instance.Init();
     }
 
     private void deviceCheck()
@@ -92,7 +94,7 @@ public class ZMain : MonoBehaviour
         Global.CurRoom = Global.GetRoomName(RoomName);
         Global.DeviceType = DeviceType;
         ZMessageManager.Instance.Init();
-        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.31.141", "50010");
+        ZMessageManager.Instance.SendConnectAndJoinRoom("127.0.0.1", "51307"); //192.168.69.39
     }
 
 

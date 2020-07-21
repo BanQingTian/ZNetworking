@@ -45,6 +45,8 @@ public class ZClient
 
     public delegate void RevMsgListener(object msg);
     public delegate void JoinNewPlayerEventHandler(Player player);
+    public delegate void ConnectFaildResponse();
+    public event ConnectFaildResponse ConnectFailEvent;
 
     public Dictionary<string, RevMsgListener> MsgListener;
 
@@ -124,9 +126,9 @@ public class ZClient
             m_Initialized = true;
             m_Connected = true; // 完成stream连接
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-            Debug.LogError("Connect Server failed...");
+            Debug.LogError("Connect Server failed..." + e);
             return;
         }
 
@@ -219,9 +221,9 @@ public class ZClient
         }
         foreach (var item in exceptPlayerList)
         {
-            GameObject.Destroy(ZPlayerMe.Instance.PlayerMap[item].gameObject);
-            Debug.LogError("Dostroy player id : " + item);
-            ZPlayerMe.Instance.PlayerMap.Remove(item);
+
+
+            ZPlayerMe.Instance.RemovePlayer(item);
         }
     }
 

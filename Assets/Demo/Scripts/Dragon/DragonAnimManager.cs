@@ -12,6 +12,8 @@ public class DragonAnimManager : MonoBehaviour {
 
     public GameObject DeathEffSwitch;
 
+    public GameObject Roof;
+
     // 龙 入场动画
     public void PlayDragonEnterAnim()
     {
@@ -45,5 +47,13 @@ public class DragonAnimManager : MonoBehaviour {
     public void PlayDeathEff()
     {
         DeathEffSwitch.SetActive(true);
+        StartCoroutine(roofAppear());
+    }
+    private IEnumerator roofAppear()
+    {
+        yield return new WaitForSeconds(40);
+        Roof.SetActive(true);
+        yield return new WaitForSeconds(10);
+        DragonManager.Instance.ResetGame();
     }
 }

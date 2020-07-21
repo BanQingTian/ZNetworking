@@ -66,7 +66,10 @@ public class ZNetworkingManager : MonoBehaviour
         
         return pe.gameObject;
     }
-
+    private void OnApplicationPause(bool pause)
+    {
+        ZClient.Instance.Leave();
+    }
     private void OnApplicationQuit()
     {
         ZClient.Instance.Leave();

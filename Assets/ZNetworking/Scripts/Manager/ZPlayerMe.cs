@@ -21,6 +21,9 @@ public class ZPlayerMe
         }
     }
 
+    public delegate void RemovePlayerDelegate(string playerId);
+    public event RemovePlayerDelegate RemovePlayerEvent;
+
     /// <summary>
     /// 玩家数据 key=playerId value=实体
     /// </summary>
@@ -31,6 +34,12 @@ public class ZPlayerMe
     /// </summary>
     public Dictionary<string, bool> PlayerReadyDic = new Dictionary<string, bool>();
 
+    public void Init()
+    {
+        RemovePlayerEvent += Remove;
+        RemovePlayerEvent += DragonManager.Instance.RemovePlayerRefreshUI;
+
+    }
 
     public bool SetPlayerReadyDic(string playerId, string ready)
     {
@@ -44,6 +53,25 @@ public class ZPlayerMe
         return true;
     }
 
+    public void RemovePlayer(string id)
+    {
+        RemovePlayerEvent.Invoke(id);
+    }
+    private void Remove(string id)
+    {
+        if (PlayerMap.ContainsKey(id))
+        {
+            GameObject.Destroy(PlayerMap[id].gameObject);
+            Debug.LogError("Dostroy player id : " + id);
+            ZPlayerMe.Instance.PlayerMap.Remove(id);
+        }
+        else
+        {
+            Debug.Log("PlayerMe Remove : " + id + " Failed !!!");
+        }
+
+    }
+
     public void AddPlayer(string id, Entity player)
     {
         Debug.Log("AddPlayer : " + id);
@@ -54,6 +82,17 @@ public class ZPlayerMe
         else
         {
             PlayerMap[id] = player;
+            PlayerReadyDic[id] = false;
         }
+    }
+
+    public bool IsAllReady()
+    {
+        foreach (var item in PlayerReadyDic.Values)
+        {
+            if (!item)
+                return false;
+        }
+        return true;
     }
 }

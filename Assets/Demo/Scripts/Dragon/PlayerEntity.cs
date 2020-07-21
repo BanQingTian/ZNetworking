@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zrime;
-
+using NRKernal;
 
 /// <summary>
 /// GRPC网络组件实例
 /// </summary>
 public class PlayerEntity : Entity
 {
-    public Transform Weapon;
+    public Weapon Weapon;
 
 
     public override void Init(Player info)
@@ -23,8 +23,9 @@ public class PlayerEntity : Entity
 
         if (Weapon != null)
         {
-            Weapon.position = new Vector3(PlayerInfo.secondPostion.x, PlayerInfo.secondPostion.y, PlayerInfo.secondPostion.z);
-            Weapon.eulerAngles = new Vector3(PlayerInfo.secondEuler.x, PlayerInfo.secondEuler.y, PlayerInfo.secondEuler.z);
+            // 同步手柄位置
+            Weapon.transform.position = new Vector3(PlayerInfo.secondPostion.x, PlayerInfo.secondPostion.y, PlayerInfo.secondPostion.z);
+            Weapon.transform.eulerAngles = new Vector3(PlayerInfo.secondEuler.x, PlayerInfo.secondEuler.y, PlayerInfo.secondEuler.z);
         }
     }
 

@@ -39,14 +39,6 @@ public class DragonAttack : MonoBehaviour
         DragonBubble.gameObject.SetActive(false);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ZMessageManager.Instance.SendMsg(MsgId.__DRAGON_BEHIT_MSG_, "1");
-        }
-    }
-
     public void Init(int playerCount)
     {
         firstBeHit = true;
@@ -113,8 +105,9 @@ public class DragonAttack : MonoBehaviour
 
 
         StopCoroutine("rotateHeadCor");
-        StartCoroutine(rotateHeadCor(DragonParent, 90, 12, () =>
+        StartCoroutine(rotateHeadCor(DragonParent, 90, 20, () =>
          {
+             DragonBubble.gameObject.SetActive(false);
              AnimManager.PlayDeathEff();
              gameObject.SetActive(false);
 
@@ -128,8 +121,6 @@ public class DragonAttack : MonoBehaviour
     /// </summary>
     public void DragonShootFireball()
     {
-
-        Debug.Log("DragonShootFireball");
         PlayFireballAudio();
 
         Rig.isKinematic = true;
@@ -146,12 +137,11 @@ public class DragonAttack : MonoBehaviour
     /// <param name="damageHp"></param>
     public void DragonRotateHead()
     {
-        Debug.Log("DragonRotateHead");
+        DragonManager.Instance.BeginFight();
 
         PlayWingReadyAudio();
 
         float random = Random.Range(50f, 130f);
-        random = 50;
         StopCoroutine(rotateHeadCor(DragonParent, random, 5));
 
         if (dead)

@@ -42,9 +42,9 @@ public class ZScanMarker : MonoBehaviour
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
                     GameObject nrCam = GameObject.Find("NRCameraRig");
-                    GameObject nrInput = GameObject.Find("NRInput");
+                    //GameObject nrInput = GameObject.Find("NRInput");
 
-                    TranslatePose(nrCam.transform, nrInput.transform);
+                    TranslatePose(nrCam.transform, null);
 
                     return true;
                 }
