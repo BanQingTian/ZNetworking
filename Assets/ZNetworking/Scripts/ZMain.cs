@@ -25,6 +25,7 @@ public class ZMain : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.R))
         {
             Time.timeScale = 5;
@@ -33,6 +34,11 @@ public class ZMain : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ZMessageManager.Instance.SendMsg(MsgId.__DRAGON_BEHIT_MSG_, "1");
+        }
+#endif
 
         if (!IS_MATCH)
         {
@@ -60,6 +66,8 @@ public class ZMain : MonoBehaviour
 
     private void deviceCheck()
     {
+        Global.DeviceType = DeviceType;
+
         if (DeviceType == DeviceTypeEnum.NRLight)
         {
             var nrCam = GameObject.Find("NRCameraRig");
@@ -71,8 +79,8 @@ public class ZMain : MonoBehaviour
         }
         else if (DeviceType == DeviceTypeEnum.Pad)
         {
-            var nrCam = GameObject.Find("NRCameraRig");
-            ZClient.Instance.Model = nrCam;
+            var arCam = GameObject.Find("ARCore Device");
+            ZClient.Instance.Model = arCam;
         }
     }
 
@@ -92,9 +100,8 @@ public class ZMain : MonoBehaviour
     private void loadNetworkingModule()
     {
         Global.CurRoom = Global.GetRoomName(RoomName);
-        Global.DeviceType = DeviceType;
         ZMessageManager.Instance.Init();
-        ZMessageManager.Instance.SendConnectAndJoinRoom("127.0.0.1", "51307"); //192.168.69.39
+        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.69.39", "50010"); //192.168.69.39
     }
 
 

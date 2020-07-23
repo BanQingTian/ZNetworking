@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ZNetworking/GoogleARCore/Examples/HelloAR/Scenes/HelloAR.unity
     guid: e6a6fa04348cb45c9b0221eb19c946da
-  - enabled: 1
+  - enabled: 0
     path: Assets/Demo/Scenes/Dragon_nr.unity
     guid: 4089f20f38d3cf944b05282ba5ba2ec1
+  - enabled: 1
+    path: Assets/Demo/Scenes/Dragon_arcore.unity
+    guid: 5fbe86cbfb97b95419f98cfde7d28579
   m_configObjects: {}

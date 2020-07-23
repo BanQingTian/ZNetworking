@@ -18,6 +18,11 @@ public class FollowCameraAgent : MonoBehaviour
 
     public FollowMode CurrentFollowMode;
 
+    private void Start()
+    {
+        OnFollowCamera(CurrentFollowMode);
+    }
+
     protected void Update()
     {
 #if UNITY_EDITOR

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NRKernal;
 using GoogleARCore;
+using GoogleARCore.Examples.AugmentedImage;
 
 public class ZScanMarker : MonoBehaviour
 {
@@ -16,8 +17,10 @@ public class ZScanMarker : MonoBehaviour
     {
 #if UNITY_EDITOR
         return true;
-#endif
+#else
         return Global.DeviceType == DeviceTypeEnum.NRLight ? NRLightMarkerTrackingUpdate() : ARCoreMarkerTrackingUpdate();
+#endif
+
     }
 
 
@@ -36,7 +39,7 @@ public class ZScanMarker : MonoBehaviour
                 MarkerPrefab.transform.position = anchor.transform.position;
                 MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
 
-                if (scanCount > 60)
+                if (scanCount > 120)
                 {
                     var marker_in_world = ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
@@ -45,6 +48,8 @@ public class ZScanMarker : MonoBehaviour
                     //GameObject nrInput = GameObject.Find("NRInput");
 
                     TranslatePose(nrCam.transform, null);
+
+                    SwitchImageTrackingMode(false); // 关闭maker识别
 
                     return true;
                 }
@@ -59,11 +64,19 @@ public class ZScanMarker : MonoBehaviour
 
     }
 
+    public void SwitchImageTrackingMode(bool on)
+    {
+        var config = NRSessionManager.Instance.NRSessionBehaviour.SessionConfig;
+        config.ImageTrackingMode = on ? TrackableImageFindingMode.ENABLE : TrackableImageFindingMode.DISABLE;
+        NRSessionManager.Instance.SetConfiguration(config);
+    }
+
+
 
     private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
     private bool ARCoreMarkerTrackingUpdate()
     {
-        if(Session.Status != SessionStatus.Tracking)
+        if (Session.Status != SessionStatus.Tracking)
         {
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
@@ -76,14 +89,15 @@ public class ZScanMarker : MonoBehaviour
 
         foreach (var item in m_TempAugmentedImages)
         {
-            if(item.TrackingState == GoogleARCore.TrackingState.Tracking)
+            if (item.TrackingState == GoogleARCore.TrackingState.Tracking)
             {
-                MarkerPrefab.SetActive(true);
                 Anchor anchor = item.CreateAnchor(item.CenterPose);
+                MarkerPrefab.SetActive(true);
                 MarkerPrefab.transform.position = anchor.transform.position;
+                MarkerPrefab.transform.rotation = anchor.transform.rotation;
                 MarkerPrefab.transform.localScale = new Vector3(0.4f, MarkerPrefab.transform.localScale.y, 0.4f);
 
-                if (scanCount > 60)
+                if (Input.touchCount == 1 && Input.touches[0].phase == TouchPhase.Began)
                 {
                     var marker_in_world = ZUtils.GetTMatrix(item.CenterPose.position, item.CenterPose.rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
@@ -91,6 +105,8 @@ public class ZScanMarker : MonoBehaviour
                     GameObject arcoreCam = GameObject.Find("ARCore Device");
 
                     TranslatePose(arcoreCam.transform);
+
+                    MarkerPrefab.SetActive(false);
 
                     return true;
                 }

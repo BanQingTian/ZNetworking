@@ -49,7 +49,7 @@ public class DragonManager : MonoBehaviour
     {
         if (PlayingFight)
         {
-            if (NRInput.GetButtonDown(ControllerButton.TRIGGER))
+            if (Global.DeviceType == DeviceTypeEnum.NRLight && NRInput.GetButtonDown(ControllerButton.TRIGGER))
             {
                 ZMessageManager.Instance.SendMsg(MsgId.__SHOOT_BUBBLE_MSG_, ZClient.Instance.PlayerID);
             }
@@ -170,11 +170,13 @@ public class DragonManager : MonoBehaviour
     public void BeginFight()
     {
         PlayingFight = true;
-        (ZPlayerMe.Instance.PlayerMap[ZClient.Instance.PlayerID] as PlayerEntity).Weapon.gameObject.SetActive(true);
+        if (Global.DeviceType == DeviceTypeEnum.NRLight)
+            (ZPlayerMe.Instance.PlayerMap[ZClient.Instance.PlayerID] as PlayerEntity).Weapon.gameObject.SetActive(true);
     }
 
     public void ResetGame()
     {
+        Debug.Log("resetGame");
         PlayingFight = false;
         Dragon.gameObject.SetActive(false);
         Dragon.AnimManager.DeathEffSwitch.SetActive(false);
@@ -198,17 +200,20 @@ public class DragonManager : MonoBehaviour
 
     #region UILogic
 
-    public void RemovePlayerRefreshUI(string playerId)
+    public void RefreshUI(string playerId)
     {
-        var allready = ZPlayerMe.Instance.IsAllReady();
-        ShowReadyBtn();
+        if (!PlayingFight && m_ZMain.IS_MATCH)
+        {
+            ShowReadyBtn();
+        }
+
     }
 
 
     public void ShowReadyBtn()
     {
+        Debug.Log("showReadyBtn");
         ReadyBtn.gameObject.SetActive(true);
-        //ReadyBtn.image.material.SetFloat("_Saturation", 0.3f);
         SetUILayout(ZClient.Instance.IsHouseOwner);
         showReadyBtnYet = true;
         ready = false;
@@ -218,9 +223,18 @@ public class DragonManager : MonoBehaviour
     {
         if (isHouseOwner)
         {
-            ReadyBtn.transform.localPosition = new Vector3(-228, 0, 0);
-            PlayBtn.image.material.SetFloat("_Saturation", 0);
-            PlayBtn.enabled = false;
+            ReadyBtn.transform.localPosition = new Vector3(243, 0, 0);
+
+            if (ZPlayerMe.Instance.IsAllReady())
+            {
+                PlayBtn.image.material.SetFloat("_Saturation", 1);
+                PlayBtn.enabled = true;
+            }
+            else
+            {
+                PlayBtn.image.material.SetFloat("_Saturation", 0);
+                PlayBtn.enabled = false;
+            }
             PlayBtn.gameObject.SetActive(true);
         }
         else
@@ -231,11 +245,8 @@ public class DragonManager : MonoBehaviour
     }
     public void ShowReadyBtnClk()
     {
-        if (!ready)
-        {
-            ready = true;
-            ZMessageManager.Instance.SendMsg(MsgId.__READY_PLAY_MSG_, string.Format("{0},{1}", ZClient.Instance.PlayerID, ready ? "1" : "0"));
-        }
+        ready = true;
+        ZMessageManager.Instance.SendMsg(MsgId.__READY_PLAY_MSG_, string.Format("{0},{1}", ZClient.Instance.PlayerID, ready ? "1" : "0"));
     }
     public void ShowPlayBtn()
     {
@@ -246,9 +257,11 @@ public class DragonManager : MonoBehaviour
         if (ZPlayerMe.Instance.IsAllReady())
         {
             PlayBtn.gameObject.SetActive(false);
+            ReadyBtn.gameObject.SetActive(false);
             ZMessageManager.Instance.SendMsg(MsgId.__PLAY_GAME_MSG_, "Go");
+            ZPlayerMe.Instance.ResetPlayerStatus();
         }
-        
+
     }
 
     #endregion

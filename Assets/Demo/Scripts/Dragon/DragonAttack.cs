@@ -94,8 +94,20 @@ public class DragonAttack : MonoBehaviour
 
     #region Animation Event
 
+    public void DragonDeathBegin()
+    {
+        DragonBubble.gameObject.SetActive(false);
+
+        StopCoroutine("rotateHeadCor");
+        StartCoroutine(rotateHeadCor(DragonParent, 90, 40, () =>
+        {
+           
+
+        }));
+    }
+
     /// <summary>
-    /// 死亡动画播放完
+    /// 死亡动画播放完播放特效
     /// </summary>
     public void DragonDeathEff()
     {
@@ -104,15 +116,9 @@ public class DragonAttack : MonoBehaviour
         //DragonParent.eulerAngles = new Vector3(0, 90, 0);
 
 
-        StopCoroutine("rotateHeadCor");
-        StartCoroutine(rotateHeadCor(DragonParent, 90, 20, () =>
-         {
-             DragonBubble.gameObject.SetActive(false);
-             AnimManager.PlayDeathEff();
-             gameObject.SetActive(false);
 
-         }));
-
+        AnimManager.PlayDeathEff();
+        gameObject.SetActive(false);
 
     }
 

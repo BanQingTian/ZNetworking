@@ -54,6 +54,9 @@ public class DragonAnimManager : MonoBehaviour {
         yield return new WaitForSeconds(40);
         Roof.SetActive(true);
         yield return new WaitForSeconds(10);
-        DragonManager.Instance.ResetGame();
+        if (ZClient.Instance.IsHouseOwner)
+        {
+            ZMessageManager.Instance.SendMsg(MsgId.__RESET_GAME_MSG_, "go");
+        }
     }
 }

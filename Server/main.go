@@ -221,6 +221,55 @@ func (s *Server) Leave(ctx context.Context, req *pb.LeaveRequest) (*pb.LeaveResp
 	return &pb.LeaveResponse{}, nil
 }
 
+// StreamUnActiveLeave :
+func (s *Server) StreamUnActiveLeave(roomID string, playerID string) error {
+
+	if !s.isExistRoom(roomID) {
+
+		s := fmt.Sprintf("[ZLOG] [ERROR] %s's room not found\n", roomID)
+		return errors.New(s)
+	}
+
+	if !s.isExistPlayer(roomID, playerID) {
+		s := fmt.Sprintf("[ZLOG] [ERROR] %s's player not found\n", playerID)
+		return errors.New(s)
+	}
+
+	// remove out s.rooms
+	index := getIndexOfArr(s.rooms[roomID], playerID)
+
+	s.rooms[roomID] = unset(s.rooms[roomID], index)
+
+	if len(s.rooms[roomID]) > 0 {
+		if s.players[playerID].IsHouseOwner {
+			first := s.rooms[roomID][0]
+			s.players[first].IsHouseOwner = true
+		}
+	}
+
+	// remove out s.players
+	delete(s.players, playerID)
+
+	// romove out s.connections
+	index = -1
+	arr := s.Connections[roomID]
+	for i, value := range arr {
+		if value.id == playerID {
+			index = i
+			break
+		}
+	}
+	if index < len(arr) {
+		streamP := s.Connections[roomID][index].stream
+		s.Connections[roomID] = append(arr[:index], arr[index+1:]...)
+		streamP.Context().Done()
+	}
+
+	log.Printf("[ZLOG] [INFO] UnActive - Leave Room => %v", playerID)
+
+	return nil
+}
+
 // CreateStream : save client stream
 func (s *Server) CreateStream(pbconn *pb.Connect, stream pb.Exhibit_CreateStreamServer) error {
 	conn := &Connection{
@@ -235,6 +284,8 @@ func (s *Server) CreateStream(pbconn *pb.Connect, stream pb.Exhibit_CreateStream
 
 	s.AddStreamToConnections(conn)
 
+	log.Printf("[ZLOG] [INFO] Join Stream => %v", conn.id)
+
 	return <-conn.error
 }
 
@@ -243,24 +294,7 @@ func (s *Server) AddStreamToConnections(conn *Connection) {
 	_, exist := s.Connections[conn.roomID]
 	if exist {
 		s.Connections[conn.roomID] = append(s.Connections[conn.roomID], conn)
-		//fmt.Println("----", conn.roomID, "----", len(s.Connections[conn.roomID]))
 	}
-	// if exist {
-	// 	hav := true
-	// 	for _, value := range s.Connections[conn.roomID] {
-	// 		if value.id == conn.id {
-	// 			hav = false
-	// 			break
-	// 		}
-	// 	}
-	// 	if !hav {
-	// 		s.Connections[conn.roomID] = append(s.Connections[conn.roomID], conn)
-	// 	}
-	// } else {
-	// 	// var cs []*Connection
-	// 	// s.Connections[pbconn.RoomId] = cs
-	// 	s.Connections[conn.roomID] = append(s.Connections[conn.roomID], conn)
-	// }
 }
 
 // BroadcastMessage : broadcast msg to client
@@ -297,6 +331,7 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 				if err != nil {
 					log.Printf("[ZLOG] [ERROR] stream send msg => Stream: %v - Error: %v", conn.stream, err)
 					conn.active = false
+					s.StreamUnActiveLeave(conn.roomID, conn.id)
 					conn.error <- err
 				}
 

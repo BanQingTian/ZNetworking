@@ -132,6 +132,7 @@ public class ZClient
             return;
         }
 
+        Debug.Log("CreateStream Begin");
         CreateStream();
 
 
@@ -188,7 +189,7 @@ public class ZClient
                     EulerZ = euler.z,
                 },
                 SecondPosition = new ZPosition { X = cp.x, Y = cp.y, Z = cp.z },
-                SecondRotation = new ZRotation { EulerX = cr.x, EulerY = cr.y, EulerZ = cr.z},
+                SecondRotation = new ZRotation { EulerX = cr.x, EulerY = cr.y, EulerZ = cr.z },
                 ExtraContent = extra,
             }
         });
@@ -215,6 +216,12 @@ public class ZClient
             else
             {
                 MsgListener[MsgId.__JOIN_NEW_PLAYER_MSG_]?.Invoke(player);
+            }
+
+            if (player.PlayerId == m_PlayerID)
+            {
+                // 同步client中数据的状态
+                m_IsHouseOwner = player.IsHouseOwner;
             }
 
             exceptPlayerList.Remove(player.PlayerId);
@@ -262,7 +269,6 @@ public class ZClient
             {
                 IAsyncStreamReader<Message> rs = call.ResponseStream;
 
-
                 while (await rs.MoveNext())
                 {
                     Message msg = rs.Current;
@@ -278,13 +284,16 @@ public class ZClient
 
 
     #endregion
-
+    List<System.Action> aa = new List<System.Action>();
     public void OperateMsg(Message msg)
     {
-        RevMsgListener listener;
-        if (MsgListener.TryGetValue(msg.ContentType, out listener))
+        //lock (MsgListener)
         {
-            listener?.Invoke(msg);
+            RevMsgListener listener;
+            if (MsgListener.TryGetValue(msg.ContentType, out listener))
+            {
+                listener?.Invoke(msg);
+            }
         }
     }
 
@@ -298,7 +307,7 @@ public class ZClient
             Content = content,
             Timestamp = ZUtils.GetTimeStamp().ToString(),
         });
-        Debug.Log("sendmsg");
+        Debug.Log("sendmsg : " + type);
     }
 
     public void Leave()

@@ -37,7 +37,7 @@ public class ZPlayerMe
     public void Init()
     {
         RemovePlayerEvent += Remove;
-        RemovePlayerEvent += DragonManager.Instance.RemovePlayerRefreshUI;
+        RemovePlayerEvent += DragonManager.Instance.RefreshUI;
 
     }
 
@@ -64,6 +64,7 @@ public class ZPlayerMe
             GameObject.Destroy(PlayerMap[id].gameObject);
             Debug.LogError("Dostroy player id : " + id);
             ZPlayerMe.Instance.PlayerMap.Remove(id);
+            ZPlayerMe.Instance.PlayerReadyDic.Remove(id);
         }
         else
         {
@@ -83,6 +84,21 @@ public class ZPlayerMe
         {
             PlayerMap[id] = player;
             PlayerReadyDic[id] = false;
+        }
+
+        DragonManager.Instance.RefreshUI(id);
+    }
+
+    public void ResetPlayerStatus()
+    {
+        List<string> keys = new List<string>();
+        foreach (var item in PlayerReadyDic.Keys)
+        {
+            keys.Add(item);
+        }
+        for (int i = 0; i < keys.Count; i++)
+        {
+            PlayerReadyDic[keys[i]] = false;
         }
     }
 

@@ -16,18 +16,20 @@ public static class MsgId
     public const string __SHOOT_BUBBLE_MSG_ = "shoot_bubble_msg";
     public const string __DRAGON_BEHIT_MSG_ = "dragon_behit_msg";
     public const string __DRAGON_DEATH_MSG_ = "dragon_death_msg";
+    public const string __RESET_GAME_MSG_ = "reset_game_msg";
 
     #endregion
 }
 
-public class ZMessageManager {
+public class ZMessageManager
+{
 
     public static ZMessageManager m_Instance;
     public static ZMessageManager Instance
     {
         get
         {
-            if(m_Instance == null)
+            if (m_Instance == null)
             {
                 m_Instance = new ZMessageManager();
             }
@@ -48,13 +50,13 @@ public class ZMessageManager {
         client.AddListener(MsgId.__READY_PLAY_MSG_, _S2C_ReadyPlay);
         client.AddListener(MsgId.__PLAY_GAME_MSG_, _S2C_PlayGame);
         client.AddListener(MsgId.__JOIN_NEW_PLAYER_MSG_, _S2C_JoinNewPlayer);
-        if(Global.CurRoom == Global.dragon)
+        if (Global.CurRoom == Global.dragon)
         {
             client.AddListener(MsgId.__SHOOT_BUBBLE_MSG_, _S2C_ShootBubble);
             client.AddListener(MsgId.__DRAGON_BEHIT_MSG_, _S2C_DragonBehit);
             client.AddListener(MsgId.__DRAGON_DEATH_MSG_, _S2C_DragonDeath);
+            client.AddListener(MsgId.__RESET_GAME_MSG_, _S2C_ResetGame);
         }
-
         m_Initialized = true;
     }
 
@@ -96,9 +98,9 @@ public class ZMessageManager {
         var ms = m.Content.Split(',');
 
         // todo - show ui 
-        if(client.RoomID == Global.dragon)
+        if (client.RoomID == Global.dragon)
         {
-            DragonManager.Instance.ReadyPlay(ms[0],ms[1]);
+            DragonManager.Instance.ReadyPlay(ms[0], ms[1]);
         }
         else if (client.RoomID == Global.exhibit)
         {
@@ -119,6 +121,11 @@ public class ZMessageManager {
         {
 
         }
+    }
+
+    public void _S2C_ResetGame(object msg)
+    {
+        DragonManager.Instance.ResetGame();
     }
 
     public void _S2C_ShootBubble(object msg)
