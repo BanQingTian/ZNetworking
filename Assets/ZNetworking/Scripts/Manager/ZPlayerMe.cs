@@ -28,7 +28,7 @@ public class ZPlayerMe
     /// 玩家数据 key=playerId value=实体
     /// </summary>
     public Dictionary<string, Entity> PlayerMap = new Dictionary<string, Entity>();
-
+    public List<string> PlayerKeys = new List<string>();
     /// <summary>
     /// 所有玩家的准备情况
     /// </summary>
@@ -63,8 +63,9 @@ public class ZPlayerMe
         {
             GameObject.Destroy(PlayerMap[id].gameObject);
             Debug.LogError("Dostroy player id : " + id);
-            ZPlayerMe.Instance.PlayerMap.Remove(id);
-            ZPlayerMe.Instance.PlayerReadyDic.Remove(id);
+            PlayerMap.Remove(id);
+            PlayerKeys.Remove(id);
+            PlayerReadyDic.Remove(id);
         }
         else
         {
@@ -83,6 +84,7 @@ public class ZPlayerMe
         else
         {
             PlayerMap[id] = player;
+            PlayerKeys.Add(id);
             PlayerReadyDic[id] = false;
         }
 

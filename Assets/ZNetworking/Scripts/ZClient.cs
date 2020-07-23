@@ -200,7 +200,7 @@ public class ZClient
 
     public void DownloadSyncData(IEnumerator<Player> enumerator)
     {
-        var exceptPlayerList = new List<string>(ZPlayerMe.Instance.PlayerMap.Keys);
+        var exceptPlayerList = new List<string>(ZPlayerMe.Instance.PlayerKeys);
 
         while (enumerator.MoveNext())
         {

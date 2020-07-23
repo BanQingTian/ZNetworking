@@ -101,7 +101,7 @@ public class DragonAttack : MonoBehaviour
         StopCoroutine("rotateHeadCor");
         StartCoroutine(rotateHeadCor(DragonParent, 90, 40, () =>
         {
-           
+
 
         }));
     }
@@ -156,6 +156,7 @@ public class DragonAttack : MonoBehaviour
         }
         else
         {
+            random = 50;
             StartCoroutine(rotateHeadCor(DragonParent, random, 5));
         }
 
@@ -177,6 +178,14 @@ public class DragonAttack : MonoBehaviour
         }
         startTrans.eulerAngles = new Vector3(DragonParent.transform.eulerAngles.x, end, DragonParent.transform.eulerAngles.z);
         finishi?.Invoke();
+
+        Debug.Log("jiajioa === " + Vector3.Angle(startTrans.forward, getplyaer().position - startTrans.position));
+    }
+
+    private Transform getplyaer()
+    {
+        int index = Random.Range(0, ZPlayerMe.Instance.PlayerKeys.Count);
+        return ZPlayerMe.Instance.PlayerMap[ZPlayerMe.Instance.PlayerKeys[index]].transform;
     }
 
     #region Audio Event

@@ -23,6 +23,7 @@ public class PlayerEntity : Entity
 
         if (Weapon != null)
         {
+            Weapon.gameObject.SetActive(DragonManager.Instance.PlayingFight);
             // 同步手柄位置
             Weapon.transform.position = new Vector3(PlayerInfo.secondPostion.x, PlayerInfo.secondPostion.y, PlayerInfo.secondPostion.z);
             Weapon.transform.eulerAngles = new Vector3(PlayerInfo.secondEuler.x, PlayerInfo.secondEuler.y, PlayerInfo.secondEuler.z);

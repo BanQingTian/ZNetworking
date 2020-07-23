@@ -223,7 +223,7 @@ public class DragonManager : MonoBehaviour
     {
         if (isHouseOwner)
         {
-            ReadyBtn.transform.localPosition = new Vector3(243, 0, 0);
+            ReadyBtn.transform.localPosition = new Vector3(100.2f, 23.8f, 0);
 
             if (ZPlayerMe.Instance.IsAllReady())
             {

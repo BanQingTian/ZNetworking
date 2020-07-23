@@ -75,7 +75,7 @@ public class ZMessageManager
     #endregion
 
 
-    #region S2CFunc
+    #region ResponseFunc
 
     public void _S2C_JoinNewPlayer(object msg)
     {
@@ -97,7 +97,6 @@ public class ZMessageManager
 
         var ms = m.Content.Split(',');
 
-        // todo - show ui 
         if (client.RoomID == Global.dragon)
         {
             DragonManager.Instance.ReadyPlay(ms[0], ms[1]);

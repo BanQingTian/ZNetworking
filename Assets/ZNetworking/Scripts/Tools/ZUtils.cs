@@ -57,6 +57,20 @@ public static class ZUtils
         }
     }
 
+
+    public static void Look(Transform watcher, Transform target, float speed = 7)
+    {
+        Vector3 directionToFace = target.position - watcher.position;//sphere 就是要注视的obj
+        //Debug.DrawRay(watcher.position, target.position, Color.green);//在scene中画出debug线
+        //watcher.rotation = Quaternion.LookRotation(directionToFace);//LookAt
+
+        //如果想要缓慢lookat，而不是在sphere移动的时候瞬间lookat（头转太快脖子容易闪到，也不太合理），可以使用slerp函数，写法如下：（需要把第三句代码注释掉）
+        Quaternion targetRotation = Quaternion.LookRotation(directionToFace);//先获取LookAt角度
+        watcher.rotation = Quaternion.Slerp(watcher.rotation, targetRotation, Time.deltaTime * speed);//在1秒内注视LookAt完毕
+
+
+    }
+
     /// <summary>
     /// 将pose转换成矩阵
     /// </summary>
