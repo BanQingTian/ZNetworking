@@ -14,6 +14,7 @@ public class ZClient
 
     private string m_RoomID; // = "world";
     private string m_PlayerID;
+    private string m_PlayerName;
     private bool m_IsHouseOwner;
 
     public bool Connected
@@ -27,6 +28,10 @@ public class ZClient
     public string RoomID
     {
         get { return m_RoomID; }
+    }
+    public string PlayerName
+    {
+        get { return m_PlayerName; }
     }
     public string PlayerID
     {
@@ -77,6 +82,7 @@ public class ZClient
     {
         m_RoomID = roomID;
         m_PlayerID = "player";
+        m_PlayerName = Global.GetName();
         MsgListener = new Dictionary<string, RevMsgListener>();
     }
 
@@ -174,7 +180,7 @@ public class ZClient
             Player = new Player
             {
                 PlayerId = m_PlayerID,
-                PlayerName = "nihao",
+                PlayerName = m_PlayerName,
                 IsHouseOwner = m_IsHouseOwner,
                 Position = new ZPosition
                 {
@@ -260,7 +266,7 @@ public class ZClient
                 Player = new Player
                 {
                     PlayerId = m_PlayerID,
-                    PlayerName = "visit",
+                    PlayerName = m_PlayerName,
                 },
                 RoomId = m_RoomID,
                 Active = true,

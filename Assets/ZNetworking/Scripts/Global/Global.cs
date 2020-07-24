@@ -20,6 +20,10 @@ public static class Global
     public const string exhibit = "exhibit";
     public const string dragon = "dragon";
 
+    public static string GetName()
+    {
+        return DeviceType == DeviceTypeEnum.Pad ? "arcore" : "nreal";
+    }
     public static string GetRoomName(RoomEnum re)
     {
         string name;

@@ -13,6 +13,7 @@ public class DragonManager : MonoBehaviour
 
     private bool m_Initialized = false;
 
+    public bool Playing = false;
     public bool PlayingFight = false;
 
     // 是否已经开始等待游戏开始
@@ -54,6 +55,18 @@ public class DragonManager : MonoBehaviour
                 ZMessageManager.Instance.SendMsg(MsgId.__SHOOT_BUBBLE_MSG_, ZClient.Instance.PlayerID);
             }
         }
+
+        if(Global.DeviceType == DeviceTypeEnum.Pad)
+        {
+            if (Input.touchCount >= 2)
+            {
+                if(Input.touches[0].phase == TouchPhase.Began && Input.touches[1].phase == TouchPhase.Began)
+                {
+                    m_ZMain.IS_MATCH = false;
+                }
+            }
+        }
+
         onUpdate();
     }
 
@@ -145,7 +158,7 @@ public class DragonManager : MonoBehaviour
     public void PlayGame()
     {
         ReadyBtn.gameObject.SetActive(false);
-        Debug.Log("playing");
+        Playing = true;
 
         playDragonAnim();
         resetDragonHp();
@@ -177,6 +190,7 @@ public class DragonManager : MonoBehaviour
     public void ResetGame()
     {
         Debug.Log("resetGame");
+        Playing = false;
         PlayingFight = false;
         Dragon.gameObject.SetActive(false);
         Dragon.AnimManager.DeathEffSwitch.SetActive(false);
@@ -202,7 +216,7 @@ public class DragonManager : MonoBehaviour
 
     public void RefreshUI(string playerId)
     {
-        if (!PlayingFight && m_ZMain.IS_MATCH)
+        if (!PlayingFight && !Playing  && m_ZMain.IS_MATCH)
         {
             ShowReadyBtn();
         }

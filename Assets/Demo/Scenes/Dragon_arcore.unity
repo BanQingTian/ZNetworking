@@ -264,6 +264,10 @@ Prefab:
       propertyPath: m_Name
       value: MarkerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1975292042946748, guid: 387b708351beb80499e528b47668ab8b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 387b708351beb80499e528b47668ab8b, type: 2}
   m_IsPrefabAsset: 0

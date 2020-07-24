@@ -23,7 +23,27 @@ public class PlayerEntity : Entity
 
         if (Weapon != null)
         {
-            Weapon.gameObject.SetActive(DragonManager.Instance.PlayingFight);
+            if (DragonManager.Instance.PlayingFight)
+            {
+                if (PlayerInfo.PlayerName.Equals("arcore"))
+                {
+                    Weapon.gameObject.SetActive(false);
+                }
+                else if (isOwner)
+                {
+                    Weapon.gameObject.SetActive(false);
+                }
+                else
+                {
+                    Weapon.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                Weapon.gameObject.SetActive(false);
+            }
+            
+
             // 同步手柄位置
             Weapon.transform.position = new Vector3(PlayerInfo.secondPostion.x, PlayerInfo.secondPostion.y, PlayerInfo.secondPostion.z);
             Weapon.transform.eulerAngles = new Vector3(PlayerInfo.secondEuler.x, PlayerInfo.secondEuler.y, PlayerInfo.secondEuler.z);

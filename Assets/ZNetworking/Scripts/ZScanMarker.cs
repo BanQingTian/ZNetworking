@@ -37,17 +37,18 @@ public class ZScanMarker : MonoBehaviour
                 MarkerPrefab.SetActive(true);
                 NRAnchor anchor = item.CreateAnchor();
                 MarkerPrefab.transform.position = anchor.transform.position;
-                MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
+                MarkerPrefab.transform.rotation = anchor.transform.rotation;
+                //MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
 
-                if (scanCount > 120)
+                if (NRInput.GetButtonDown(ControllerButton.TRIGGER))
                 {
-                    var marker_in_world = ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
+                    var marker_in_world = ZUtils.GetTMatrix(anchor.transform.position, anchor.transform.rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
                     GameObject nrCam = GameObject.Find("NRCameraRig");
                     //GameObject nrInput = GameObject.Find("NRInput");
 
-                    TranslatePose(nrCam.transform, null);
+                    TranslatePose(nrCam.transform);
 
                     SwitchImageTrackingMode(false); // 关闭maker识别
 
@@ -121,7 +122,7 @@ public class ZScanMarker : MonoBehaviour
         return false;
     }
 
-    private void TranslatePose(Transform camera, Transform inputModule = null)
+    private void TranslatePose(Transform camera)
     {
         if (transformParent == null)
         {
@@ -132,13 +133,11 @@ public class ZScanMarker : MonoBehaviour
         transformParent.rotation = camera.rotation;
 
         camera.SetParent(transformParent);
-        inputModule?.SetParent(transformParent);
 
         transformParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
         transformParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
 
         camera.SetParent(null);
-        inputModule?.SetParent(null);
     }
 
 

@@ -30,11 +30,11 @@ public class ZNetworkingManager : MonoBehaviour
 
     public PlayerEntity GetPrefab()
     {
-        if(Global.CurRoom == Global.dragon)
+        if (Global.CurRoom == Global.dragon)
         {
             return PlayerEntityPrefab_Dragon;
         }
-        else if(Global.CurRoom == Global.exhibit)
+        else if (Global.CurRoom == Global.exhibit)
         {
             return PlayerEntityPrefab_Exhibit;
         }
@@ -46,7 +46,7 @@ public class ZNetworkingManager : MonoBehaviour
         Player virtualPlayer = new Player
         {
             PlayerId = playerid,
-            PlayerName = "shelter",
+            PlayerName = Global.GetName(),
             IsHouseOwner = isOwner,
             Position = new ZPosition(),
             Rotation = new ZRotation(),
@@ -63,7 +63,7 @@ public class ZNetworkingManager : MonoBehaviour
         pe.UpdatePoseData();
 
         ZPlayerMe.Instance.AddPlayer(virtualPlayer.PlayerId, pe);
-        
+
         return pe.gameObject;
     }
 

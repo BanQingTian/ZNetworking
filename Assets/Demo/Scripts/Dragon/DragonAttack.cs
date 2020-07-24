@@ -158,7 +158,6 @@ public class DragonAttack : MonoBehaviour
         }
         else
         {
-            random = 50;
             StartCoroutine(rotateHeadCor(DragonParent, random, 5));
         }
 

@@ -309,11 +309,7 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 	}
 
 	for _, conn := range cs {
-		wait.Add(1)
-
 		go func(msg *pb.Message, conn *Connection) {
-			defer wait.Done()
-
 			if conn.active {
 
 				// switch msg.ContentType {
