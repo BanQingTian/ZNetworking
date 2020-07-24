@@ -14,6 +14,13 @@ public class DragonAnimManager : MonoBehaviour {
 
     public GameObject Roof;
 
+    private DragonAttack dragon;
+
+    public void Init(DragonAttack da)
+    {
+        dragon = da;
+    }
+
     // 龙 入场动画
     public void PlayDragonEnterAnim()
     {
@@ -27,17 +34,23 @@ public class DragonAnimManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(time);
         MainTimeline.gameObject.SetActive(false);
-        DragonFire();
-    }
-    private void DragonFire()
-    {
         DragonAnimator.gameObject.SetActive(true);
+
+    }
+
+    public void DragonFire()
+    {
+        if (dragon.dead) return;
+
+        //DragonAnimator.SetBool("fireball", true);
+        DragonAnimator.SetTrigger("fireball");
     }
 
 
     public void ResetStatue()
     {
         DragonAnimator.SetBool("dead", false);
+        DragonAnimator.SetBool("fireball", false);
         DeathEffSwitch.SetActive(false);
     }
     public void PlayDeadAnim()

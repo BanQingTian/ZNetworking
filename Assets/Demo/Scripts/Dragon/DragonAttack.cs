@@ -21,7 +21,7 @@ public class DragonAttack : MonoBehaviour
     public Rigidbody Rig;
     public Transform DragonParent;
 
-    private bool dead = false;
+    public bool dead = false;
 
     /// <summary>
     /// 动画管理类
@@ -35,8 +35,9 @@ public class DragonAttack : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(false); // begin play animation
         DragonBubble.gameObject.SetActive(false);
+        AnimManager.Init(this);
     }
 
     public void Init(int playerCount)
@@ -94,6 +95,9 @@ public class DragonAttack : MonoBehaviour
 
     #region Animation Event
 
+    /// <summary>
+    /// 动画事件调用 - 死亡动画开始播放时
+    /// </summary>
     public void DragonDeathBegin()
     {
         DragonBubble.gameObject.SetActive(false);
@@ -102,12 +106,11 @@ public class DragonAttack : MonoBehaviour
         StartCoroutine(rotateHeadCor(DragonParent, 90, 40, () =>
         {
 
-
         }));
     }
 
     /// <summary>
-    /// 死亡动画播放完播放特效
+    /// 动画事件调用 - 死亡动画播放完播放特效
     /// </summary>
     public void DragonDeathEff()
     {
@@ -123,12 +126,11 @@ public class DragonAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// 动画事件调用
+    /// 动画事件调用-喷火球
     /// </summary>
     public void DragonShootFireball()
     {
         PlayFireballAudio();
-
         Rig.isKinematic = true;
         Rig.isKinematic = false;
         Fireball.transform.position = AttackPoint.transform.position;
@@ -182,11 +184,22 @@ public class DragonAttack : MonoBehaviour
         Debug.Log("jiajioa === " + Vector3.Angle(startTrans.forward, getplyaer().position - startTrans.position));
     }
 
+
+    /// <summary>
+    /// 播放喷火球动画
+    /// </summary>
+    public void PlayFireAnim()
+    {
+
+    }
+
     private Transform getplyaer()
     {
         int index = Random.Range(0, ZPlayerMe.Instance.PlayerKeys.Count);
         return ZPlayerMe.Instance.PlayerMap[ZPlayerMe.Instance.PlayerKeys[index]].transform;
     }
+
+   
 
     #region Audio Event
 

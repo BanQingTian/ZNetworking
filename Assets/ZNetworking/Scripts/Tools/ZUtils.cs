@@ -85,11 +85,12 @@ public static class ZUtils
         Vector3 c = Vector3.Cross(a, b);
         float angle = Vector3.Angle(a, b);
 
-        Debug.Log(Mathf.Acos(Vector3.Dot(a.normalized, b.normalized))*Mathf.Rad2Deg);
+        //Debug.Log(Mathf.Acos(Vector3.Dot(a.normalized, b.normalized))*Mathf.Rad2Deg);
+        //Debug.Log(Mathf.Acos(Vector3.Dot(b.normalized, a.normalized)) * Mathf.Rad2Deg);
 
-        Debug.Log(Vector3.Cross(a, b));
-        Debug.Log(Vector3.Cross(a.normalized, b.normalized));
-        Debug.Log(Vector3.Cross(b.normalized, a.normalized));
+        //Debug.Log(Vector3.Cross(a, b));
+        //Debug.Log(Vector3.Cross(a.normalized, b.normalized));
+        //Debug.Log(Vector3.Cross(b.normalized, a.normalized));
 
         // b 到 a 的夹角
         float sign = Mathf.Sign(Vector3.Dot(c.normalized, Vector3.Cross(a.normalized, b.normalized)));
