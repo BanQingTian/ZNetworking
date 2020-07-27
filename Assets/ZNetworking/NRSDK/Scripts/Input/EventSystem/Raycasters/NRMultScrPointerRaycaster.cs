@@ -11,10 +11,7 @@
 
 namespace NRKernal
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -28,16 +25,24 @@ namespace NRKernal
         private Camera m_UICamera;
         private float m_ScreenWidth;
         private float m_ScreenHeight;
-        private Vector3 m_LastTouch;
+        private Vector3 m_LastTouch = m_FarAwayPos;
+
+        private static Vector3 m_FarAwayPos = Vector3.one * 10000f;
 
         protected override void Start()
         {
             base.Start();
 
             m_UICamera = gameObject.GetComponent<Camera>();
-            var resolution = NRPhoneScreen.Resolution;
+            var resolution = NRPhoneScreen.Resolution * NRVirtualDisplayer.ScaleFactor;
             m_ScreenWidth = resolution.x;
             m_ScreenHeight = resolution.y;
+        }
+
+        public void UpdateScreenSize(Vector2 size)
+        {
+            m_ScreenWidth = size.x;
+            m_ScreenHeight = size.y;
         }
 
         public override void Raycast()
@@ -56,10 +61,10 @@ namespace NRKernal
             var touch_y = MultiScreenController.SystemButtonState.originTouch.y;
             var realTouchPos = new Vector3((touch_x + 1) * m_ScreenWidth * 0.5f, (touch_y + 1) * m_ScreenHeight * 0.5f, 0f);
             Vector3 touchpos = MultiScreenController.SystemButtonState.pressing ? realTouchPos : m_LastTouch;
-            m_LastTouch = MultiScreenController.SystemButtonState.pressUp ? Vector3.one * 10000f : touchpos;
+            m_LastTouch = MultiScreenController.SystemButtonState.pressing ? touchpos : m_FarAwayPos;
             touchpos = m_UICamera.ScreenToWorldPoint(touchpos);
 
-            if(Mouse)
+            if (Mouse)
                 Mouse.transform.position = touchpos + m_UICamera.transform.forward * 0.3f;
             ray = new Ray(touchpos, m_UICamera.transform.forward);
 

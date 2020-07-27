@@ -39,7 +39,6 @@ namespace NRKernal
         public void Init()
         {
             InitSystemButtonEvent();
-            AutoResizeButtons();
         }
 
         private void InitSystemButtonEvent()
@@ -57,11 +56,11 @@ namespace NRKernal
                 {
                     SystemButtonState.buttons[0] = true;
                 }
-                if (go == Home.gameObject)
+                if (go == App.gameObject)
                 {
                     SystemButtonState.buttons[1] = true;
                 }
-                if (go == App.gameObject)
+                if (go == Home.gameObject)
                 {
                     SystemButtonState.buttons[2] = true;
                 }
@@ -72,18 +71,18 @@ namespace NRKernal
                 {
                     SystemButtonState.buttons[0] = false;
                 }
-                if (go == Home.gameObject)
+                if (go == App.gameObject)
                 {
                     SystemButtonState.buttons[1] = false;
                 }
-                if (go == App.gameObject)
+                if (go == Home.gameObject)
                 {
                     SystemButtonState.buttons[2] = false;
                 }
             }
 
-            if (go == Trigger.gameObject 
-                &&(key.Equals(NRButton.Hover) || key.Equals(NRButton.Enter)))
+            if (go == Trigger.gameObject
+                && (key.Equals(NRButton.Hover) || key.Equals(NRButton.Enter)))
             {
                 CalculateTouchPos(go, racastInfo);
             }
@@ -116,22 +115,10 @@ namespace NRKernal
             SystemButtonState.touch = new Vector2(touchx, touchy);
         }
 
-        // Resize the buttons by resolution.width
-        private void AutoResizeButtons()
-        {
-            Transform buttonRoot = App.transform.parent;
-            var resolution = NRPhoneScreen.Resolution;
-            float t = resolution.x / NRPhoneScreen.DefaultWidth;
-
-            buttonRoot.localScale = t * Vector3.one;
-            var rectTransform = buttonRoot.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition3D = new Vector3(0, rectTransform.anchoredPosition3D.y * t, 0);
-        }
-
 #if UNITY_EDITOR
         private void OnDisable()
         {
-            if(!NRInput.EmulateVirtualDisplayInEditor)
+            if (!NRInput.EmulateVirtualDisplayInEditor)
                 ClearSystemButtonState();
         }
 

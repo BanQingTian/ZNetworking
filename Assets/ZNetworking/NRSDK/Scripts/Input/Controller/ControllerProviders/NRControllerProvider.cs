@@ -20,6 +20,7 @@ namespace NRKernal
         private NativeController m_NativeController;
         private int m_ProcessedFrame;
         private bool m_NeedInit = true;
+        private bool m_NeedRecenter;
         private float[] homePressingTimerArr = new float[NRInput.MAX_CONTROLLER_STATE_COUNT];
 
         private const float HOME_LONG_PRESS_TIME = 1.1f;
@@ -47,13 +48,17 @@ namespace NRKernal
         public override void OnPause()
         {
             if (m_NativeController != null)
+            {
                 m_NativeController.Pause();
+            }
         }
 
         public override void OnResume()
         {
             if (m_NativeController != null)
+            {
                 m_NativeController.Resume();
+            }
         }
 
         public override void Update()
@@ -70,7 +75,9 @@ namespace NRKernal
                 return;
             int availableCount = ControllerCount;
             if (availableCount > 0 && NRInput.GetControllerAvailableFeature(ControllerAvailableFeature.CONTROLLER_AVAILABLE_FEATURE_POSITION))
+            {
                 UpdateHeadPoseToController();
+            }
             for (int i = 0; i < availableCount; i++)
             {
                 UpdateControllerState(i);
@@ -104,6 +111,12 @@ namespace NRKernal
             }
         }
 
+        public override void Recenter()
+        {
+            base.Recenter();
+            m_NeedRecenter = true;
+        }
+
         private void InitNativeController()
         {
             m_NativeController = new NativeController();
@@ -119,7 +132,7 @@ namespace NRKernal
             }
 
 #if !UNITY_EDITOR
-            Debug.Log("[NRInput] version:" + GetVersion(0));
+            NRDebugger.Log("[NRInput] version:" + GetVersion(0));
 #endif
             m_NeedInit = false;
         }
@@ -130,7 +143,9 @@ namespace NRKernal
             states[index].controllerType = m_NativeController.GetControllerType(index);
 #if UNITY_EDITOR
             if (NRInput.EmulateVirtualDisplayInEditor)
+            {
                 states[index].controllerType = ControllerType.CONTROLLER_TYPE_PHONE;
+            }
 #endif
             states[index].availableFeature = (ControllerAvailableFeature)m_NativeController.GetAvailableFeatures(index);
             states[index].connectionState = m_NativeController.GetConnectionState(index);
@@ -150,19 +165,32 @@ namespace NRKernal
 
             IControllerStateParser stateParser = ControllerStateParseUtility.GetControllerStateParser(states[index].controllerType, index);
             if (stateParser != null)
+            {
                 stateParser.ParserControllerState(states[index]);
+            }
+
             CheckRecenter(index);
+
+            if (m_NeedRecenter)
+            {
+                for (int i = 0; i < ControllerCount; i++)
+                {
+                    states[i].recentered = true;
+                    m_NativeController.RecenterController(i);
+                }
+                m_NeedRecenter = false;
+            }
         }
 
         private void CheckRecenter(int index)
         {
-            if (states[index].GetButton(ControllerButton.HOME))
+            if (states[index].GetButton(ControllerButton.APP))
             {
                 homePressingTimerArr[index] += Time.deltaTime;
                 if (homePressingTimerArr[index] > HOME_LONG_PRESS_TIME)
                 {
                     homePressingTimerArr[index] = float.MinValue;
-                    ResetController(index);
+                    Recenter();
                 }
             }
             else
@@ -171,16 +199,12 @@ namespace NRKernal
             }
         }
 
-        private void ResetController(int index)
-        {
-            states[index].recentered = true;
-            m_NativeController.RecenterController(index);
-        }
-
         private void UpdateHeadPoseToController()
         {
             if (m_NativeController != null && NRInput.CameraCenter)
+            {
                 m_NativeController.UpdateHeadPose(new Pose(NRInput.CameraCenter.position, NRInput.CameraCenter.rotation));
+            }
         }
     }
 }

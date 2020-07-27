@@ -89,7 +89,7 @@ namespace NRKernal
 
         private void UpdateTrackables(TrackableType trackable_type)
         {
-            if (m_NativeInterface == null)
+            if (m_NativeInterface == null || m_NativeInterface.TrackingHandle == 0)
             {
                 return;
             }
@@ -103,7 +103,7 @@ namespace NRKernal
             }
             m_NativeInterface.NativeTrackable.DestroyTrackableList(trackablelist_handle);
         }
-        
+
         /// <summary>
         /// Get the list of trackables with specified filter.
         /// </summary>

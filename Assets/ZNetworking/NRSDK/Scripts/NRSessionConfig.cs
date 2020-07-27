@@ -37,6 +37,15 @@ namespace NRKernal
         [Tooltip("A scriptable object specifying the NRSDK TrackingImageDatabase configuration.")]
         public NRTrackingImageDatabase TrackingImageDatabase;
 
+        // A prefab specifying the NRSDK TrackingImageDatabase configuration.
+        [Tooltip("Chooses whether notification will be used.")]
+        public bool EnableNotification;
+
+        // A prefab specifying the NRSDK TrackingImageDatabase configuration.
+        [Tooltip("An error prompt will pop up when the device fails to connect.")]
+        public NRGlassesInitErrorTip ErrorTipsPrefab;
+
+
         /// <summary>
         /// ValueType check if two NRSessionConfig objects are equal.
         /// </summary>
@@ -78,6 +87,8 @@ namespace NRKernal
             PlaneFindingMode = other.PlaneFindingMode;
             ImageTrackingMode = other.ImageTrackingMode;
             TrackingImageDatabase = other.TrackingImageDatabase;
+            EnableNotification = other.EnableNotification;
+            ErrorTipsPrefab = other.ErrorTipsPrefab;
         }
     }
 }

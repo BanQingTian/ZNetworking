@@ -82,8 +82,8 @@ namespace NRKernal
                     else
                     {
                         _buttons[0] = false;  //Trigger
-                        _buttons[1] = false;  //Home
-                        _buttons[2] = false;  //App
+                        _buttons[1] = false;  //App
+                        _buttons[2] = false;  //Home
 
                         bool _is_down = !_physical_button_down & _physical_button;
                         if (_currentTouchArea == TouchAreaEnum.Center)
@@ -117,25 +117,25 @@ namespace NRKernal
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Debug.LogError("Controller Data Error");
+                NRDebugger.LogError("Controller Data Error :" + e.ToString());
             }
 
             state.isTouching = _touch_status;
             state.touchPos = _touch;
             state.buttonsState =
                 (_buttons[0] ? ControllerButton.TRIGGER : 0)
-                | (_buttons[1] ? ControllerButton.HOME : 0)
-                | (_buttons[2] ? ControllerButton.APP : 0);
+                | (_buttons[1] ? ControllerButton.APP : 0)
+                | (_buttons[2] ? ControllerButton.HOME : 0);
             state.buttonsDown =
                 (_buttons_down[0] ? ControllerButton.TRIGGER : 0)
-                | (_buttons_down[1] ? ControllerButton.HOME : 0)
-                | (_buttons_down[2] ? ControllerButton.APP : 0);
+                | (_buttons_down[1] ? ControllerButton.APP : 0)
+                | (_buttons_down[2] ? ControllerButton.HOME : 0);
             state.buttonsUp =
                 (_buttons_up[0] ? ControllerButton.TRIGGER : 0)
-                | (_buttons_up[1] ? ControllerButton.HOME : 0)
-                | (_buttons_up[2] ? ControllerButton.APP : 0);
+                | (_buttons_up[1] ? ControllerButton.APP : 0)
+                | (_buttons_up[2] ? ControllerButton.HOME : 0);
         }
 
         private void UpdateCurrentTouchArea()

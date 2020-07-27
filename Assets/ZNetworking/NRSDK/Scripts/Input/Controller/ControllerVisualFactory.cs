@@ -33,7 +33,7 @@ namespace NRKernal
                     prefabPath = folderPath + "finch_shift_controller_visual";
                     break;
                 default:
-                    Debug.LogError("Can not find controller visual for: " + visualType + ", set to default visual");
+                    NRDebugger.LogError("Can not find controller visual for: " + visualType + ", set to default visual");
                     prefabPath = folderPath + "nreal_light_controller_visual";
                     break;
             }
@@ -43,8 +43,8 @@ namespace NRKernal
                 if (controllerPrefab)
                     visualObj = GameObject.Instantiate(controllerPrefab);
             }
-            if(visualObj == null)
-                Debug.LogError("Create controller visual failed, prefab path:" + prefabPath);
+            if (visualObj == null)
+                NRDebugger.LogError("Create controller visual failed, prefab path:" + prefabPath);
             return visualObj;
         }
 

@@ -65,7 +65,7 @@ namespace NRKernal.Record
             }
             else
             {
-                Debug.LogWarning("[ImageEncoder] Lost frame data.");
+                NRDebugger.LogWarning("[ImageEncoder] Lost frame data.");
             }
         }
 
@@ -78,7 +78,7 @@ namespace NRKernal.Record
 
                 if (req.hasError)
                 {
-                    Debug.Log("GPU readback error detected");
+                    NRDebugger.Log("GPU readback error detected");
                     m_Requests.Dequeue();
 
                     CommitResult(null, task);
@@ -165,7 +165,7 @@ namespace NRKernal.Record
         {
             if (m_CurrentFrame == null)
             {
-                Debug.LogWarning("Current frame is empty!");
+                NRDebugger.LogWarning("Current frame is empty!");
                 return null;
             }
             byte[] data = null;
@@ -212,7 +212,7 @@ namespace NRKernal.Record
 
         public static Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
         {
-            Debug.Log("[ImageEncoder] ScaleTexture..");
+            NRDebugger.Log("[ImageEncoder] ScaleTexture..");
             Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
 
             for (int i = 0; i < result.height; ++i)

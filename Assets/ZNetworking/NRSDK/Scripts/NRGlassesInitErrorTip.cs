@@ -15,6 +15,7 @@ namespace NRKernal
 
     public class NRGlassesInitErrorTip : MonoBehaviour
     {
+        public static event Action OnPreComfirm;
         public event Action OnConfirm;
         public Button m_ConfirmBtn;
         public Text m_Tips;
@@ -27,15 +28,24 @@ namespace NRKernal
             {
                 OnConfirm?.Invoke();
             });
+
+            Invoke("AutoConfirm", 5f);
         }
 
-        void Start()
+        private void Start()
         {
             var inputmodule = GameObject.FindObjectOfType<NRInputModule>();
             if (inputmodule != null)
             {
                 GameObject.Destroy(inputmodule.gameObject);
             }
+
+            OnPreComfirm?.Invoke();
+        }
+
+        private void AutoConfirm()
+        {
+            OnConfirm?.Invoke();
         }
     }
 }

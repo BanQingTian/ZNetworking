@@ -19,5 +19,7 @@ namespace NRKernal
         GlassesDisconnect = 5,
         SdkVersionMismatch = 6,
         SdcardPermissionDeny = 7,
+        RGBCameraDeviceNotFind = 8,
+        DPDeviceNotFind = 9,
     }
 }

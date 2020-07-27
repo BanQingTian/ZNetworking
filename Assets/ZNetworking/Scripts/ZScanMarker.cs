@@ -15,6 +15,7 @@ public class ZScanMarker : MonoBehaviour
 
     public bool MarkerTrackingUpdate()
     {
+        Debug.Log("czlog RUnning");
 #if UNITY_EDITOR
         return true;
 #else
@@ -33,16 +34,15 @@ public class ZScanMarker : MonoBehaviour
         {
             if (item.GetTrackingState() == NRKernal.TrackingState.Tracking)
             {
-
+                Debug.Log("czlog" + item.GetCenterPose().position);
                 MarkerPrefab.SetActive(true);
-                NRAnchor anchor = item.CreateAnchor();
-                MarkerPrefab.transform.position = anchor.transform.position;
-                MarkerPrefab.transform.rotation = anchor.transform.rotation;
+                MarkerPrefab.transform.position = item.GetCenterPose().position;
+                MarkerPrefab.transform.rotation = item.GetCenterPose().rotation;
                 //MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
 
                 if (NRInput.GetButtonDown(ControllerButton.TRIGGER))
                 {
-                    var marker_in_world = ZUtils.GetTMatrix(anchor.transform.position, anchor.transform.rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
+                    var marker_in_world = ZUtils.GetTMatrix(MarkerPrefab.transform.position, MarkerPrefab.transform.rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
                     GameObject nrCam = GameObject.Find("NRCameraRig");

@@ -31,8 +31,12 @@
 #endif
                     NRDebugger.Log(string.Format("[NRPhoneScreen] width:{0} height:{1}", m_ScreenWidth, m_ScreenHeight));
                 }
-
                 return new Vector2(m_ScreenWidth, m_ScreenHeight);
+            }
+            set
+            {
+                m_ScreenWidth = value.x;
+                m_ScreenHeight = value.y;
             }
         }
     }

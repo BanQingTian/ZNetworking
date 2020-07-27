@@ -4,17 +4,10 @@ namespace NRKernal
 {
     public class NRKernalError : ApplicationException
     {
-        private string error;
-        private Exception innerException;
-        public NRKernalError()
-        {
+        protected string error;
+        protected Exception innerException;
 
-        }
-        public NRKernalError(string msg) : base(msg)
-        {
-            this.error = msg;
-        }
-        public NRKernalError(string msg, Exception innerException) : base(msg)
+        public NRKernalError(string msg, Exception innerException = null) : base(msg)
         {
             this.innerException = innerException;
             this.error = msg;
@@ -25,141 +18,59 @@ namespace NRKernal
         }
     }
 
-    public class NRInvalidArgumentError : ApplicationException
+    public class NRInvalidArgumentError : NRKernalError
     {
-        private string error;
-        private Exception innerException;
-        public NRInvalidArgumentError()
+        public NRInvalidArgumentError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-
-        }
-        public NRInvalidArgumentError(string msg) : base(msg)
-        {
-            this.error = msg;
-        }
-        public NRInvalidArgumentError(string msg, Exception innerException) : base(msg)
-        {
-            this.innerException = innerException;
-            this.error = msg;
-        }
-        public string GetError()
-        {
-            return error;
         }
     }
 
-    public class NRNotEnoughMemoryError : ApplicationException
+    public class NRNotEnoughMemoryError : NRKernalError
     {
-        private string error;
-        private Exception innerException;
-        public NRNotEnoughMemoryError()
+        public NRNotEnoughMemoryError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-
-        }
-        public NRNotEnoughMemoryError(string msg) : base(msg)
-        {
-            this.error = msg;
-        }
-        public NRNotEnoughMemoryError(string msg, Exception innerException) : base(msg)
-        {
-            this.innerException = innerException;
-            this.error = msg;
-        }
-        public string GetError()
-        {
-            return error;
         }
     }
 
-    public class NRSdcardPermissionDenyError : ApplicationException
+    public class NRSdcardPermissionDenyError : NRKernalError
     {
-        private string error;
-        private Exception innerException;
-        public NRSdcardPermissionDenyError()
+        public NRSdcardPermissionDenyError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-
-        }
-        public NRSdcardPermissionDenyError(string msg) : base(msg)
-        {
-            this.error = msg;
-        }
-        public NRSdcardPermissionDenyError(string msg, Exception innerException) : base(msg)
-        {
-            this.innerException = innerException;
-            this.error = msg;
-        }
-        public string GetError()
-        {
-            return error;
         }
     }
 
-    public class NRUnSupportedError : ApplicationException
+    public class NRUnSupportedError : NRKernalError
     {
-        private string error;
-        private Exception innerException;
-        public NRUnSupportedError()
+        public NRUnSupportedError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-
-        }
-        public NRUnSupportedError(string msg) : base(msg)
-        {
-            this.error = msg;
-        }
-        public NRUnSupportedError(string msg, Exception innerException) : base(msg)
-        {
-            this.innerException = innerException;
-            this.error = msg;
-        }
-        public string GetError()
-        {
-            return error;
         }
     }
 
-    public class NRGlassesConnectError : ApplicationException
+    public class NRGlassesConnectError : NRKernalError
     {
-        private string error;
-        private Exception innerException;
-        public NRGlassesConnectError()
+        public NRGlassesConnectError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-
-        }
-        public NRGlassesConnectError(string msg) : base(msg)
-        {
-            this.error = msg;
-        }
-        public NRGlassesConnectError(string msg, Exception innerException) : base(msg)
-        {
-            this.innerException = innerException;
-            this.error = msg;
-        }
-        public string GetError()
-        {
-            return error;
         }
     }
 
-    public class NRSdkVersionMismatchError : ApplicationException
+    public class NRSdkVersionMismatchError : NRKernalError
     {
-        private string error;
-        private Exception innerException;
-        public NRSdkVersionMismatchError()
+        public NRSdkVersionMismatchError(string msg, Exception innerException = null) : base(msg, innerException)
         {
+        }
+    }
 
-        }
-        public NRSdkVersionMismatchError(string msg) : base(msg)
+    public class NRRGBCameraDeviceNotFindError : NRKernalError
+    {
+        public NRRGBCameraDeviceNotFindError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-            this.error = msg;
         }
-        public NRSdkVersionMismatchError(string msg, Exception innerException) : base(msg)
+    }
+
+    public class NRDPDeviceNotFindError : NRKernalError
+    {
+        public NRDPDeviceNotFindError(string msg, Exception innerException = null) : base(msg, innerException)
         {
-            this.innerException = innerException;
-            this.error = msg;
-        }
-        public string GetError()
-        {
-            return error;
         }
     }
 }

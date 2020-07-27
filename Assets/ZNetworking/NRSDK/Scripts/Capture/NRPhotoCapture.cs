@@ -72,7 +72,7 @@ namespace NRKernal.Record
         /// </summary>
         public IntPtr GetUnsafePointerToVideoDeviceController()
         {
-            Debug.LogWarning("[NRPhotoCapture] Interface not supported...");
+            NRDebugger.LogWarning("[NRPhotoCapture] Interface not supported...");
             return IntPtr.Zero;
         }
 
@@ -103,7 +103,7 @@ namespace NRKernal.Record
         {
             while (!this.m_CaptureContext.GetFrameProvider().IsFrameReady())
             {
-                Debug.LogFormat("Wait for the frame ready!");
+                NRDebugger.LogFormat("Wait for the frame ready!");
                 yield return new WaitForEndOfFrame();
             }
             callback?.Invoke();

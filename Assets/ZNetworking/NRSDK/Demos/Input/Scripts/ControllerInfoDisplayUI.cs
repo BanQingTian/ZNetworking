@@ -13,6 +13,27 @@ namespace NRKernal.NRExamples
         private int m_MaxLine = 20;
         private ControllerHandEnum m_CurrentDebugHand = ControllerHandEnum.Right;
 
+        private Transform _MainCamera;
+        public Transform mainCamera
+        {
+            get
+            {
+                if (_MainCamera == null)
+                {
+                    if (Camera.main != null)
+                    {
+                        _MainCamera = Camera.main.transform;
+                    }
+                    else if (NRSessionManager.Instance.NRHMDPoseTracker != null)
+                    {
+                        _MainCamera = NRSessionManager.Instance.NRHMDPoseTracker.centerCamera.transform;
+                    }
+                }
+
+                return _MainCamera;
+            }
+        }
+
         private void Update()
         {
             if (NRInput.GetAvailableControllersCount() < 2)
@@ -55,8 +76,8 @@ namespace NRKernal.NRExamples
 
         private void FollowMainCam()
         {
-            transform.position = Camera.main.transform.position;
-            transform.rotation = Camera.main.transform.rotation;
+            transform.position = mainCamera.position;
+            transform.rotation = mainCamera.rotation;
         }
 
         private void RefreshInfoTexts()
@@ -79,7 +100,7 @@ namespace NRKernal.NRExamples
                 + "home button: " + NRInput.GetButton(m_CurrentDebugHand, ControllerButton.HOME).ToString() + "\n"
                 + "app button: " + NRInput.GetButton(m_CurrentDebugHand, ControllerButton.APP).ToString() + "\n"
                 + "grip button: " + NRInput.GetButton(m_CurrentDebugHand, ControllerButton.GRIP).ToString() + "\n"
-                + "touchpad button: " + NRInput.GetButton(m_CurrentDebugHand, ControllerButton.TOUCHPAD_BUTTON).ToString() +"\n"
+                + "touchpad button: " + NRInput.GetButton(m_CurrentDebugHand, ControllerButton.TOUCHPAD_BUTTON).ToString() + "\n"
                 + "gyro: " + NRInput.GetGyro(m_CurrentDebugHand).ToString("F3") + "\n"
                 + "accel: " + NRInput.GetAccel(m_CurrentDebugHand).ToString("F3") + "\n"
                 + "mag: " + NRInput.GetMag(m_CurrentDebugHand).ToString("F3") + "\n"

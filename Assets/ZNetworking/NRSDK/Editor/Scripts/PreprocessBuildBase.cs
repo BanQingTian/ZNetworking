@@ -65,7 +65,6 @@ namespace NRKernal
       android:anyDensity='true'/>
 
   <application
-      android:requestLegacyExternalStorage='true'
       android:theme='@style/UnityThemeSelector'
       android:icon='@mipmap/app_icon'
       android:label='@string/app_name'>
@@ -118,7 +117,7 @@ namespace NRKernal
         {
             var androidManifest = new AndroidManifest(path);
 
-            androidManifest.SetExternalStorage();
+            //androidManifest.SetExternalStorage();
             androidManifest.SetCameraPermission();
             androidManifest.SetBlueToothPermission();
             androidManifest.SetSDKMetaData();

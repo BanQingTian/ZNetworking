@@ -26,6 +26,10 @@ namespace NRKernal
 
         public UInt64 CreateTrackableList()
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return 0;
+            }
             UInt64 trackable_list_handle = 0;
             NativeApi.NRTrackableListCreate(m_NativeInterface.TrackingHandle, ref trackable_list_handle);
             return trackable_list_handle;
@@ -33,11 +37,19 @@ namespace NRKernal
 
         public void DestroyTrackableList(UInt64 trackable_list_handle)
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return;
+            }
             NativeApi.NRTrackableListDestroy(m_NativeInterface.TrackingHandle, trackable_list_handle);
         }
 
         public int GetSize(UInt64 trackable_list_handle)
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return 0;
+            }
             int list_size = 0;
             NativeApi.NRTrackableListGetSize(m_NativeInterface.TrackingHandle, trackable_list_handle, ref list_size);
             return list_size;
@@ -45,6 +57,10 @@ namespace NRKernal
 
         public UInt64 AcquireItem(UInt64 trackable_list_handle, int index)
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return 0;
+            }
             UInt64 trackable_handle = 0;
             NativeApi.NRTrackableListAcquireItem(m_NativeInterface.TrackingHandle, trackable_list_handle, index, ref trackable_handle);
             return trackable_handle;
@@ -52,6 +68,10 @@ namespace NRKernal
 
         public UInt32 GetIdentify(UInt64 trackable_handle)
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return 0;
+            }
             UInt32 identify = NativeConstants.IllegalInt;
             NativeApi.NRTrackableGetIdentifier(m_NativeInterface.TrackingHandle, trackable_handle, ref identify);
             return identify;
@@ -59,6 +79,10 @@ namespace NRKernal
 
         public TrackableType GetTrackableType(UInt64 trackable_handle)
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return TrackableType.TRACKABLE_BASE;
+            }
             TrackableType trackble_type = TrackableType.TRACKABLE_BASE;
             NativeApi.NRTrackableGetType(m_NativeInterface.TrackingHandle, trackable_handle, ref trackble_type);
             return trackble_type;
@@ -66,6 +90,10 @@ namespace NRKernal
 
         public TrackingState GetTrackingState(UInt64 trackable_handle)
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return TrackingState.Stopped;
+            }
             TrackingState status = TrackingState.Stopped;
             NativeApi.NRTrackableGetTrackingState(m_NativeInterface.TrackingHandle, trackable_handle, ref status);
             return status;

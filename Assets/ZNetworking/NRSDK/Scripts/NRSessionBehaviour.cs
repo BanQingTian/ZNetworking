@@ -31,22 +31,22 @@ namespace NRKernal
 #if !UNITY_EDITOR
             NRDebugger.EnableLog = Debug.isDebugBuild;
 #endif
-            NRDebugger.Log("[SessionBehaviour Awake: CreateSession]");
+            Debug.Log("[SessionBehaviour] Awake: CreateSession");
             NRSessionManager.Instance.CreateSession(this);
         }
 
         void Start()
         {
             if (isDirty) return;
-            NRDebugger.Log("[SessionBehaviour DelayStart: StartSession]");
+            Debug.Log("[SessionBehaviour] Start: StartSession");
             NRSessionManager.Instance.StartSession();
             NRSessionManager.Instance.SetConfiguration(SessionConfig);
         }
 
         private void OnApplicationPause(bool pause)
         {
-            NRDebugger.LogFormat("[SessionBehaviour OnApplicationPause: {0}]", pause);
             if (isDirty) return;
+            Debug.LogFormat("[SessionBehaviour] OnApplicationPause: {0}", pause);
             if (pause)
             {
                 NRSessionManager.Instance.DisableSession();
@@ -60,7 +60,7 @@ namespace NRKernal
         void OnDisable()
         {
             if (isDirty) return;
-            NRDebugger.Log("[SessionBehaviour OnDisable: DisableSession]");
+            Debug.Log("[SessionBehaviour] OnDisable: DisableSession");
             NRSessionManager.Instance.DisableSession();
         }
 
@@ -68,7 +68,7 @@ namespace NRKernal
         {
             if (isDirty) return;
             base.OnDestroy();
-            NRDebugger.Log("[SessionBehaviour OnDestroy DestroySession]");
+            Debug.Log("[SessionBehaviour] OnDestroy DestroySession");
             NRSessionManager.Instance.DestroySession();
         }
     }

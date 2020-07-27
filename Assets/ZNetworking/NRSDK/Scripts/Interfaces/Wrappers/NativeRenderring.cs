@@ -101,7 +101,7 @@ namespace NRKernal
             return result == NativeResult.Success;
         }
 
-        private struct NativeApi
+        private partial struct NativeApi
         {
             [DllImport(NativeConstants.NRNativeLibrary)]
             public static extern NativeResult NRRenderingCreate(ref UInt64 out_rendering_handle);

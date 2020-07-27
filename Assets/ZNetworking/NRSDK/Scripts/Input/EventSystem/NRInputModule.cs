@@ -122,7 +122,7 @@ namespace NRKernal
             {
                 m_Instance = instances[0];
                 if (instances.Length > 1)
-                    Debug.LogWarning("Multiple NRInputModule not supported!");
+                    NRDebugger.LogWarning("Multiple NRInputModule not supported!");
             }
 
             if (!Active)
@@ -138,7 +138,7 @@ namespace NRKernal
                 }
                 if (eventSystem == null)
                 {
-                    Debug.LogWarning("EventSystem not found or create fail!");
+                    NRDebugger.LogWarning("EventSystem not found or create fail!");
                     return;
                 }
 

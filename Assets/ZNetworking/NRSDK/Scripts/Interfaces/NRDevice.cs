@@ -10,7 +10,6 @@
 namespace NRKernal
 {
     using AOT;
-    using NRToolkit.Sharing.Client;
     using System;
     using System.Runtime.InteropServices;
     using UnityEngine;
@@ -27,29 +26,35 @@ namespace NRKernal
             PlugOut
         }
         public delegate void GlassesEvent(GlassesEventType glssevent);
+        public delegate void GlassedTempLevelChanged(GlassesTemperatureLevel level);
+        public delegate void AppQuitEvent();
+        public static AppQuitEvent OnAppQuit;
         public static event GlassesEvent OnGlassesStateChanged;
+        public static event GlassedTempLevelChanged OnGlassesTempLevelChanged;
 
         private NativeHMD m_NativeHMD;
         public NativeHMD NativeHMD
         {
             get
             {
-                if (m_NativeHMD == null)
+                if (!m_IsInit)
                 {
-                    CreateHMD();
+                    this.Init();
                 }
                 return m_NativeHMD;
             }
         }
+
+        private readonly object m_Lock = new object();
 
         private NativeGlassesController m_NativeGlassesController;
         public NativeGlassesController NativeGlassesController
         {
             get
             {
-                if (m_NativeGlassesController == null)
+                if (!m_IsInit)
                 {
-                    CreateGlassesController();
+                    this.Init();
                 }
                 return m_NativeGlassesController;
             }
@@ -72,70 +77,102 @@ namespace NRKernal
                 return;
             }
             NRTools.Init();
-            Loom.Initialize();
-
+            MainThreadDispather.Initialize();
 #if UNITY_ANDROID && !UNITY_EDITOR
             // Init before all actions.
             AndroidJavaClass cls_UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             m_UnityActivity = cls_UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             NativeApi.NRSDKInitSetAndroidActivity(m_UnityActivity.GetRawObject()); 
+
+            CreateGlassesController();
+            CreateHMD();
 #endif
             m_IsInit = true;
         }
 
+        public void Pause()
+        {
+            PauseGlassesController();
+            PauseHMD();
+        }
+
+        public void Resume()
+        {
+            ResumeGlassesController();
+            ResumeHMD();
+        }
+
         #region HMD
-        public void CreateHMD()
+        private void CreateHMD()
         {
 #if !UNITY_EDITOR
-            this.Init();
-            if (m_NativeHMD != null)
+            lock (m_Lock)
             {
-                return;
+                m_NativeHMD = new NativeHMD();
+                m_NativeHMD.Create();
             }
-            m_NativeHMD = new NativeHMD();
-            m_NativeHMD.Create();
 #endif
         }
 
-        public void PauseHMD()
+        private void PauseHMD()
         {
 #if !UNITY_EDITOR
-            m_NativeHMD?.Pause();
+            lock (m_Lock)
+            {
+                m_NativeHMD?.Pause();
+            }
 #endif
         }
 
-        public void ResumeHMD()
+        private void ResumeHMD()
         {
 #if !UNITY_EDITOR
-            m_NativeHMD?.Resume();
+            lock (m_Lock)
+            {
+                m_NativeHMD?.Resume();
+            }
 #endif
         }
 
-        public void DestroyHMD()
+        private void DestroyHMD()
         {
 #if !UNITY_EDITOR
-            m_NativeHMD?.Destroy();
-            m_NativeHMD = null;
+            lock (m_Lock)
+            {
+                m_NativeHMD?.Destroy();
+                m_NativeHMD = null;
+            }
 #endif
         }
         #endregion
 
         #region Glasses Controller
-        public void CreateGlassesController()
+        public GlassesTemperatureLevel TemperatureLevel
+        {
+            get
+            {
+                this.Init();
+#if !UNITY_EDITOR
+                return this.NativeGlassesController.GetTempratureLevel();
+#else
+                return GlassesTemperatureLevel.TEMPERATURE_LEVEL_NORMAL;
+#endif
+            }
+        }
+
+        private void CreateGlassesController()
         {
 #if !UNITY_EDITOR
-            this.Init();
-            if (m_NativeGlassesController != null)
-            {
-                return;
-            }
             try
             {
-                m_NativeGlassesController = new NativeGlassesController();
-                m_NativeGlassesController.Create();
-                m_NativeGlassesController.RegisGlassesWearCallBack(OnGlassesWear, 1);
-                m_NativeGlassesController.RegisGlassesPlugOutCallBack(OnGlassesPlugOut, 1);
-                m_NativeGlassesController.Start();
+                lock (m_Lock)
+                {
+                    m_NativeGlassesController = new NativeGlassesController();
+                    m_NativeGlassesController.Create();
+                    m_NativeGlassesController.RegisGlassesWearCallBack(OnGlassesWear, 1);
+                    m_NativeGlassesController.RegisGlassesPlugOutCallBack(OnGlassesPlugOut, 1);
+                    m_NativeGlassesController.Start();
+                }
             }
             catch (Exception)
             {
@@ -144,34 +181,43 @@ namespace NRKernal
 #endif
         }
 
-        public void PauseGlassesController()
+        private void PauseGlassesController()
         {
 #if !UNITY_EDITOR
-            m_NativeGlassesController?.Pause();
+            lock (m_Lock)
+            {
+                m_NativeGlassesController?.Pause();
+            }
 #endif
         }
 
-        public void ResumeGlassesController()
+        private void ResumeGlassesController()
         {
 #if !UNITY_EDITOR
-            m_NativeGlassesController?.Resume();
+            lock (m_Lock)
+            {
+                m_NativeGlassesController?.Resume();
+            }
 #endif
         }
 
-        public void DestroyGlassesController()
+        private void DestroyGlassesController()
         {
 #if !UNITY_EDITOR
-            m_NativeGlassesController?.Stop();
-            m_NativeGlassesController?.Destroy();
-            m_NativeGlassesController = null;
+            lock (m_Lock)
+            {
+                m_NativeGlassesController?.Stop();
+                m_NativeGlassesController?.Destroy();
+                m_NativeGlassesController = null;
+            }
 #endif
         }
 
         [MonoPInvokeCallback(typeof(NativeGlassesController.NRGlassesControlWearCallback))]
         private static void OnGlassesWear(UInt64 glasses_control_handle, int wearing_status, UInt64 user_data)
         {
-            Debug.Log("[NativeGlassesController] " + (wearing_status == 1 ? "Glasses put on" : "Glasses put off"));
-            Loom.QueueOnMainThread(() =>
+            Debug.Log("[NRDevice] " + (wearing_status == 1 ? "Glasses put on" : "Glasses put off"));
+            MainThreadDispather.QueueOnMainThread(() =>
             {
                 OnGlassesStateChanged?.Invoke(wearing_status == 1 ? GlassesEventType.PutOn : GlassesEventType.PutOff);
             });
@@ -186,7 +232,7 @@ namespace NRKernal
             }
             isGlassesPlugOut = true;
 
-            Debug.Log("[NativeGlassController] OnGlassesPlugOut");
+            Debug.Log("[NRDevice] OnGlassesPlugOut");
             CallAndroidkillProcess();
         }
 
@@ -207,7 +253,7 @@ namespace NRKernal
         /// </summary>
         public static void QuitApp()
         {
-            Debug.Log("Start To Quit Application...");
+            Debug.Log("[NRDevice] Start To Quit Application...");
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -220,11 +266,14 @@ namespace NRKernal
         /// </summary>
         public static void ForceKill(bool needrelease = true)
         {
-            Debug.Log("Start To kill Application...");
+            Debug.Log("[NRDevice] Start To kill Application...");
             if (needrelease)
             {
+                NRInput.Destroy();
                 NRSessionManager.Instance.DestroySession();
             }
+
+            OnAppQuit?.Invoke();
 #if UNITY_ANDROID && !UNITY_EDITOR
             if (m_UnityActivity != null)
             {

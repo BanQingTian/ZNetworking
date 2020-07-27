@@ -12,6 +12,27 @@ namespace NRKernal.NRExamples
         private static bool m_IsShowing = false;
         private static string m_MenuPrefabPath = "NRUI/NRHomeMenu";
 
+        private Transform _MainCamera;
+        public Transform mainCamera
+        {
+            get
+            {
+                if (_MainCamera == null)
+                {
+                    if (Camera.main != null)
+                    {
+                        _MainCamera = Camera.main.transform;
+                    }
+                    else if (NRSessionManager.Instance.NRHMDPoseTracker != null)
+                    {
+                        _MainCamera = NRSessionManager.Instance.NRHMDPoseTracker.centerCamera.transform;
+                    }
+                }
+
+                return _MainCamera;
+            }
+        }
+
         void Start()
         {
             confirmBtn.onClick.AddListener(OnComfirmButtonClick);
@@ -37,10 +58,10 @@ namespace NRKernal.NRExamples
 
         private void FollowCamera()
         {
-            if (m_Instance && Camera.main)
+            if (m_Instance && mainCamera)
             {
-                m_Instance.transform.position = Camera.main.transform.position;
-                m_Instance.transform.rotation = Camera.main.transform.rotation;
+                m_Instance.transform.position = mainCamera.transform.position;
+                m_Instance.transform.rotation = mainCamera.transform.rotation;
             }
         }
 
@@ -76,7 +97,7 @@ namespace NRKernal.NRExamples
             {
                 m_Instance.gameObject.SetActive(true);
                 m_IsShowing = true;
-                if(NRInput.RaycastMode == RaycastModeEnum.Gaze)
+                if (NRInput.RaycastMode == RaycastModeEnum.Gaze)
                     m_Instance.FollowCamera();
             }
         }

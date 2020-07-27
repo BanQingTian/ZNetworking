@@ -41,7 +41,7 @@ namespace NRKernal
         }
 
         [SerializeField]
-        private TrackingType m_TrackingType;
+        private TrackingType m_TrackingType = TrackingType.Tracking6Dof;
 
         public TrackingType TrackingMode
         {
@@ -68,6 +68,11 @@ namespace NRKernal
             rightCamera.cullingMask = 0;
             centerCamera.cullingMask = -1;
             centerCamera.depth = 1;
+#else
+            centerCamera.cullingMask = 0;
+            centerCamera.nearClipPlane = 0.3f;
+            centerCamera.farClipPlane = 0.5f;
+            centerCamera.clearFlags = CameraClearFlags.Nothing;
 #endif
             StartCoroutine(Initialize());
         }
@@ -82,7 +87,7 @@ namespace NRKernal
         {
             while (NRFrame.SessionStatus != SessionState.Running)
             {
-                Debug.Log("[NRHMDPoseTracker] Waitting to initialize.");
+                NRDebugger.Log("[NRHMDPoseTracker] Waitting to initialize.");
                 yield return new WaitForEndOfFrame();
             }
 
@@ -103,24 +108,7 @@ namespace NRKernal
                 centerCamera.transform.localRotation = Quaternion.Lerp(leftCamera.transform.localRotation, rightCamera.transform.localRotation, 0.5f);
             }
 #endif
-            Debug.Log("[NRHMDPoseTracker] Initialized success.");
-        }
-
-        /// <summary>
-        /// Get the real pose of device in unity world coordinate by "UseRelative".
-        /// </summary>
-        /// <param name="pose">Real pose of device.</param>
-        public void GetHeadPose(ref Pose pose)
-        {
-            if (NRFrame.SessionStatus != SessionState.Running)
-            {
-                pose.position = Vector3.zero;
-                pose.rotation = Quaternion.identity;
-                return;
-            }
-            var poseTracker = NRSessionManager.Instance.NRHMDPoseTracker;
-            pose.position = poseTracker.UseRelative ? gameObject.transform.localPosition : gameObject.transform.position;
-            pose.rotation = poseTracker.UseRelative ? gameObject.transform.localRotation : gameObject.transform.rotation;
+            NRDebugger.Log("[NRHMDPoseTracker] Initialized success.");
         }
 
         private void UpdatePoseByTrackingType()

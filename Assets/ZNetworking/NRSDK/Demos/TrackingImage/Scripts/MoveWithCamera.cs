@@ -8,16 +8,35 @@ namespace NRKernal.NRExamples
         [SerializeField]
         private bool useRelative = true;
 
-        private void Awake()
+        private Transform _MainCamera;
+        private Transform mainCamera
         {
-            originDistance = useRelative ? Vector3.Distance(transform.position, Vector3.zero) : 0;
+            get
+            {
+                if (_MainCamera == null)
+                {
+                    if (Camera.main != null)
+                    {
+                        _MainCamera = Camera.main.transform;
+                    }
+                    else
+                    {
+                        _MainCamera = NRSessionManager.Instance.NRHMDPoseTracker.centerCamera.transform;
+                    }
+                }
+                return _MainCamera;
+            }
         }
 
-        void Update()
+        private void Awake()
         {
-            Transform centerCamera = NRSessionManager.Instance.NRHMDPoseTracker.centerCamera.transform;
-            transform.position = centerCamera.transform.position + centerCamera.transform.forward * originDistance;
-            transform.rotation = centerCamera.transform.rotation;
+            originDistance = useRelative ? Vector3.Distance(transform.position, mainCamera.position) : 0;
+        }
+
+        void LateUpdate()
+        {
+            transform.position = mainCamera.transform.position + mainCamera.transform.forward * originDistance;
+            transform.rotation = mainCamera.transform.rotation;
         }
     }
 }

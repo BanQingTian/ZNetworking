@@ -58,7 +58,7 @@ namespace NRKernal
             Vector3 pos = p + m_CameraTarget.transform.position;
             m_CameraTarget.transform.position = pos;
 
-            NREmulatorManager.Instance.NativeEmulatorApi.SetHeadTrackingPose(pos, q);
+            NREmulatorManager.Instance?.NativeEmulatorApi?.SetHeadTrackingPose(pos, q);
         }
 
         private Vector3 GetBaseInput()

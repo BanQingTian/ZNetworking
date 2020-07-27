@@ -19,12 +19,9 @@ namespace NRKernal
     /// <summary>
     /// NRNativeRender oprate rendering-related things, provides the feature of optimized rendering and low latency.
     /// </summary>
-    public class NRRenderer : MonoBehaviour
+    public partial class NRRenderer : MonoBehaviour
     {
         /// @cond EXCLUDE_FROM_DOXYGEN
-        public delegate void PoseProvideDelegage(ref Pose pose);
-        public PoseProvideDelegage OnUpdatePose = null;
-
         private delegate void RenderEventDelegate(int eventID);
         private static RenderEventDelegate RenderThreadHandle = new RenderEventDelegate(RunOnRenderThread);
         private static IntPtr RenderThreadHandlePtr = Marshal.GetFunctionPointerForDelegate(RenderThreadHandle);
@@ -47,6 +44,7 @@ namespace NRKernal
         static NativeRenderring m_NativeRenderring { get; set; }
         /// @endcond
 
+        public static float ScaleFactor = 1f;
         private const int EyeTextureCount = 3 * (int)Eyes.Count;
         private readonly RenderTexture[] eyeTextures = new RenderTexture[EyeTextureCount];
         private Dictionary<RenderTexture, IntPtr> m_RTDict = new Dictionary<RenderTexture, IntPtr>();
@@ -59,7 +57,15 @@ namespace NRKernal
             Paused,
             Destroyed
         }
+
         private RendererState m_CurrentState = RendererState.UnInitialized;
+        public RendererState currentState
+        {
+            get
+            {
+                return m_CurrentState;
+            }
+        }
 
 #if !UNITY_EDITOR
         private int currentEyeTextureIdx = 0;
@@ -80,8 +86,9 @@ namespace NRKernal
         /// <param name="leftcamera">Left Eye.</param>
         /// <param name="rightcamera">Right Eye.</param>
         /// <param name="poseprovider">provide the pose of camera every frame.</param>
-        public void Initialize(Camera leftcamera, Camera rightcamera, PoseProvideDelegage poseprovider)
+        public void Initialize(Camera leftcamera, Camera rightcamera)
         {
+            NRDebugger.Log("[NRRender] Initialize");
             if (m_CurrentState != RendererState.UnInitialized)
             {
                 return;
@@ -91,7 +98,6 @@ namespace NRKernal
 
             leftCamera = leftcamera;
             rightCamera = rightcamera;
-            OnUpdatePose = poseprovider;
 
 #if !UNITY_EDITOR
             leftCamera.depthTextureMode = DepthTextureMode.Depth;
@@ -100,14 +106,33 @@ namespace NRKernal
             rightCamera.rect = new Rect(0, 0, 1, 1);
             leftCamera.enabled = false;
             rightCamera.enabled = false;
-            CreateRenderTextures();
+            
             m_CurrentState = RendererState.Initialized;
-            Invoke("StartUp", 0.3f);
+
+            StartCoroutine(StartUp());
 #endif
         }
 
-        private void StartUp()
+        private IEnumerator StartUp()
         {
+            var virtualDisplay = GameObject.FindObjectOfType<NRVirtualDisplayer>();
+            while (virtualDisplay == null || !virtualDisplay.IsPlaying)
+            {
+                NRDebugger.Log("[NRRender] Wait virtual display ready...");
+                yield return new WaitForEndOfFrame();
+                if (virtualDisplay == null)
+                {
+                    virtualDisplay = GameObject.FindObjectOfType<NRVirtualDisplayer>();
+                }
+            }
+
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            NRDebugger.Log("[NRRender] StartUp");
+            CreateRenderTextures();
+
             leftCamera.enabled = true;
             rightCamera.enabled = true;
 #if !UNITY_EDITOR
@@ -128,6 +153,7 @@ namespace NRKernal
         /// </summary>
         public void Pause()
         {
+            Debug.Log("[NRRender] Pause");
             if (m_CurrentState != RendererState.Running)
             {
                 return;
@@ -146,6 +172,7 @@ namespace NRKernal
 
         private void DelayResume()
         {
+            Debug.Log("[NRRender] Resume");
             if (m_CurrentState != RendererState.Paused)
             {
                 return;
@@ -169,7 +196,7 @@ namespace NRKernal
 
         private RenderTexture GenRenderTexture(int width, int height)
         {
-            RenderTexture renderTexture = new RenderTexture(width, height, 24, RenderTextureFormat.Default);
+            RenderTexture renderTexture = new RenderTexture((int)(width * ScaleFactor), (int)(height * ScaleFactor), 24, RenderTextureFormat.Default);
             renderTexture.wrapMode = TextureWrapMode.Clamp;
             if (QualitySettings.antiAliasing > 0)
             {
@@ -207,8 +234,7 @@ namespace NRKernal
                 }
 
                 NativeMat4f apiPose;
-                Pose unityPose = Pose.identity;
-                if (OnUpdatePose != null) OnUpdatePose(ref unityPose);
+                Pose unityPose = NRFrame.HeadPose;
                 ConversionUtility.UnityPoseToApiPose(unityPose, out apiPose);
                 IntPtr left_target, right_target;
                 if (!m_RTDict.TryGetValue(leftCamera.targetTexture, out left_target)) continue;

@@ -71,5 +71,70 @@ namespace NRKernal
                 return new NativeMat3f(Vector3.zero, Vector3.zero, Vector3.zero);
             }
         }
+
+        public float this[int index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return this.column0.X;
+                    case 1:
+                        return this.column1.X;
+                    case 2:
+                        return this.column2.X;
+                    case 3:
+                        return this.column0.Y;
+                    case 4:
+                        return this.column1.Y;
+                    case 5:
+                        return this.column2.Y;
+                    case 6:
+                        return this.column0.Z;
+                    case 7:
+                        return this.column1.Z;
+                    case 8:
+                        return this.column2.Z;
+                    default:
+                        throw new System.IndexOutOfRangeException("Invalid matrix index!");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        this.column0.X = value;
+                        break;
+                    case 1:
+                        this.column1.X = value;
+                        break;
+                    case 2:
+                        this.column2.X = value;
+                        break;
+                    case 3:
+                        this.column0.Y = value;
+                        break;
+                    case 4:
+                        this.column1.Y = value;
+                        break;
+                    case 5:
+                        this.column2.Y = value;
+                        break;
+                    case 6:
+                        this.column0.Z = value;
+                        break;
+                    case 7:
+                        this.column1.Z = value;
+                        break;
+                    case 8:
+                        this.column2.Z = value;
+                        break;
+                    default:
+                        throw new System.IndexOutOfRangeException("Invalid matrix index!");
+                }
+            }
+        }
     }
 }

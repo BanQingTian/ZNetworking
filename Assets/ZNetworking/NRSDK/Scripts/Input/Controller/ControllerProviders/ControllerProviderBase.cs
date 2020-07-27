@@ -36,6 +36,7 @@ namespace NRKernal
 
         public virtual void TriggerHapticVibration(int controllerIndex, float durationSeconds = 0.1f, float frequency = 200f, float amplitude = 0.8f) { }
 
+        public virtual void Recenter() { }
     }
     /// @endcond
 }

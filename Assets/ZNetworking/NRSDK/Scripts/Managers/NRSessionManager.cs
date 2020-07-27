@@ -15,6 +15,7 @@ namespace NRKernal
     using UnityEngine;
     using System.Collections;
     using NRKernal.Record;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///  Manages AR system state and handles the session lifecycle.
@@ -22,16 +23,12 @@ namespace NRKernal
     /// </summary>
     public class NRSessionManager
     {
-        private static NRSessionManager m_Instance;
+        private static readonly NRSessionManager m_Instance = new NRSessionManager();
 
         public static NRSessionManager Instance
         {
             get
             {
-                if (m_Instance == null)
-                {
-                    m_Instance = new NRSessionManager();
-                }
                 return m_Instance;
             }
         }
@@ -87,6 +84,7 @@ namespace NRKernal
             {
                 return;
             }
+
             if (NRSessionBehaviour != null)
             {
                 NRDebugger.LogError("Multiple SessionBehaviour components cannot exist in the scene. " +
@@ -100,8 +98,6 @@ namespace NRKernal
             try
             {
                 NRDevice.Instance.Init();
-                NRDevice.Instance.CreateGlassesController();
-                NRDevice.Instance.CreateHMD();
             }
             catch (Exception)
             {
@@ -109,20 +105,41 @@ namespace NRKernal
             }
 
             NativeAPI = new NativeInterface();
-            NativeAPI.NativeTracking.Create();
-            bool is3dof = (NRHMDPoseTracker.TrackingMode == NRHMDPoseTracker.TrackingType.Tracking3Dof);
-            TrackingMode mode = is3dof ? TrackingMode.MODE_3DOF : TrackingMode.MODE_6DOF;
-            if (mode == TrackingMode.MODE_3DOF)
+            AsyncTaskExecuter.Instance.RunAction(() =>
             {
-                NRSessionBehaviour.SessionConfig.PlaneFindingMode = TrackablePlaneFindingMode.DISABLE;
-                NRSessionBehaviour.SessionConfig.ImageTrackingMode = TrackableImageFindingMode.DISABLE;
-            }
-            NativeAPI.NativeTracking.SetTrackingMode(mode);
+                NRDebugger.Log("AsyncTaskExecuter: Create tracking");
+                switch (NRHMDPoseTracker.TrackingMode)
+                {
+                    case NRHMDPoseTracker.TrackingType.Tracking6Dof:
+                        NativeAPI.NativeTracking.Create();
+                        NativeAPI.NativeTracking.SetTrackingMode(TrackingMode.MODE_6DOF);
+                        break;
+                    case NRHMDPoseTracker.TrackingType.Tracking3Dof:
+                        NativeAPI.NativeTracking.Create();
+                        NRSessionBehaviour.SessionConfig.PlaneFindingMode = TrackablePlaneFindingMode.DISABLE;
+                        NRSessionBehaviour.SessionConfig.ImageTrackingMode = TrackableImageFindingMode.DISABLE;
+                        NativeAPI.NativeTracking.SetTrackingMode(TrackingMode.MODE_3DOF);
+                        break;
+                    default:
+                        break;
+                }
+            });
 
             NRKernalUpdater.Instance.OnUpdate -= Update;
             NRKernalUpdater.Instance.OnUpdate += Update;
 
             SessionState = SessionState.Initialized;
+
+            LoadNotification();
+        }
+
+        private void LoadNotification()
+        {
+            if (this.NRSessionBehaviour.SessionConfig.EnableNotification &&
+                GameObject.FindObjectOfType<NRNotificationListener>() == null)
+            {
+                GameObject.Instantiate(Resources.Load("NRNotificationListener"));
+            }
         }
 
         private bool m_IsSessionError = false;
@@ -168,7 +185,17 @@ namespace NRKernal
             {
                 GameObject.Destroy(virtualdisplay.gameObject);
             }
-            GameObject.Instantiate<NRGlassesInitErrorTip>(Resources.Load<NRGlassesInitErrorTip>("NRErrorTips")).Init(msg, () =>
+
+            NRGlassesInitErrorTip errortips;
+            if (sessionbehaviour.SessionConfig.ErrorTipsPrefab != null)
+            {
+                errortips = GameObject.Instantiate<NRGlassesInitErrorTip>(sessionbehaviour.SessionConfig.ErrorTipsPrefab);
+            }
+            else
+            {
+                errortips = GameObject.Instantiate<NRGlassesInitErrorTip>(Resources.Load<NRGlassesInitErrorTip>("NRErrorTips"));
+            }
+            errortips.Init(msg, () =>
             {
                 NRDevice.QuitApp();
             });
@@ -190,7 +217,11 @@ namespace NRKernal
             {
                 return;
             }
-            NativeAPI.Configration.UpdateConfig(config);
+            AsyncTaskExecuter.Instance.RunAction(() =>
+            {
+                NRDebugger.Log("AsyncTaskExecuter: UpdateConfig");
+                NativeAPI.Configration.UpdateConfig(config);
+            });
         }
 
         public void Recenter()
@@ -199,12 +230,15 @@ namespace NRKernal
             {
                 return;
             }
-            NativeAPI.NativeTracking.Recenter();
+            AsyncTaskExecuter.Instance.RunAction(() =>
+            {
+                NativeAPI.NativeTracking.Recenter();
+            });
         }
 
         public static void SetAppSettings(bool useOptimizedRendering)
         {
-            Application.targetFrameRate = 240;
+            Application.targetFrameRate = 60;
             QualitySettings.maxQueuedFrames = -1;
             QualitySettings.vSyncCount = useOptimizedRendering ? 0 : 1;
             Screen.fullScreen = true;
@@ -220,6 +254,7 @@ namespace NRKernal
                 return;
             }
             var config = NRSessionBehaviour.SessionConfig;
+
             if (config != null)
             {
                 SetAppSettings(config.OptimizedRendering);
@@ -229,7 +264,7 @@ namespace NRKernal
                     if (NRSessionBehaviour.gameObject.GetComponent<NRRenderer>() == null)
                     {
                         NRRenderer = NRSessionBehaviour.gameObject.AddComponent<NRRenderer>();
-                        NRRenderer.Initialize(NRHMDPoseTracker.leftCamera, NRHMDPoseTracker.rightCamera, NRHMDPoseTracker.GetHeadPose);
+                        NRRenderer.Initialize(NRHMDPoseTracker.leftCamera, NRHMDPoseTracker.rightCamera);
                     }
                 }
 #endif
@@ -238,12 +273,18 @@ namespace NRKernal
             {
                 SetAppSettings(false);
             }
-            NativeAPI.NativeTracking.Start();
-            NativeAPI.NativeHeadTracking.Create();
+
+            AsyncTaskExecuter.Instance.RunAction(() =>
+            {
+                NRDebugger.Log("AsyncTaskExecuter: start tracking");
+                NativeAPI.NativeTracking.Start();
+                NativeAPI.NativeHeadTracking.Create();
+                SessionState = SessionState.Running;
+            });
+
 #if UNITY_EDITOR
             InitEmulator();
 #endif
-            SessionState = SessionState.Running;
         }
 
         public void DisableSession()
@@ -252,15 +293,15 @@ namespace NRKernal
             {
                 return;
             }
-            SessionState = SessionState.Paused;
 
+            // Do not put it in other thread...
             if (NRVirtualDisplayer.RunInBackground)
             {
                 NRRenderer?.Pause();
                 NativeAPI.NativeTracking?.Pause();
                 VirtualDisplayer?.Pause();
-                NRDevice.Instance.PauseGlassesController();
-                NRDevice.Instance.PauseHMD();
+                NRDevice.Instance.Pause();
+                SessionState = SessionState.Paused;
             }
             else
             {
@@ -275,12 +316,12 @@ namespace NRKernal
                 return;
             }
 
-            SessionState = SessionState.Running;
-            NRDevice.Instance.ResumeHMD();
-            NRDevice.Instance.ResumeGlassesController();
+            // Do not put it in other thread...
             VirtualDisplayer?.Resume();
             NativeAPI.NativeTracking.Resume();
             NRRenderer?.Resume();
+            NRDevice.Instance.Resume();
+            SessionState = SessionState.Running;
         }
 
         public void DestroySession()
@@ -289,12 +330,15 @@ namespace NRKernal
             {
                 return;
             }
+
+            // Do not put it in other thread...
             SessionState = SessionState.Destroyed;
             NRRenderer?.Destroy();
             NativeAPI.NativeHeadTracking.Destroy();
             NativeAPI.NativeTracking.Destroy();
             VirtualDisplayer?.Destory();
             NRDevice.Instance.Destroy();
+
             FrameCaptureContextFactory.DisposeAllContext();
         }
 

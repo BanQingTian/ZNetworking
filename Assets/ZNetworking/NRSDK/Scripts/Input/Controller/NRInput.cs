@@ -72,6 +72,7 @@ namespace NRKernal
         private bool m_HapticVibrationEnabled = true;
 
         private static NRInput m_Instance = null;
+        private static bool m_IgnoreRecenterCallback = false;
         private static ControllerHandEnum m_DomainHand = ControllerHandEnum.Right;
         private static ControllerProviderBase m_ControllerProvider;
         private static ControllerState[] m_States = new ControllerState[MAX_CONTROLLER_STATE_COUNT]
@@ -108,7 +109,7 @@ namespace NRKernal
         /// <summary>
         /// Event invoked whenever controller devices are recentering.
         /// </summary>
-        public static Action OnControllerRecentering;
+        internal static Action OnControllerRecentering;
 
         /// <summary>
         /// Event invoked whenever controller devices are recentered.
@@ -245,7 +246,7 @@ namespace NRKernal
             }
         }
 
-        public void Destroy()
+        internal static void Destroy()
         {
             if (m_ControllerProvider != null)
             {
@@ -284,12 +285,13 @@ namespace NRKernal
         {
             if (GetControllerState(DomainHand).recentered)
             {
-                if (OnBeforeControllerRecenter != null)
+                if (m_IgnoreRecenterCallback == false && OnBeforeControllerRecenter != null)
                     OnBeforeControllerRecenter();
                 if (OnControllerRecentering != null)
                     OnControllerRecentering();
-                if (OnControllerRecentered != null)
+                if (m_IgnoreRecenterCallback == false && OnControllerRecentered != null)
                     OnControllerRecentered();
+                m_IgnoreRecenterCallback = false;
             }
         }
 
@@ -307,9 +309,15 @@ namespace NRKernal
             if (m_ControllerProvider == null || !m_ControllerProvider.Inited)
                 return;
             if (paused)
+            {
                 m_ControllerProvider.OnPause();
+            }
             else
+            {
                 m_ControllerProvider.OnResume();
+                m_IgnoreRecenterCallback = true;
+                m_ControllerProvider.Recenter();
+            }
         }
 
         private void Init()
@@ -336,9 +344,17 @@ namespace NRKernal
         private Transform GetCameraCenter()
         {
             if (m_OverrideCameraCenter)
+            {
                 return m_OverrideCameraCenter;
-            if (Camera.main)
+            }
+            if (Camera.main != null)
+            {
                 return Camera.main.transform;
+            }
+            else if (NRSessionManager.Instance.NRHMDPoseTracker != null)
+            {
+                return NRSessionManager.Instance.NRHMDPoseTracker.centerCamera.transform;
+            }
             return null;
         }
 
@@ -397,7 +413,7 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns true if the controller 
+        /// Returns true if the controller is available
         /// </summary>
         public static bool CheckControllerAvailable(ControllerHandEnum handEnum)
         {
@@ -410,7 +426,7 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns true if the current controller supports the certain feature.
+        /// Returns true if the current controller supports the certain feature
         /// </summary>
         public static bool GetControllerAvailableFeature(ControllerAvailableFeature feature)
         {
@@ -420,7 +436,7 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns true if the button is currently pressed this frame.
+        /// Returns true if the button is currently pressed this frame
         /// </summary>
         public static bool GetButton(ControllerButton button)
         {
@@ -428,7 +444,7 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns true if the button was pressed down this frame.
+        /// Returns true if the button was pressed down this frame
         /// </summary>
         public static bool GetButtonDown(ControllerButton button)
         {
@@ -436,7 +452,7 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns true if the button was released this frame.
+        /// Returns true if the button was released this frame
         /// </summary>
         public static bool GetButtonUp(ControllerButton button)
         {
@@ -444,7 +460,15 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns a Vector2 touch position on touchpad of the domain controller, range: x(-1f ~ 1f), y(-1f ~ 1f);
+        /// Returns true if the touchpad is being touched
+        /// </summary>
+        public static bool IsTouching()
+        {
+            return IsTouching(m_DomainHand);
+        }
+
+        /// <summary>
+        /// Returns a Vector2 touch position on touchpad of the domain controller, range: x(-1f ~ 1f), y(-1f ~ 1f)
         /// </summary>
         /// <returns></returns>
         public static Vector2 GetTouch()
@@ -517,31 +541,51 @@ namespace NRKernal
         }
 
         /// <summary>
-        /// Returns true if the button is currently pressed this frame on a certain handedness controller.
+        /// Returns true if the button is currently pressed this frame on a certain handedness controller
         /// </summary>
         public static bool GetButton(ControllerHandEnum hand, ControllerButton button)
         {
+            if (NRInput.GetControllerType() == ControllerType.CONTROLLER_TYPE_NREALLIGHT && button == ControllerButton.TRIGGER)
+            {
+                return GetControllerState(hand).GetButton(button) || GetControllerState(hand).GetButton(ControllerButton.APP);
+            }
             return GetControllerState(hand).GetButton(button);
         }
 
         /// <summary>
-        /// Returns true if the button was pressed down this frame on a certain handedness controller.
+        /// Returns true if the button was pressed down this frame on a certain handedness controller
         /// </summary>
         public static bool GetButtonDown(ControllerHandEnum hand, ControllerButton button)
         {
+            if (NRInput.GetControllerType() == ControllerType.CONTROLLER_TYPE_NREALLIGHT && button == ControllerButton.TRIGGER)
+            {
+                return GetControllerState(hand).GetButtonDown(button) || GetControllerState(hand).GetButtonDown(ControllerButton.APP);
+            }
             return GetControllerState(hand).GetButtonDown(button);
         }
 
         /// <summary>
-        /// Returns true if the button was released this frame on a certain handedness controller.
+        /// Returns true if the button was released this frame on a certain handedness controller
         /// </summary>
         public static bool GetButtonUp(ControllerHandEnum hand, ControllerButton button)
         {
+            if (NRInput.GetControllerType() == ControllerType.CONTROLLER_TYPE_NREALLIGHT && button == ControllerButton.TRIGGER)
+            {
+                return GetControllerState(hand).GetButtonUp(button) || GetControllerState(hand).GetButtonUp(ControllerButton.APP);
+            }
             return GetControllerState(hand).GetButtonUp(button);
         }
 
         /// <summary>
-        /// Returns a Vector2 touch position on touchpad of a certain handedness controller, range: x(-1f ~ 1f), y(-1f ~ 1f).
+        /// Returns true if the touchpad is being touched this frame on a certain handedness controller
+        /// </summary>
+        public static bool IsTouching(ControllerHandEnum hand)
+        {
+            return GetControllerState(hand).isTouching;
+        }
+
+        /// <summary>
+        /// Returns a Vector2 touch position on touchpad of a certain handedness controller, range: x(-1f ~ 1f), y(-1f ~ 1f)
         /// </summary>
         public static Vector2 GetTouch(ControllerHandEnum hand)
         {
@@ -614,6 +658,14 @@ namespace NRKernal
             if (GetAvailableControllersCount() == 0)
                 return;
             m_ControllerProvider.TriggerHapticVibration(ConvertHandToIndex(hand), durationSeconds, frequency, amplitude);
+        }
+
+        public static void RecenterController()
+        {
+            if (GetAvailableControllersCount() == 0)
+                return;
+            m_IgnoreRecenterCallback = false;
+            m_ControllerProvider.Recenter();
         }
 
         /// <summary>

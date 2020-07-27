@@ -42,7 +42,7 @@ namespace NRKernal
         APP = 1 << 1,
         HOME = 1 << 2,
         GRIP = 1 << 3,
-        TOUCHPAD_BUTTON = 1 << 4,
+        TOUCHPAD_BUTTON = 1 << 4
     }
 
     public enum ControllerConnectionState

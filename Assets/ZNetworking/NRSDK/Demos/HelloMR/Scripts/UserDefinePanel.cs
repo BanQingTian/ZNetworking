@@ -20,6 +20,11 @@ namespace NRKernal.NRExamples
                 yield return new WaitForEndOfFrame();
             }
             var virtualdisplayer = GameObject.FindObjectOfType<NRVirtualDisplayer>();
+
+            if (virtualdisplayer.transform.GetComponentInChildren<Canvas>() == null)
+            {
+                yield break;
+            }
             var root = virtualdisplayer.transform.GetComponentInChildren<Canvas>().transform;
             Instantiate(m_UserDefinePanel, root);
         }

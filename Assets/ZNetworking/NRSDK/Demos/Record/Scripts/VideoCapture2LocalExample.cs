@@ -11,18 +11,14 @@ namespace NRKernal.NRExamples
     {
         public NRPreviewer Previewer;
 
-        public string SdcardSavePath
+        // Save the video to Application.persistentDataPath
+        public string VideoSavePath
         {
             get
             {
                 string timeStamp = Time.time.ToString().Replace(".", "").Replace(":", "");
                 string filename = string.Format("TestVideo_{0}.mp4", timeStamp);
-                string basepath = "/sdcard/RecordVideos/";
-                if (!Directory.Exists(basepath))
-                {
-                    Directory.CreateDirectory(basepath);
-                }
-                string filepath = Path.Combine(basepath, filename);
+                string filepath = Path.Combine(Application.persistentDataPath, filename);
                 return filepath;
             }
         }
@@ -88,7 +84,7 @@ namespace NRKernal.NRExamples
         void OnStartedVideoCaptureMode(NRVideoCapture.VideoCaptureResult result)
         {
             Debug.Log("Started Video Capture Mode!");
-            m_VideoCapture.StartRecordingAsync(SdcardSavePath, OnStartedRecordingVideo);
+            m_VideoCapture.StartRecordingAsync(VideoSavePath, OnStartedRecordingVideo);
         }
 
         void OnStartedRecordingVideo(NRVideoCapture.VideoCaptureResult result)

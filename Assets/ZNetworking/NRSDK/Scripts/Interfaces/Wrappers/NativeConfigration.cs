@@ -30,7 +30,7 @@ namespace NRKernal
         public NativeConfigration(NativeInterface nativeInterface)
         {
             m_NativeInterface = nativeInterface;
-            m_LastSessionConfig = new NRSessionConfig();
+            m_LastSessionConfig = NRSessionConfig.CreateInstance(typeof(NRSessionConfig)) as NRSessionConfig;
             m_NativeTrackableImage = m_NativeInterface.NativeTrackableImage;
             m_TrackableImageDatabaseDict = new Dictionary<string, ulong>();
         }

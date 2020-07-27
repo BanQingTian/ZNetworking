@@ -116,6 +116,11 @@ namespace NRKernal
                 return;
             }
             RGBRawDataFrame rgbRawDataFrame = NRRgbCamera.GetRGBFrame();
+            if (rgbRawDataFrame.data == null)
+            {
+                Debug.LogError("Get Rgb camera data faild...");
+                return;
+            }
 
             m_texture.LoadRawTextureData(rgbRawDataFrame.data);
             m_texture.Apply();

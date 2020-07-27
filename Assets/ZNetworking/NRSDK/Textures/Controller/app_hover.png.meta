@@ -84,7 +84,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 512
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 47
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -102,7 +102,7 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-  spritePackingTag: controller
+  spritePackingTag: nrsdk_controller
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 

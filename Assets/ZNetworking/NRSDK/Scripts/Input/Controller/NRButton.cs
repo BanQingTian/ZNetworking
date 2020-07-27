@@ -16,10 +16,8 @@ namespace NRKernal
 
     internal class NRButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField]
-        private Sprite ImageNormal;
-        [SerializeField]
-        private Sprite ImageHover;
+        public Sprite ImageNormal;
+        public Sprite ImageHover;
         public Action<string, GameObject, RaycastResult> TriggerEvent;
         public const string Enter = "Enter";
         public const string Hover = "Hover";

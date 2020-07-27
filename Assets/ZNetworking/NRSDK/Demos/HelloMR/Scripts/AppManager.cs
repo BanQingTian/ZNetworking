@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace NRKernal.NRExamples
 {
@@ -6,10 +7,16 @@ namespace NRKernal.NRExamples
     [HelpURL("https://developer.nreal.ai/develop/discover/introduction-nrsdk")]
     public class AppManager : MonoBehaviour
     {
-        private float m_LastClickTime = 0;
+        //If enable this, quick click app button for three times, a profiler bar would show.
+        public bool enableTriggerProfiler;
+
+        private float m_LastClickTime = 0f;
         private int m_CumulativeClickNum = 0;
         private bool m_IsProfilerOpened = false;
-        private const int triggerClickCount = 3;
+        private float m_ButtonPressTimer;
+
+        private const int TRIGGER_PROFILER_CLICK_COUNT = 3;
+        private const float BUTTON_LONG_PRESS_DURATION = 1.2f;
 
         private void OnEnable()
         {
@@ -17,6 +24,8 @@ namespace NRKernal.NRExamples
             NRInput.AddClickListener(ControllerHandEnum.Left, ControllerButton.HOME, OnHomeButtonClick);
             NRInput.AddClickListener(ControllerHandEnum.Right, ControllerButton.APP, OnAppButtonClick);
             NRInput.AddClickListener(ControllerHandEnum.Left, ControllerButton.APP, OnAppButtonClick);
+
+            NRDevice.OnAppQuit += OnApplicationQuit;
         }
 
         private void OnDisable()
@@ -31,19 +40,41 @@ namespace NRKernal.NRExamples
         {
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 QuitApplication();
+            }
 #endif
+            CheckButtonLongPress();
         }
 
         private void OnHomeButtonClick()
         {
-            NRHomeMenu.Toggle();
+            NRHomeMenu.Hide();
         }
 
         private void OnAppButtonClick()
         {
-            NRHomeMenu.Hide();
-            CollectClickEvent();
+            if (enableTriggerProfiler)
+            {
+                CollectClickEvent();
+            }
+        }
+
+        private void CheckButtonLongPress()
+        {
+            if (NRInput.GetButton(ControllerButton.HOME))
+            {
+                m_ButtonPressTimer += Time.deltaTime;
+                if (m_ButtonPressTimer > BUTTON_LONG_PRESS_DURATION)
+                {
+                    m_ButtonPressTimer = float.MinValue;
+                    NRHomeMenu.Show();
+                }
+            }
+            else
+            {
+                m_ButtonPressTimer = 0f;
+            }
         }
 
         private void CollectClickEvent()
@@ -51,7 +82,7 @@ namespace NRKernal.NRExamples
             if (Time.unscaledTime - m_LastClickTime < 0.2f)
             {
                 m_CumulativeClickNum++;
-                if (m_CumulativeClickNum == (triggerClickCount - 1))
+                if (m_CumulativeClickNum == (TRIGGER_PROFILER_CLICK_COUNT - 1))
                 {
                     // Show the VisualProfiler
                     NRVisualProfiler.Instance.Switch(!m_IsProfilerOpened);
@@ -69,6 +100,11 @@ namespace NRKernal.NRExamples
         public static void QuitApplication()
         {
             NRDevice.QuitApp();
+        }
+
+        private void OnApplicationQuit()
+        {
+            Debug.Log("OnApplicationQuit");
         }
     }
 }

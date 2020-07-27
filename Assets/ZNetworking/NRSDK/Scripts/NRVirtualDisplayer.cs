@@ -20,9 +20,12 @@ namespace NRKernal
         [SerializeField]
         private MultiScreenController m_VirtualController;
 
-        private bool m_IsInit = false;
         private Vector3 m_StartPos = Vector3.one * 1000f;
         private Vector2 m_ScreenResolution;
+        public static float ScaleFactor = 0.7f;
+        public static int VirtualDisplayFPS = 30;
+        private float currentTime;
+
         private static RenderTexture m_ControllerScreen;
 #if UNITY_ANDROID && !UNITY_EDITOR
         private static IntPtr m_RenderTexturePtr;
@@ -32,10 +35,18 @@ namespace NRKernal
 #endif
         internal static NativeMultiDisplay NativeMultiDisplay { get; private set; }
 
-        public Action OnMultiDisplayInited;
+        public event Action OnMultiDisplayInited;
 
         public static bool RunInBackground;
+        private bool m_IsInit = false;
         private bool m_IsPlay = false;
+        public bool IsPlaying
+        {
+            get
+            {
+                return m_IsPlay;
+            }
+        }
 
         private void OnApplicationPause(bool pause)
         {
@@ -88,19 +99,17 @@ namespace NRKernal
 
         new void Awake()
         {
-            if (isDirty) return;
             base.Awake();
-        }
-
-        private void Start()
-        {
             if (isDirty) return;
-            Invoke("Init", 0.1f);
+            NRDebugger.Log("[NRVirtualDisplayer] Awake");
+            m_UICamera.enabled = false;
+            this.Init();
         }
 
         private void Update()
         {
             if (!m_IsInit) return;
+
 #if UNITY_EDITOR
             UpdateEmulator();
             if (m_VirtualController)
@@ -108,6 +117,16 @@ namespace NRKernal
                 m_VirtualController.gameObject.SetActive(NRInput.EmulateVirtualDisplayInEditor);
             }
 #endif
+            if (m_IsPlay)
+            {
+                currentTime += Time.deltaTime;
+            }
+
+            if (m_IsPlay && currentTime > (1f / VirtualDisplayFPS))
+            {
+                currentTime = 0;
+                m_UICamera.Render();
+            }
         }
 
         public void Destory()
@@ -139,24 +158,25 @@ namespace NRKernal
             {
                 NRDevice.Instance.Init();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                NRDebugger.LogError("[NRVirtualDisplayer] NRDevice init error:" + e.ToString());
                 throw;
             }
-            m_ScreenResolution = NRPhoneScreen.Resolution;
-            transform.position = m_StartPos;
-            m_UICamera.aspect = m_ScreenResolution.x / m_ScreenResolution.y;
-            m_UICamera.orthographicSize = 6;
 
-            m_ControllerScreen = new RenderTexture((int)m_ScreenResolution.x, (int)m_ScreenResolution.y, 24);
-            m_UICamera.targetTexture = m_ControllerScreen;
+            transform.position = m_StartPos;
+
+            this.SetVirtualDisplayResolution();
+
             NRSessionManager.Instance.VirtualDisplayer = this;
 
+            NRDebugger.Log("[NRVirtualDisplayer] Init");
 #if UNITY_ANDROID && !UNITY_EDITOR
             m_RenderTexturePtr = m_ControllerScreen.GetNativeTexturePtr();
             NativeMultiDisplay = new NativeMultiDisplay();
             NativeMultiDisplay.Create();
             NativeMultiDisplay.InitColorSpace();
+            NativeMultiDisplay.ListenMainScrResolutionChanged(OnDisplayResolutionChanged);
             NativeMultiDisplay.Start();
             // Creat multiview controller..
             GL.IssuePluginEvent(RenderThreadHandlePtr, 0);
@@ -166,7 +186,99 @@ namespace NRKernal
             m_VirtualController?.Init();
             m_IsInit = true;
             OnMultiDisplayInited?.Invoke();
+
             m_IsPlay = true;
+        }
+
+        public void UpdateResolution(Vector2 size)
+        {
+            NRPhoneScreen.Resolution = size;
+
+            this.SetVirtualDisplayResolution();
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            m_RenderTexturePtr = m_ControllerScreen.GetNativeTexturePtr();
+            GL.IssuePluginEvent(RenderThreadHandlePtr, 0);
+#else
+            this.UpdateEmulatorScreen(size * ScaleFactor);
+#endif
+
+            var m_PointRaycaster = gameObject.GetComponentInChildren<NRMultScrPointerRaycaster>();
+            m_PointRaycaster.UpdateScreenSize(size * ScaleFactor);
+        }
+
+        private void SetVirtualDisplayResolution()
+        {
+            m_ScreenResolution = NRPhoneScreen.Resolution;
+
+            if (m_ControllerScreen != null)
+            {
+                m_ControllerScreen.Release();
+            }
+
+            m_ControllerScreen = new RenderTexture(
+                (int)(m_ScreenResolution.x * ScaleFactor),
+                (int)(m_ScreenResolution.y * ScaleFactor),
+                24
+            );
+
+            m_UICamera.targetTexture = m_ControllerScreen;
+            m_UICamera.aspect = m_ScreenResolution.x / m_ScreenResolution.y;
+            m_UICamera.orthographicSize = 6;
+
+            var canvas = transform.GetComponentInChildren<Canvas>(true);
+            float realScale = ScaleFactor;
+            var scaler = canvas.gameObject.GetComponent<CanvasScaler>();
+            if (scaler == null)
+            {
+                scaler = canvas.gameObject.AddComponent<CanvasScaler>();
+            }
+            else if (scaler.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize)
+            {
+                var referenceResolution = scaler.referenceResolution;
+                var match = scaler.matchWidthOrHeight;
+                float scale_width = (m_ScreenResolution.x * ScaleFactor) / referenceResolution.x;
+                float scale_height = (m_ScreenResolution.y * ScaleFactor) / referenceResolution.y;
+
+                realScale = Mathf.Lerp(scale_width, scale_height, match);
+                cacheCanvasScalerInfo = new CanvasScalerInfo()
+                {
+                    referenceResolution = scaler.referenceResolution,
+                    matchWidthOrHeight = scaler.matchWidthOrHeight
+                };
+            }
+            // Here is for resolution changed in runtime.
+            else if (cacheCanvasScalerInfo != null)
+            {
+                var referenceResolution = cacheCanvasScalerInfo.referenceResolution;
+                var match = cacheCanvasScalerInfo.matchWidthOrHeight;
+                float scale_width = (m_ScreenResolution.x * ScaleFactor) / referenceResolution.x;
+                float scale_height = (m_ScreenResolution.y * ScaleFactor) / referenceResolution.y;
+
+                realScale = Mathf.Lerp(scale_width, scale_height, match);
+            }
+
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+            scaler.scaleFactor = realScale;
+        }
+
+        // Only works for ScaleWithScreenSize mode.
+        private CanvasScalerInfo cacheCanvasScalerInfo = null;
+
+        private class CanvasScalerInfo
+        {
+            public Vector2 referenceResolution;
+            public float matchWidthOrHeight;
+        }
+
+        [MonoPInvokeCallback(typeof(NativeMultiDisplay.NRDisplayResolutionCallback))]
+        public static void OnDisplayResolutionChanged(int width, int height)
+        {
+            Debug.LogFormat("[NRVirtualDisplayer] Display resolution changed width:{0} height:{1}", width, height);
+            MainThreadDispather.QueueOnMainThread(delegate ()
+            {
+                NRVirtualDisplayer.Instance.UpdateResolution(new Vector2(width, height));
+            });
         }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -182,6 +294,7 @@ namespace NRKernal
         private Vector2 m_EmulatorPhoneScreenAnchor;
         private float m_EmulatorRawImageWidth;
         private float m_EmulatorRawImageHeight;
+        private RawImage emulatorPhoneRawImage;
 
         public static Vector2 GetEmulatorScreenTouch()
         {
@@ -196,11 +309,16 @@ namespace NRKernal
             controllerCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
             GameObject rawImageObj = new GameObject("RamImage");
             rawImageObj.transform.parent = controllerCanvas.transform;
-            RawImage emulatorPhoneRawImage = rawImageObj.AddComponent<RawImage>();
+            emulatorPhoneRawImage = rawImageObj.AddComponent<RawImage>();
             emulatorPhoneRawImage.raycastTarget = false;
+            UpdateEmulatorScreen(m_ScreenResolution * ScaleFactor);
+        }
+
+        private void UpdateEmulatorScreen(Vector2 size)
+        {
             float scaleRate = 0.18f;
-            m_EmulatorRawImageWidth = m_ScreenResolution.x * scaleRate;
-            m_EmulatorRawImageHeight = m_ScreenResolution.y * scaleRate;
+            m_EmulatorRawImageWidth = size.x * scaleRate;
+            m_EmulatorRawImageHeight = size.y * scaleRate;
             emulatorPhoneRawImage.rectTransform.pivot = Vector2.right;
             emulatorPhoneRawImage.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0f, 0f);
             emulatorPhoneRawImage.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, 0f);

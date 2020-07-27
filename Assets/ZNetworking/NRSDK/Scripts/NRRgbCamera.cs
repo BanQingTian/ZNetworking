@@ -73,7 +73,10 @@ namespace NRKernal
             {
                 get
                 {
-                    return m_Queue.Count;
+                    lock (m_LockObj)
+                    {
+                        return m_Queue.Count;
+                    }
                 }
             }
 
@@ -216,14 +219,14 @@ namespace NRKernal
 
         public static bool HasFrame()
         {
-            return isRGBCamStart && m_RGBFrames.Count > 0;
+            return isRGBCamStart && (m_RGBFrames.Count > 0 || _currentFrame.data != null);
         }
 
         private static int _lastFrame = -1;
         private static RGBRawDataFrame _currentFrame;
         public static RGBRawDataFrame GetRGBFrame()
         {
-            if (Time.frameCount != _lastFrame)
+            if (Time.frameCount != _lastFrame && m_RGBFrames.Count > 0)
             {
                 _currentFrame = m_RGBFrames.Dequeue();
                 _lastFrame = Time.frameCount;
@@ -288,6 +291,7 @@ namespace NRKernal
                 m_NativeCamera.Release();
                 m_NativeCamera = null;
 #endif
+            _currentFrame.data = null;
             OnError = null;
             OnImageUpdate = null;
             isInitiate = false;

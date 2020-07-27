@@ -28,6 +28,10 @@ namespace NRKernal
 
         public bool Create()
         {
+            if (m_NativeInterface.TrackingHandle == 0)
+            {
+                return false;
+            }
             var result = NativeApi.NRHeadTrackingCreate(m_NativeInterface.TrackingHandle, ref headTrackingHandle);
             NativeErrorListener.Check(result, this, "Create");
             return result == NativeResult.Success;
@@ -35,6 +39,11 @@ namespace NRKernal
 
         public bool GetHeadPose(ref Pose pose, UInt64 timestamp = 0, UInt64 predict = 0)
         {
+            if (headTrackingHandle == 0)
+            {
+                pose = Pose.identity;
+                return false;
+            }
             UInt64 headPoseHandle = 0;
             UInt64 hmd_nanos = 0;
             NativeApi.NRTrackingGetHMDTimeNanos(m_NativeInterface.TrackingHandle, ref hmd_nanos);
@@ -64,16 +73,25 @@ namespace NRKernal
 
         public LostTrackingReason GetTrackingLostReason()
         {
+            if (headTrackingHandle == 0)
+            {
+                return LostTrackingReason.INITIALIZING;
+            }
             LostTrackingReason lost_tracking_reason = LostTrackingReason.NONE;
             var result = NativeApi.NRTrackingPoseGetTrackingReason(m_NativeInterface.TrackingHandle, headTrackingHandle, ref lost_tracking_reason);
             NativeErrorListener.Check(result, this, "GetTrackingLostReason");
             return lost_tracking_reason;
         }
 
-        public NativeResult Destroy()
+        public void Destroy()
         {
+            if (headTrackingHandle == 0)
+            {
+                return;
+            }
             var result = NativeApi.NRHeadTrackingDestroy(m_NativeInterface.TrackingHandle, headTrackingHandle);
-            return result;
+            headTrackingHandle = 0;
+            NativeErrorListener.Check(result, this, "Destroy");
         }
 
         private partial struct NativeApi

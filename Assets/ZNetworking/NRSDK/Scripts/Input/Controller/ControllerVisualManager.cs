@@ -51,7 +51,7 @@ namespace NRKernal
         private void UpdateAllVisuals()
         {
             int availableCount = NRInput.GetAvailableControllersCount();
-            if(availableCount > 1)
+            if (availableCount > 1)
             {
                 UpdateVisual(0, m_States[0]);
                 UpdateVisual(1, m_States[1]);
@@ -95,7 +95,7 @@ namespace NRKernal
             }
             else
             {
-                Debug.LogError("The ControllerVisual prefab:"+ visualGo.name+ " does not contain IControllerVisual interface");
+                NRDebugger.LogError("The ControllerVisual prefab:" + visualGo.name + " does not contain IControllerVisual interface");
                 Destroy(visualGo);
             }
         }

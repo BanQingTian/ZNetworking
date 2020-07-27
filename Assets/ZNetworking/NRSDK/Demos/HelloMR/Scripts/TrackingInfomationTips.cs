@@ -45,13 +45,13 @@ namespace NRKernal.NRExamples
 
         private void OnHMDPoseReady()
         {
-            Debug.Log("[NRHMDPoseTracker] OnHMDPoseReady");
+            NRDebugger.Log("[NRHMDPoseTracker] OnHMDPoseReady");
             ShowTips(TipType.None);
         }
 
         private void OnHMDLostTracking()
         {
-            Debug.Log("[NRHMDPoseTracker] OnHMDLostTracking");
+            NRDebugger.Log("[NRHMDPoseTracker] OnHMDLostTracking");
             ShowTips(TipType.LostTracking);
         }
 

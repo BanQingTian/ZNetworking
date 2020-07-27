@@ -41,6 +41,10 @@ namespace NRKernal
                             throw new NRSdkVersionMismatchError(module_tag + "SDK version mismatch error!");
                         case NativeResult.SdcardPermissionDeny:
                             throw new NRSdcardPermissionDenyError(module_tag + "Sdcard permission deny error!");
+                        case NativeResult.RGBCameraDeviceNotFind:
+                            throw new NRRGBCameraDeviceNotFindError(module_tag + "Can not find the rgb camera device error!");
+                        case NativeResult.DPDeviceNotFind:
+                            throw new NRDPDeviceNotFindError(module_tag + "Can not find the dp device error!");
                         default:
                             break;
                     }

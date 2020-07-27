@@ -65,6 +65,28 @@ namespace NRKernal
             return (result_left == NativeResult.Success && result_right == NativeResult.Success && result_RGB == NativeResult.Success);
         }
 
+        public bool GetCameraIntrinsicMatrix(NativeEye eye, ref NativeMat3f CameraIntrinsicMatix)
+        {
+            if (eye != NativeEye.RGB)
+            {
+                Debug.LogError("[NativeHMD] Only for rgb camera now. Not support this camera:" + eye.ToString());
+                return false;
+            }
+            var result = NativeApi.NRHMDGetCameraIntrinsicMatrix(m_HmdHandle, (int)eye, ref CameraIntrinsicMatix);
+            return true;
+        }
+
+        public bool GetCameraDistortion(NativeEye eye, ref NRDistortionParams distortion)
+        {
+            if (eye != NativeEye.RGB)
+            {
+                Debug.LogError("[NativeHMD] Only for rgb camera now. Not support this camera:" + eye.ToString());
+                return false;
+            }
+            var result = NativeApi.NRHMDGetCameraDistortionParams(m_HmdHandle, (int)eye, ref distortion);
+            return true;
+        }
+
         public NativeResolution GetEyeResolution(NativeEye eye)
         {
             NativeResolution resolution = new NativeResolution(3840, 1080);
@@ -96,6 +118,14 @@ namespace NRKernal
 
             [DllImport(NativeConstants.NRNativeLibrary)]
             public static extern NativeResult NRHMDGetEyeFov(UInt64 hmd_handle, int eye, ref NativeFov4f out_eye_fov);
+
+            [DllImport(NativeConstants.NRNativeLibrary)]
+            public static extern NativeResult NRHMDGetCameraIntrinsicMatrix(
+                    UInt64 hmd_handle, int eye, ref NativeMat3f out_intrinsic_matrix);
+
+            [DllImport(NativeConstants.NRNativeLibrary)]
+            public static extern NativeResult NRHMDGetCameraDistortionParams(
+                    UInt64 hmd_handle, int eye, ref NRDistortionParams out_params);
 
             [DllImport(NativeConstants.NRNativeLibrary)]
             public static extern NativeResult NRHMDGetEyeResolution(UInt64 hmd_handle, int eye, ref NativeResolution out_eye_resolution);

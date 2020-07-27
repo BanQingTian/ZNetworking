@@ -113,7 +113,29 @@ namespace NRKernal
             return m_EyeProjectMatrix;
         }
 
-        public static void OnUpdate()
+        /// <summary>
+        /// Get the intrinsic matrix of rgb camera.
+        /// </summary>
+        /// <returns></returns>
+        public static NativeMat3f GetRGBCameraIntrinsicMatrix()
+        {
+            NativeMat3f result = new NativeMat3f();
+            NRDevice.Instance.NativeHMD.GetCameraIntrinsicMatrix(NativeEye.RGB, ref result);
+            return result;
+        }
+
+        /// <summary>
+        /// Get the Distortion of rgbcamera.
+        /// </summary>
+        /// <returns></returns>
+        public static NRDistortionParams GetRGBCameraDistortion()
+        {
+            NRDistortionParams result = new NRDistortionParams();
+            NRDevice.Instance.NativeHMD.GetCameraDistortion(NativeEye.RGB, ref result);
+            return result;
+        }
+
+        internal static void OnUpdate()
         {
             // Update head pos
             Pose pose = Pose.identity;

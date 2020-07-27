@@ -157,6 +157,27 @@ using Windows.System;
         private Material textMaterial;
         private Mesh quadMesh;
 
+        private Camera _MainCamera;
+        public Camera mainCamera
+        {
+            get
+            {
+                if (_MainCamera == null)
+                {
+                    if (Camera.main != null)
+                    {
+                        _MainCamera = Camera.main;
+                    }
+                    else if (NRSessionManager.Instance.NRHMDPoseTracker != null)
+                    {
+                        _MainCamera = NRSessionManager.Instance.NRHMDPoseTracker.centerCamera;
+                    }
+                }
+
+                return _MainCamera;
+            }
+        }
+
         private static NRVisualProfiler m_Instance = null;
         public static NRVisualProfiler Instance
         {
@@ -269,13 +290,11 @@ using Windows.System;
             }
 
             // Update window transformation.
-            Transform cameraTransform = Camera.main ? Camera.main.transform : null;
-
-            if (window.activeSelf && cameraTransform != null)
+            if (window.activeSelf && mainCamera != null)
             {
                 float t = Time.deltaTime * windowFollowSpeed;
-                window.transform.position = Vector3.Lerp(window.transform.position, CalculateWindowPosition(cameraTransform), t);
-                window.transform.rotation = Quaternion.Slerp(window.transform.rotation, CalculateWindowRotation(cameraTransform), t);
+                window.transform.position = Vector3.Lerp(window.transform.position, CalculateWindowPosition(mainCamera.transform), t);
+                window.transform.rotation = Quaternion.Slerp(window.transform.rotation, CalculateWindowRotation(mainCamera.transform), t);
                 window.transform.localScale = defaultWindowScale * windowScale;
             }
 
@@ -394,7 +413,7 @@ using Windows.System;
 
         private Vector3 CalculateWindowPosition(Transform cameraTransform)
         {
-            float windowDistance = Mathf.Max(16.0f / Camera.main.fieldOfView, Camera.main.nearClipPlane + 0.25f);
+            float windowDistance = Mathf.Max(16.0f / mainCamera.fieldOfView, mainCamera.nearClipPlane + 0.25f);
             Vector3 position = cameraTransform.position + (cameraTransform.forward * windowDistance);
             Vector3 horizontalOffset = cameraTransform.right * windowOffset.x;
             Vector3 verticalOffset = cameraTransform.up * windowOffset.y;
