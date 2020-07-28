@@ -654,12 +654,12 @@ Prefab:
     - target: {fileID: 198654421333982550, guid: 70fac7df7c1a82a4d84c7dd3f8514fc2,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.72725374
+      value: 0.532091
       objectReference: {fileID: 0}
     - target: {fileID: 198654421333982550, guid: 70fac7df7c1a82a4d84c7dd3f8514fc2,
         type: 2}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.3537736
+      value: 0.35294116
       objectReference: {fileID: 0}
     - target: {fileID: 198413534744493470, guid: 70fac7df7c1a82a4d84c7dd3f8514fc2,
         type: 2}
@@ -976,6 +976,16 @@ Prefab:
       propertyPath: CollisionModule.multiplyColliderForceByParticleSize
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 199012506426927542, guid: 70fac7df7c1a82a4d84c7dd3f8514fc2,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 471fd056a7163294b9459fc0c7c272c3, type: 2}
+    - target: {fileID: 199012506426927542, guid: 70fac7df7c1a82a4d84c7dd3f8514fc2,
+        type: 2}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 471fd056a7163294b9459fc0c7c272c3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70fac7df7c1a82a4d84c7dd3f8514fc2, type: 2}
   m_IsPrefabAsset: 0
@@ -1746,7 +1756,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.7605301, b: 0.41037738, a: 1}
+      maxColor: {r: 1, g: 0.47075474, b: 0.2216981, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -6025,7 +6035,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   executionInterval: 0
   targetObject:
-  - {fileID: 0}
+  - {fileID: 1875212937}
+  - {fileID: 1875212936}
   mainCamera: {fileID: 1865877117}
   disperseCamera: {fileID: 20896293276476634, guid: 7df1ff9edb52c034098d7b62050f09bc,
     type: 2}
@@ -6041,12 +6052,14 @@ MonoBehaviour:
   destroyOnDisable: 1
   tintingTime: 0
   sizeMultiplier: 1
-  maxParticles: 30750000
+  maxParticles: 0000000000000000
   maxParticlesMultiplier: 1
   emitterBoxSize:
   - {x: 20, y: 20, z: 20}
+  - {x: 0, y: 0, z: 0}
   gizmosColor: {r: 0.5, g: 1, b: 0.5, a: 1}
   pSystemOffset:
+  - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   fadingMode: 8
   fadingDelay: 0
@@ -6056,8 +6069,10 @@ MonoBehaviour:
   outInDuration: 0
   materialSubstitute:
   - {fileID: 2100000, guid: 83ce0958044b7b1478a6180054e0e032, type: 2}
+  - {fileID: 2100000, guid: 45fb32ffa220bb847a283d327f6d7288, type: 2}
   materialOriginal:
   - {fileID: 2100000, guid: 932be62faaeeb5547b534870ee9da0bd, type: 2}
+  - {fileID: 2100000, guid: 954c1b7519aec924982fe7e7948ee13c, type: 2}
   playSound: 1
   audioSource: {fileID: 0}
   audioClip: {fileID: 0}
@@ -6329,7 +6344,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 835024976}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10040,7 +10055,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100214, guid: 40ca68fc1e6e89741b2e3ed8a2f29fb0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400102, guid: 40ca68fc1e6e89741b2e3ed8a2f29fb0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16053,7 +16068,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.72725374, b: 0.3537736, a: 1}
+      maxColor: {r: 1, g: 0.532091, b: 0.35294116, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -25067,11 +25082,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: acdda1b17365ddb409a14571dea866fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.65
+      value: 0.214
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: acdda1b17365ddb409a14571dea866fd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.527
+      value: 5.538
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: acdda1b17365ddb409a14571dea866fd, type: 3}
       propertyPath: m_LocalRotation.x
@@ -25113,9 +25128,27 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: acdda1b17365ddb409a14571dea866fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 932be62faaeeb5547b534870ee9da0bd, type: 2}
+    - target: {fileID: 2300004, guid: acdda1b17365ddb409a14571dea866fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 954c1b7519aec924982fe7e7948ee13c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acdda1b17365ddb409a14571dea866fd, type: 3}
   m_IsPrefabAsset: 0
+--- !u!1 &1875212936 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100004, guid: acdda1b17365ddb409a14571dea866fd,
+    type: 3}
+  m_PrefabInternal: {fileID: 1875212935}
+--- !u!1 &1875212937 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: acdda1b17365ddb409a14571dea866fd,
+    type: 3}
+  m_PrefabInternal: {fileID: 1875212935}
 --- !u!1 &1886953614
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EnvTex:
-        m_Texture: {fileID: 8900000, guid: dd28e74bb0ef4824b9909e0a39dd85a3, type: 2}
+        m_Texture: {fileID: 8900000, guid: 618f411bc3e85f5458b84fd16f56359d, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RainbowTex:
@@ -31,5 +31,5 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _RainbowInten: 0.112
+    - _RainbowInten: 0.038
     m_Colors: []
