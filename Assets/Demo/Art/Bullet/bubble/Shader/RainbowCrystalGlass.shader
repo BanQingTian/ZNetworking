@@ -6,6 +6,7 @@ Shader "Crystal Glass/Rainbow" {
 		_EnvTex ("Environment Texture", CUBE) = "black" {}
 		_RainbowTex ("Rainbow Texture", 2D) = "black" {}
 		_RainbowInten ("Rainbow Intensity", Range(0, 1)) = 0.5
+		_Hue("Hue",color) = (1,1,1,1)
 	}
 	CGINCLUDE
 		#include "UnityCG.cginc"
@@ -14,6 +15,7 @@ Shader "Crystal Glass/Rainbow" {
 		uniform sampler2D _RainbowTex;
 		float4 _RainbowTex_ST;
 		uniform float _RainbowInten;
+		fixed4 _Hue;
 
 		struct v2f
 		{
@@ -26,7 +28,7 @@ Shader "Crystal Glass/Rainbow" {
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
 			o.norm = mul((float3x3)unity_ObjectToWorld, v.normal);
-			//o.view.xy = TRANSFORM_TEX(v.texcoord.xy, _RainbowTex);
+			o.view.xy = TRANSFORM_TEX(v.texcoord.xy, _RainbowTex);
 			o.view = WorldSpaceViewDir(v.vertex);
 			return o;
        	}
@@ -36,11 +38,11 @@ Shader "Crystal Glass/Rainbow" {
 			float3 V = normalize(i.view);
 
 			float vdn = dot(V, N);
-			float3 rainbow = tex2D(_RainbowTex, float2(vdn, 0)).rgb;
+			float3 rainbow = tex2D(_RainbowTex, float2(vdn, 0)*i.view.xy).rgb;
 			
 			float3 r = reflect(-V, N);
 			float3 refl = texCUBE(_EnvTex, r).rgb*0.5;
-			float3 c = lerp(refl, rainbow, _RainbowInten * vdn);
+			float3 c = lerp(refl, rainbow, _RainbowInten * vdn)*_Hue;
 			return float4(c, 1 - vdn)*2;
 		}
 	ENDCG
