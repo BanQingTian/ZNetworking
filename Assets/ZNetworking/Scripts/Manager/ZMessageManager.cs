@@ -17,6 +17,7 @@ public static class MsgId
     public const string __DRAGON_BEHIT_MSG_ = "dragon_behit_msg";
     public const string __DRAGON_DEATH_MSG_ = "dragon_death_msg";
     public const string __RESET_GAME_MSG_ = "reset_game_msg";
+    public const string __RANDOM_PLAYER_MSG_ = "random_player_msg";
 
     #endregion
 }
@@ -56,6 +57,11 @@ public class ZMessageManager
             client.AddListener(MsgId.__DRAGON_BEHIT_MSG_, _S2C_DragonBehit);
             client.AddListener(MsgId.__DRAGON_DEATH_MSG_, _S2C_DragonDeath);
             client.AddListener(MsgId.__RESET_GAME_MSG_, _S2C_ResetGame);
+            client.AddListener(MsgId.__RANDOM_PLAYER_MSG_, _S2C_RandomAttackPlayer);
+        }
+        else if (Global.CurRoom == Global.exhibit)
+        {
+
         }
         m_Initialized = true;
     }
@@ -145,6 +151,13 @@ public class ZMessageManager
         Message m = msg as Message;
 
         DragonManager.Instance.DragonDead();
+    }
+
+    public void _S2C_RandomAttackPlayer(object msg)
+    {
+        Message m = msg as Message;
+
+        DragonManager.Instance.Dragon.RandomTarget(m.Content);
     }
 
     #endregion

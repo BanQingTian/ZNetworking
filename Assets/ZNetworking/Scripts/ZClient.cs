@@ -180,7 +180,7 @@ public class ZClient
             Player = new Player
             {
                 PlayerId = m_PlayerID,
-                PlayerName = m_PlayerName,
+                PlayerName = Global.GetName(),
                 IsHouseOwner = m_IsHouseOwner,
                 Position = new ZPosition
                 {
@@ -211,6 +211,7 @@ public class ZClient
         while (enumerator.MoveNext())
         {
             Player player = enumerator.Current;
+            Debug.Log(player.PlayerName);
             Entity entity;
             PlayerEntity pe;
             if (ZPlayerMe.Instance.PlayerMap.TryGetValue(player.PlayerId, out entity))
@@ -234,8 +235,6 @@ public class ZClient
         }
         foreach (var item in exceptPlayerList)
         {
-
-
             ZPlayerMe.Instance.RemovePlayer(item);
         }
     }
@@ -266,7 +265,7 @@ public class ZClient
                 Player = new Player
                 {
                     PlayerId = m_PlayerID,
-                    PlayerName = m_PlayerName,
+                    PlayerName = Global.GetName(),
                 },
                 RoomId = m_RoomID,
                 Active = true,

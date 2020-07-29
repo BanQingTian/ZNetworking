@@ -18,10 +18,12 @@ public class DragonAttack : MonoBehaviour
 
     public GameObject AttackPoint;
     public GameObject Fireball;
+    public ParticleSystem BoomEff;
     public Rigidbody Rig;
     public Transform DragonParent;
 
     public bool dead = false;
+    public bool dragonFire = false;
 
     /// <summary>
     /// 动画管理类
@@ -44,6 +46,7 @@ public class DragonAttack : MonoBehaviour
     {
         firstBeHit = true;
         dead = false;
+        dragonFire = false;
         AnimManager.ResetStatue();
 
         totalHp = playerCount * ratio;
@@ -95,6 +98,8 @@ public class DragonAttack : MonoBehaviour
 
     #region Animation Event
 
+
+
     /// <summary>
     /// 动画事件调用 - 死亡动画开始播放时
     /// </summary>
@@ -103,7 +108,7 @@ public class DragonAttack : MonoBehaviour
         DragonBubble.gameObject.SetActive(false);
 
         StopCoroutine("rotateHeadCor");
-        StartCoroutine(rotateHeadCor(DragonParent, 90, 40, () =>
+        StartCoroutine(rotateHeadCor(DragonParent, 180, 40, () =>
         {
 
         }));
@@ -126,6 +131,28 @@ public class DragonAttack : MonoBehaviour
     }
 
     /// <summary>
+    /// 龙准备喷火
+    /// </summary>
+    public void DragonFireBegin()
+    {
+        dragonFire = true;
+    }
+    public void DragonFireEnd()
+    {
+        dragonFire = false;
+        //RandomTarget();
+        if (ZClient.Instance.IsHouseOwner && !dragonFire)
+        {
+            int randonkey = Random.Range(0, ZPlayerMe.Instance.PlayerKeys.Count);
+            if (randonkey >= ZPlayerMe.Instance.PlayerKeys.Count)
+            {
+                randonkey = 0;
+            }
+            ZMessageManager.Instance.SendMsg(MsgId.__RANDOM_PLAYER_MSG_, ZPlayerMe.Instance.PlayerKeys[randonkey]);
+        }
+    }
+
+    /// <summary>
     /// 动画事件调用-喷火球
     /// </summary>
     public void DragonShootFireball()
@@ -133,37 +160,108 @@ public class DragonAttack : MonoBehaviour
         PlayFireballAudio();
         Rig.isKinematic = true;
         Rig.isKinematic = false;
-        Fireball.transform.position = AttackPoint.transform.position;
-        Fireball.transform.rotation = AttackPoint.transform.rotation;
         Fireball.SetActive(true);
-        Rig.AddForce(AttackPoint.transform.forward * 600);
+        Fireball.transform.position = AttackPoint.transform.position;
+        Rig.AddForce((targetPos - Fireball.transform.position).normalized * 300);
+
+        //PlayFireballAudio();
+        //Rig.isKinematic = true;
+        //Rig.isKinematic = false;
+        //Fireball.transform.position = AttackPoint.transform.position;
+        //Fireball.transform.rotation = AttackPoint.transform.rotation;
+        //Fireball.SetActive(true);
+        //Rig.AddForce(AttackPoint.transform.forward * 600);
     }
 
     /// <summary>
-    /// 动画事件调用
+    /// 翅膀音效
     /// </summary>
-    /// <param name="damageHp"></param>
-    public void DragonRotateHead()
+    public void PlayWing()
     {
-        DragonManager.Instance.BeginFight();
-
         PlayWingReadyAudio();
+    }
 
-        float random = Random.Range(50f, 130f);
-        StopCoroutine(rotateHeadCor(DragonParent, random, 5));
-
-        if (dead)
+    /// <summary>
+    /// 开启旋转跟随协程
+    /// </summary>
+    public void StartFollow()
+    {
+        Debug.Log("StartFollow");
+        DragonManager.Instance.BeginFight();
+        //RandomTarget();
+        if (ZClient.Instance.IsHouseOwner && !dragonFire)
         {
-            StartCoroutine(rotateHeadCor(DragonParent, 90, 12));
+            int randonkey = Random.Range(0, ZPlayerMe.Instance.PlayerKeys.Count);
+            if (randonkey >= ZPlayerMe.Instance.PlayerKeys.Count)
+            {
+                randonkey = 0;
+            }
+            ZMessageManager.Instance.SendMsg(MsgId.__RANDOM_PLAYER_MSG_, ZPlayerMe.Instance.PlayerKeys[randonkey]);
         }
-        else
-        {
-            StartCoroutine(rotateHeadCor(DragonParent, random, 5));
-        }
+        StartCoroutine(look());
+    }
 
+    Vector3 targetPos;
+    float randomAngle;
+    bool randomed = false;
+    // 随机获取一名玩家位置, server同步随机到的玩家
+    public void RandomTarget(string key)
+    {
+        randomed = true;
+        targetPos = ZPlayerMe.Instance.PlayerMap[key].transform.position;
+
+        Vector3 v1 = new Vector3(targetPos.x, 0, targetPos.z) - new Vector3(DragonParent.position.x, 0, DragonParent.position.z);
+        randomAngle = ZUtils.GetAngle(v1, DragonParent.right);
+    }
+    private IEnumerator look()
+    {
+        while (true)
+        {
+            if (dead)
+            {
+                //StartCoroutine(rotateHeadCor(DragonParent, 180, 40));
+
+                //Vector3 v1 = new Vector3(targetPos.x, 0, targetPos.z) - new Vector3(DragonParent.position.x, 0, DragonParent.position.z);
+                //float a = Vector3.Angle(v1, DragonParent.forward);
+                //if (a > 2)
+                //{
+                //    ZUtils.Look(true, DragonParent, Vector3.zero, randomAngle);
+                //}
+                //else
+                //{
+                //    ZUtils.Look(true, DragonParent, targetPos, randomAngle);
+
+                //}
+                yield break;
+            }
+
+            if (!randomed)
+            {
+                yield return null;
+            }
+
+            if (!dragonFire)
+            {
+                Vector3 v1 = new Vector3(targetPos.x, 0, targetPos.z) - new Vector3(DragonParent.position.x, 0, DragonParent.position.z);
+                float a = Vector3.Angle(v1, DragonParent.forward);
+                if (a > 2)
+                {
+                    ZUtils.Look(true, DragonParent, targetPos, randomAngle);
+                }
+                else
+                {
+                    ZUtils.Look(true, DragonParent, targetPos, randomAngle);
+                    AnimManager.DragonFire();
+                }
+
+            }
+            yield return null;
+        }
     }
     private IEnumerator rotateHeadCor(Transform startTrans, float end, float speed = 1, System.Action finishi = null)
     {
+        Debug.Log("end = " + end);
+
         float dir = Time.deltaTime * 4 * speed;
         dir = end > startTrans.eulerAngles.y ? dir : -dir;
         while (Mathf.Abs(startTrans.eulerAngles.y - end) > Mathf.Abs(dir * 1.5f))
@@ -171,12 +269,10 @@ public class DragonAttack : MonoBehaviour
             Vector3 v3 = DragonParent.transform.eulerAngles;
             float y = v3.y + dir;
             startTrans.transform.eulerAngles = new Vector3(v3.x, y, v3.z);
-            if (y > 130 || y < 50)
-            {
-                startTrans.transform.eulerAngles = new Vector3(v3.x, Mathf.Clamp(y, 50, 130), v3.z);
-            }
+
             yield return null;
         }
+        //AnimManager.DragonAnimator.SetTrigger("fireball");
         startTrans.eulerAngles = new Vector3(DragonParent.transform.eulerAngles.x, end, DragonParent.transform.eulerAngles.z);
         finishi?.Invoke();
 
@@ -198,7 +294,7 @@ public class DragonAttack : MonoBehaviour
         return ZPlayerMe.Instance.PlayerMap[ZPlayerMe.Instance.PlayerKeys[index]].transform;
     }
 
-   
+
 
     #region Audio Event
 

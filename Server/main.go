@@ -147,6 +147,9 @@ func (s *Server) SyncPose(ctx context.Context, req *pb.SyncRequest) (*pb.SyncRes
 		return nil, errors.New(s)
 	}
 
+	playerName := req.GetPlayer().GetPlayerName()
+	s.players[playerID].PlayerName = playerName
+
 	// all players update pose
 	position := req.GetPlayer().GetPosition()
 	s.players[playerID].Position.X = position.GetX()
@@ -322,7 +325,7 @@ func (s *Server) BroadcastMessage(ctx context.Context, msg *pb.Message) (*pb.Clo
 				// }
 
 				err := conn.stream.Send(msg)
-				log.Printf("[ZLOG] [INFO] Sending message to => roomId : %v - Id : %v - msg.content : %s", msg.RoomId, conn.id, msg.Content)
+				log.Printf("[ZLOG] [INFO] Sending message to => roomId : %v - Id : %v - msg.contentType : %s", msg.RoomId, conn.id, msg.ContentType)
 
 				if err != nil {
 					log.Printf("[ZLOG] [ERROR] stream send msg => Stream: %v - Error: %v", conn.stream, err)
@@ -362,6 +365,28 @@ func (s *Server) checkAllReady(msg *pb.Message) bool {
 	return true
 }
 
+// getClientIP .
+func getClientIP() (string, error) {
+	addrs, err := net.InterfaceAddrs()
+
+	if err != nil {
+		return "", err
+	}
+
+	for _, address := range addrs {
+		// 检查ip地址判断是否回环地址
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+
+		}
+	}
+
+	return "", errors.New("err")
+
+}
+
 func main() {
 	log.Println("[ZLOG] [INFO] Server run ...")
 
@@ -372,16 +397,15 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-
 	listener, err := net.Listen("tcp", zport)
 
 	if err != nil {
 		log.Fatal("[ZLOG] [ERROR] creating the server : ", err)
 	}
 
-	log.Println("[ZLOG] [INFO] Starting server at port ", zport)
+	ip, _ := getClientIP()
+	log.Println("[ZLOG] [INFO] Starting server at", ip+zport)
 
 	pb.RegisterExhibitServer(grpcServer, server)
 	grpcServer.Serve(listener)
-
 }

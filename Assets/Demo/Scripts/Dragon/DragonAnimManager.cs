@@ -35,7 +35,6 @@ public class DragonAnimManager : MonoBehaviour {
         yield return new WaitForSeconds(time);
         MainTimeline.gameObject.SetActive(false);
         DragonAnimator.gameObject.SetActive(true);
-
     }
 
     public void DragonFire()
@@ -66,7 +65,19 @@ public class DragonAnimManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(40);
         Roof.SetActive(true);
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
+
+        Color tmpC = DragonManager.Instance.TAG.color;
+        DragonManager.Instance.TAG.color = new Color(tmpC.r, tmpC.g, tmpC.b, 0);
+        DragonManager.Instance.TAG.gameObject.SetActive(true);
+        while (DragonManager.Instance.TAG.color.a < 0.95)
+        {
+            DragonManager.Instance.TAG.color = new Color(tmpC.r, tmpC.g, tmpC.b, DragonManager.Instance.TAG.color.a + Time.fixedDeltaTime*2f);
+            yield return null;
+        }
+        DragonManager.Instance.TAG.color = tmpC;
+
+        yield return new WaitForSeconds(10);   
         if (ZClient.Instance.IsHouseOwner)
         {
             ZMessageManager.Instance.SendMsg(MsgId.__RESET_GAME_MSG_, "go");

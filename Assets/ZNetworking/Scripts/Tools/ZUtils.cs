@@ -64,45 +64,45 @@ public static class ZUtils
     /// <param name="watcher"></param>
     /// <param name="target"></param>
     /// <param name="speed"></param>
-    public static void Look(Transform watcher, Transform target, float speed = 7)
+    public static void Look(bool fade, Transform watcher, Vector3 target, float rate = 1, float speed = 200)
     {
-        Vector3 directionToFace = target.position - watcher.position;//sphere 就是要注视的obj
-        //Debug.DrawRay(watcher.position, target.position, Color.green);//在scene中画出debug线
-        //watcher.rotation = Quaternion.LookRotation(directionToFace);//LookAt
+        Vector3 directionToFace = target - watcher.position;//sphere 就是要注视的obj
+                                                            //Debug.DrawRay(watcher.position, target.position, Color.green);//在scene中画出debug线
+        if (!fade)
+        {
+            watcher.rotation = Quaternion.LookRotation(directionToFace);//LookAt
+        }
+        else
+        {
+            //如果想要缓慢lookat，而不是在sphere移动的时候瞬间lookat（头转太快脖子容易闪到，也不太合理），可以使用slerp函数，写法如下：（需要把第三句代码注释掉）
+            Quaternion targetRotation = Quaternion.LookRotation(directionToFace);//先获取LookAt角度
+            watcher.rotation = Quaternion.Slerp(watcher.rotation, targetRotation, Time.deltaTime * speed / rate);//在1秒内注视LookAt完毕
+        }
 
-        //如果想要缓慢lookat，而不是在sphere移动的时候瞬间lookat（头转太快脖子容易闪到，也不太合理），可以使用slerp函数，写法如下：（需要把第三句代码注释掉）
-        Quaternion targetRotation = Quaternion.LookRotation(directionToFace);//先获取LookAt角度
-        watcher.rotation = Quaternion.Slerp(watcher.rotation, targetRotation, Time.deltaTime * speed);//在1秒内注视LookAt完毕
-
-
+        watcher.eulerAngles = new Vector3(0, watcher.eulerAngles.y, 0);
     }
 
     // 获取两个向量的夹角  Vector3.Angle 只能返回 [0, 180] 的值
     // 如真实情况下向量 a 到 b 的夹角（80 度）则 b 到 a 的夹角是（-80）
     // 通过 Dot、Cross 结合获取到 a 到 b， b 到 a 的不同夹角
-    public static void GetAngle(Vector3 a, Vector3 b)
+    public static float GetAngle(Vector3 a, Vector3 b)
     {
         Vector3 c = Vector3.Cross(a, b);
         float angle = Vector3.Angle(a, b);
-
-        //Debug.Log(Mathf.Acos(Vector3.Dot(a.normalized, b.normalized))*Mathf.Rad2Deg);
-        //Debug.Log(Mathf.Acos(Vector3.Dot(b.normalized, a.normalized)) * Mathf.Rad2Deg);
-
-        //Debug.Log(Vector3.Cross(a, b));
-        //Debug.Log(Vector3.Cross(a.normalized, b.normalized));
-        //Debug.Log(Vector3.Cross(b.normalized, a.normalized));
 
         // b 到 a 的夹角
         float sign = Mathf.Sign(Vector3.Dot(c.normalized, Vector3.Cross(a.normalized, b.normalized)));
         float signed_angle = angle * sign;
 
-        Debug.Log("b -> a :" + signed_angle);
+        return signed_angle;
 
-        // a 到 b 的夹角
-        sign = Mathf.Sign(Vector3.Dot(c.normalized, Vector3.Cross(b.normalized, a.normalized)));
-        signed_angle = angle * sign;
+        //Debug.Log("b -> a :" + signed_angle);
 
-        Debug.Log("a -> b :" + signed_angle);
+        //// a 到 b 的夹角
+        //sign = Mathf.Sign(Vector3.Dot(c.normalized, Vector3.Cross(b.normalized, a.normalized)));
+        //signed_angle = angle * sign;
+
+        //Debug.Log("a -> b :" + signed_angle);
     }
 
     /// <summary>

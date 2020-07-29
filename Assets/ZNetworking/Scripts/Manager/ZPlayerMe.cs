@@ -29,10 +29,16 @@ public class ZPlayerMe
     /// </summary>
     public Dictionary<string, Entity> PlayerMap = new Dictionary<string, Entity>();
     public List<string> PlayerKeys = new List<string>();
+    
     /// <summary>
     /// 所有玩家的准备情况
     /// </summary>
     public Dictionary<string, bool> PlayerReadyDic = new Dictionary<string, bool>();
+
+    /// <summary>
+    /// 所有玩家动画播放到准备喷火阶段
+    /// </summary>
+    public Dictionary<string, bool> PlayerReadyToBeFire = new Dictionary<string, bool>();
 
     public void Init()
     {
@@ -66,6 +72,7 @@ public class ZPlayerMe
             PlayerMap.Remove(id);
             PlayerKeys.Remove(id);
             PlayerReadyDic.Remove(id);
+            PlayerReadyToBeFire.Remove(id);
         }
         else
         {
@@ -86,6 +93,8 @@ public class ZPlayerMe
             PlayerMap[id] = player;
             PlayerKeys.Add(id);
             PlayerReadyDic[id] = false;
+            PlayerReadyToBeFire[id] = false;
+
         }
 
         DragonManager.Instance.RefreshUI(id);
@@ -93,14 +102,10 @@ public class ZPlayerMe
 
     public void ResetPlayerStatus()
     {
-        List<string> keys = new List<string>();
-        foreach (var item in PlayerReadyDic.Keys)
+        for (int i = 0; i < PlayerKeys.Count; i++)
         {
-            keys.Add(item);
-        }
-        for (int i = 0; i < keys.Count; i++)
-        {
-            PlayerReadyDic[keys[i]] = false;
+            PlayerReadyDic[PlayerKeys[i]] = false;
+            PlayerReadyToBeFire[PlayerKeys[i]] = false;
         }
     }
 

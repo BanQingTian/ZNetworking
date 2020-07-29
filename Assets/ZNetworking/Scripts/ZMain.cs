@@ -23,6 +23,7 @@ public class ZMain : MonoBehaviour
         Begin();
     }
 
+
     void Update()
     {
 #if UNITY_EDITOR
@@ -79,7 +80,7 @@ public class ZMain : MonoBehaviour
         }
         else if (DeviceType == DeviceTypeEnum.Pad)
         {
-            var arCam = GameObject.Find("ARCore Device");
+            var arCam = GameObject.Find("First Person Camera");
             ZClient.Instance.Model = arCam;
         }
     }

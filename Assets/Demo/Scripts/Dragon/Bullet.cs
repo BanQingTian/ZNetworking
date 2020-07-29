@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Dragon"))
+        if (other.CompareTag("Dragon") && !DragonManager.Instance.Dragon.dead)
         {
             DragonAttack dragon = other.GetComponentInParent<DragonAttack>();
             if(dragon != null)
@@ -28,8 +28,8 @@ public class Bullet : MonoBehaviour {
                 dragon.DamageDragon(1);
             }
         }
+        
         gameObject.SetActive(false);
-
     }
-
+    
 }
