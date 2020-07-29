@@ -38,11 +38,13 @@ public class ZScanMarker : MonoBehaviour
                 MarkerPrefab.SetActive(true);
                 MarkerPrefab.transform.position = item.GetCenterPose().position;
                 MarkerPrefab.transform.rotation = item.GetCenterPose().rotation;
-                //MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
+                MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
 
                 if (NRInput.GetButtonDown(ControllerButton.TRIGGER))
                 {
-                    var marker_in_world = ZUtils.GetTMatrix(MarkerPrefab.transform.position, MarkerPrefab.transform.rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
+                    MarkerPrefab.SetActive(false);
+
+                    var marker_in_world = ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
                     GameObject nrCam = GameObject.Find("NRCameraRig");
@@ -92,10 +94,10 @@ public class ZScanMarker : MonoBehaviour
         {
             if (item.TrackingState == GoogleARCore.TrackingState.Tracking)
             {
-                Anchor anchor = item.CreateAnchor(item.CenterPose);
+                //Anchor anchor = item.CreateAnchor(item.CenterPose);
                 MarkerPrefab.SetActive(true);
-                MarkerPrefab.transform.position = anchor.transform.position;
-                MarkerPrefab.transform.rotation = anchor.transform.rotation;
+                MarkerPrefab.transform.position = item.CenterPose.position;// anchor.transform.position;
+                MarkerPrefab.transform.rotation = item.CenterPose.rotation;// anchor.transform.rotation;
                 MarkerPrefab.transform.localScale = new Vector3(0.4f, MarkerPrefab.transform.localScale.y, 0.4f);
 
                 if (Input.touchCount == 1 && Input.touches[0].phase == TouchPhase.Began)
@@ -112,12 +114,15 @@ public class ZScanMarker : MonoBehaviour
                     return true;
                 }
                 scanCount++;
+
+                return false;
             }
             else if (item.TrackingState == GoogleARCore.TrackingState.Stopped)
             {
                 MarkerPrefab.SetActive(false);
             }
         }
+        MarkerPrefab.SetActive(false);
 
         return false;
     }
@@ -137,7 +142,7 @@ public class ZScanMarker : MonoBehaviour
         transformParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
         transformParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
 
-        camera.SetParent(null);
+        //camera.SetParent(null);
     }
 
 

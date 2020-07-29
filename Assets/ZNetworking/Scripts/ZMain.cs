@@ -23,6 +23,7 @@ public class ZMain : MonoBehaviour
         Begin();
     }
 
+
     void Update()
     {
 #if UNITY_EDITOR
@@ -79,7 +80,7 @@ public class ZMain : MonoBehaviour
         }
         else if (DeviceType == DeviceTypeEnum.Pad)
         {
-            var arCam = GameObject.Find("ARCore Device");
+            var arCam = GameObject.Find("First Person Camera");
             ZClient.Instance.Model = arCam;
         }
     }
@@ -101,7 +102,7 @@ public class ZMain : MonoBehaviour
     {
         Global.CurRoom = Global.GetRoomName(RoomName);
         ZMessageManager.Instance.Init();
-        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.69.39", "50010"); //192.168.69.39
+        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.69.115", "50010"); //192.168.69.39
     }
 
 

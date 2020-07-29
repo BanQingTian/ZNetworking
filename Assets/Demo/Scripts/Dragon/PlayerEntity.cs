@@ -11,7 +11,6 @@ public class PlayerEntity : Entity
 {
     public Weapon Weapon;
 
-
     public override void Init(Player info)
     {
         base.Init(info);
@@ -26,10 +25,6 @@ public class PlayerEntity : Entity
             if (DragonManager.Instance.PlayingFight)
             {
                 if (PlayerInfo.PlayerName.Equals("arcore"))
-                {
-                    Weapon.gameObject.SetActive(false);
-                }
-                else if (isOwner)
                 {
                     Weapon.gameObject.SetActive(false);
                 }

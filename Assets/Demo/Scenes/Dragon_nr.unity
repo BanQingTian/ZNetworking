@@ -113,7 +113,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &85248047
+--- !u!1001 &279340280
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -152,22 +152,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1540743855438916, guid: 2c53892661bfc1d43bd6517fa88bc4b7, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1685762516654174, guid: 2c53892661bfc1d43bd6517fa88bc4b7, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224550182842637168, guid: 2c53892661bfc1d43bd6517fa88bc4b7,
+    - target: {fileID: 114641022368494694, guid: 2c53892661bfc1d43bd6517fa88bc4b7,
         type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -51
-      objectReference: {fileID: 0}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 332766936}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c53892661bfc1d43bd6517fa88bc4b7, type: 2}
   m_IsPrefabAsset: 0
+--- !u!20 &332766936 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 20880588574554076, guid: 665d8158924bd2648a94fb3f87691bbb,
+    type: 2}
+  m_PrefabInternal: {fileID: 967333453}
 --- !u!1 &532413256
 GameObject:
   m_ObjectHideFlags: 0

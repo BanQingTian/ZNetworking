@@ -135,11 +135,14 @@ namespace NRKernal
 
         private void LoadNotification()
         {
+#if !UNITY_EDITOR
             if (this.NRSessionBehaviour.SessionConfig.EnableNotification &&
                 GameObject.FindObjectOfType<NRNotificationListener>() == null)
             {
                 GameObject.Instantiate(Resources.Load("NRNotificationListener"));
             }
+#endif
+
         }
 
         private bool m_IsSessionError = false;

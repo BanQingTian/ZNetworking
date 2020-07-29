@@ -26,6 +26,8 @@ public class DragonManager : MonoBehaviour
     public Button ReadyBtn;
     public Button PlayBtn;
 
+    public Image TAG;
+
     #endregion
 
     /// <summary>
@@ -56,11 +58,11 @@ public class DragonManager : MonoBehaviour
             }
         }
 
-        if(Global.DeviceType == DeviceTypeEnum.Pad)
+        if (Global.DeviceType == DeviceTypeEnum.Pad)
         {
             if (Input.touchCount >= 2)
             {
-                if(Input.touches[0].phase == TouchPhase.Began && Input.touches[1].phase == TouchPhase.Began)
+                if (Input.touches[0].phase == TouchPhase.Began && Input.touches[1].phase == TouchPhase.Began)
                 {
                     m_ZMain.IS_MATCH = false;
                 }
@@ -195,6 +197,7 @@ public class DragonManager : MonoBehaviour
         Dragon.gameObject.SetActive(false);
         Dragon.AnimManager.DeathEffSwitch.SetActive(false);
         Dragon.AnimManager.Roof.SetActive(false);
+        TAG.gameObject.SetActive(false);
         resetDragonHp();
         ShowReadyBtn();
     }
@@ -216,7 +219,7 @@ public class DragonManager : MonoBehaviour
 
     public void RefreshUI(string playerId)
     {
-        if (!PlayingFight && !Playing  && m_ZMain.IS_MATCH)
+        if (!PlayingFight && !Playing && m_ZMain.IS_MATCH)
         {
             ShowReadyBtn();
         }
@@ -253,7 +256,7 @@ public class DragonManager : MonoBehaviour
         }
         else
         {
-            ReadyBtn.transform.localPosition = Vector3.zero;
+            ReadyBtn.transform.localPosition = new Vector3(0, 23.8f, 0);
             PlayBtn.gameObject.SetActive(false);
         }
     }
