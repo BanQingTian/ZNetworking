@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Global
 {
 
-    public static string languge = "en";
+    public static LanguageEnum Languge = LanguageEnum.EN;
 
     public static string CurRoom = dragon;
 
@@ -47,6 +47,13 @@ public static class Global
 
     #endregion
 
+}
+
+public enum LanguageEnum
+{
+    EN = 0,
+    CH = 1,
+    KR = 2,
 }
 
 public enum DeviceTypeEnum

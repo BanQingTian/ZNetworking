@@ -211,7 +211,6 @@ public class ZClient
         while (enumerator.MoveNext())
         {
             Player player = enumerator.Current;
-            Debug.Log(player.PlayerName);
             Entity entity;
             PlayerEntity pe;
             if (ZPlayerMe.Instance.PlayerMap.TryGetValue(player.PlayerId, out entity))

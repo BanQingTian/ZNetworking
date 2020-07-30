@@ -30,6 +30,9 @@ public class DragonAttack : MonoBehaviour
     /// </summary>
     public DragonAnimManager AnimManager;
 
+    [Space(8)]
+    [Header("------------Audio-----------")]
+    [Space(8)]
     // Audio
     public AudioSource MainAS;
     public AudioClip FlapWingClip;
