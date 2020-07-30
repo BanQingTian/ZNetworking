@@ -13,6 +13,9 @@ public class ZMain : MonoBehaviour
     public DeviceTypeEnum DeviceType;
 
     [Space(12)]
+    public LanguageEnum LanguageType;
+
+    [Space(12)]
     public ZScanMarker MarkerHelper;
 
     [Space(12)]
@@ -22,7 +25,6 @@ public class ZMain : MonoBehaviour
     {
         Begin();
     }
-
 
     void Update()
     {
@@ -59,8 +61,11 @@ public class ZMain : MonoBehaviour
     private void Begin()
     {
         deviceCheck();
-        loadRoomManager();
-        loadNetworkingModule();
+
+        LoadLocalization();
+        LoadRoomManager();
+        LoadNetworkingModule();
+        LoadTipUI();
 
         ZPlayerMe.Instance.Init();
     }
@@ -85,7 +90,13 @@ public class ZMain : MonoBehaviour
         }
     }
 
-    public void loadRoomManager()
+    public void LoadLocalization()
+    {
+        Global.Languge = LanguageType;
+        // ZLocalizationHelper.Instance.Switch(LanguageType);
+    }
+
+    public void LoadRoomManager()
     {
         if (RoomName == RoomEnum.Dragon)
         {
@@ -98,12 +109,18 @@ public class ZMain : MonoBehaviour
     }
 
     // 网络所需组件，实例化网络组件
-    private void loadNetworkingModule()
+    public void LoadNetworkingModule()
     {
         Global.CurRoom = Global.GetRoomName(RoomName);
         ZMessageManager.Instance.Init();
         ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.69.39", "50010"); //192.168.69.39
     }
 
+    public void LoadTipUI()
+    {
+#if !UNITY_EDITOR
+        DragonManager.Instance.ShowScanMarkerTip();
+#endif
+    }
 
 }

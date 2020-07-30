@@ -40,8 +40,12 @@ public class ZScanMarker : MonoBehaviour
                 MarkerPrefab.transform.rotation = item.GetCenterPose().rotation;
                 MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
 
+                DragonManager.Instance.FreshScanMarkerClkEnterTip(true);
+
                 if (NRInput.GetButtonDown(ControllerButton.TRIGGER))
                 {
+                    DragonManager.Instance.FreshScanMarkerClkEnterTip(false);
+
                     MarkerPrefab.SetActive(false);
 
                     var marker_in_world = ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
@@ -61,8 +65,11 @@ public class ZScanMarker : MonoBehaviour
             else
             {
                 MarkerPrefab.SetActive(false);
+                DragonManager.Instance.ShowScanMarkerTip();
             }
         }
+        MarkerPrefab.SetActive(false);
+        DragonManager.Instance.ShowScanMarkerTip();
         return false;
 
     }
@@ -100,8 +107,14 @@ public class ZScanMarker : MonoBehaviour
                 MarkerPrefab.transform.rotation = item.CenterPose.rotation;// anchor.transform.rotation;
                 MarkerPrefab.transform.localScale = new Vector3(0.4f, MarkerPrefab.transform.localScale.y, 0.4f);
 
+                DragonManager.Instance.FreshScanMarkerClkEnterTip(true);
+
+
                 if (Input.touchCount == 1 && Input.touches[0].phase == TouchPhase.Began)
                 {
+
+                    DragonManager.Instance.FreshScanMarkerClkEnterTip(false);
+
                     var marker_in_world = ZUtils.GetTMatrix(item.CenterPose.position, item.CenterPose.rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
@@ -120,9 +133,11 @@ public class ZScanMarker : MonoBehaviour
             else if (item.TrackingState == GoogleARCore.TrackingState.Stopped)
             {
                 MarkerPrefab.SetActive(false);
+                DragonManager.Instance.ShowScanMarkerTip();
             }
         }
         MarkerPrefab.SetActive(false);
+        DragonManager.Instance.ShowScanMarkerTip();
 
         return false;
     }

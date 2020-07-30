@@ -27,6 +27,10 @@ public class DragonManager : MonoBehaviour
     public Button PlayBtn;
 
     public Image TAG;
+    public GameObject ScanMarkerTip;
+    public GameObject ScanMarkerClkEnterTip;
+
+    public GameObject FightingShootTip;
 
     #endregion
 
@@ -55,6 +59,7 @@ public class DragonManager : MonoBehaviour
             if (Global.DeviceType == DeviceTypeEnum.NRLight && NRInput.GetButtonDown(ControllerButton.TRIGGER))
             {
                 ZMessageManager.Instance.SendMsg(MsgId.__SHOOT_BUBBLE_MSG_, ZClient.Instance.PlayerID);
+                HideFightingShootTip();
             }
         }
 
@@ -187,6 +192,11 @@ public class DragonManager : MonoBehaviour
         PlayingFight = true;
         if (Global.DeviceType == DeviceTypeEnum.NRLight)
             (ZPlayerMe.Instance.PlayerMap[ZClient.Instance.PlayerID] as PlayerEntity).Weapon.gameObject.SetActive(true);
+
+        if(Global.DeviceType == DeviceTypeEnum.NRLight)
+        {
+            ShowFightingShootTip();
+        }
     }
 
     public void ResetGame()
@@ -215,8 +225,12 @@ public class DragonManager : MonoBehaviour
     #endregion
 
 
-    #region UILogic
+    #region UI_Panel_Logic
 
+    /// <summary>
+    /// 刷新准备UI
+    /// </summary>
+    /// <param name="playerId"></param>
     public void RefreshUI(string playerId)
     {
         if (!PlayingFight && !Playing && m_ZMain.IS_MATCH)
@@ -225,22 +239,26 @@ public class DragonManager : MonoBehaviour
         }
 
     }
-
-
+    /// <summary>
+    /// 显示准备UI
+    /// </summary>
     public void ShowReadyBtn()
     {
         Debug.Log("showReadyBtn");
         ReadyBtn.gameObject.SetActive(true);
-        SetUILayout(ZClient.Instance.IsHouseOwner);
+        SetReadyUILayout(ZClient.Instance.IsHouseOwner);
         showReadyBtnYet = true;
         ready = false;
     }
-
-    private void SetUILayout(bool isHouseOwner)
+    /// <summary>
+    /// 设置准备ui布局
+    /// </summary>
+    /// <param name="isHouseOwner"></param>
+    private void SetReadyUILayout(bool isHouseOwner)
     {
         if (isHouseOwner)
         {
-            ReadyBtn.transform.localPosition = new Vector3(100.2f, 23.8f, 0);
+            ReadyBtn.transform.localPosition = new Vector3(100.2f, 23.8f, 849.0001f);
 
             if (ZPlayerMe.Instance.IsAllReady())
             {
@@ -256,10 +274,38 @@ public class DragonManager : MonoBehaviour
         }
         else
         {
-            ReadyBtn.transform.localPosition = new Vector3(0, 23.8f, 0);
+            ReadyBtn.transform.localPosition = new Vector3(0, 23.8f, 849.0001f);
             PlayBtn.gameObject.SetActive(false);
         }
     }
+    /// <summary>
+    /// 显示marker识别提示
+    /// </summary>
+    public void ShowScanMarkerTip()
+    {
+        ScanMarkerTip.SetActive(true);
+        ScanMarkerClkEnterTip.SetActive(false);
+    }
+    public void FreshScanMarkerClkEnterTip(bool show = true)
+    {
+        ScanMarkerTip.SetActive(false);
+        ScanMarkerClkEnterTip.SetActive(show);
+    }
+
+    /// <summary>
+    /// 开始射击提示
+    /// </summary>
+    public void ShowFightingShootTip()
+    {
+        FightingShootTip.SetActive(true);
+    }
+    public void HideFightingShootTip()
+    {
+        FightingShootTip.SetActive(false);
+    }
+
+
+
     public void ShowReadyBtnClk()
     {
         ready = true;

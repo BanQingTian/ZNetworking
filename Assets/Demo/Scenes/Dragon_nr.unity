@@ -113,7 +113,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &279340280
+--- !u!1001 &42764688
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -157,6 +157,10 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 332766936}
+    - target: {fileID: 1065168797854412, guid: 2c53892661bfc1d43bd6517fa88bc4b7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c53892661bfc1d43bd6517fa88bc4b7, type: 2}
   m_IsPrefabAsset: 0
@@ -225,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomName: 0
   DeviceType: 1
+  LanguageType: 2
   MarkerHelper: {fileID: 532413258}
   IS_MATCH: 0
 --- !u!1001 &891892856
@@ -264,10 +269,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4200464628302516, guid: 387b708351beb80499e528b47668ab8b, type: 2}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1975292042946748, guid: 387b708351beb80499e528b47668ab8b, type: 2}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -448,6 +449,11 @@ Prefab:
     - target: {fileID: 4808320353365586, guid: ad152f08ed7eb6e4abd93376a0203e38, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114189359072911506, guid: ad152f08ed7eb6e4abd93376a0203e38,
+        type: 2}
+      propertyPath: m_EmulateVirtualDisplayInEditor
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad152f08ed7eb6e4abd93376a0203e38, type: 2}

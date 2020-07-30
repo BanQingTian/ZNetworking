@@ -64,7 +64,7 @@ public class DragonAnimManager : MonoBehaviour {
     private IEnumerator roofAppear()
     {
         yield return new WaitForSeconds(40);
-        Roof.SetActive(true);
+        //Roof.SetActive(true);
         yield return new WaitForSeconds(5);
 
         Color tmpC = DragonManager.Instance.TAG.color;
