@@ -72,6 +72,7 @@ public class DragonManager : MonoBehaviour
                 if (Input.touches[0].phase == TouchPhase.Began && Input.touches[1].phase == TouchPhase.Began)
                 {
                     m_ZMain.IS_MATCH = false;
+                    ShowScanMarkerTip();
                 }
             }
         }

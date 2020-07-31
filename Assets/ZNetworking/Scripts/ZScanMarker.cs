@@ -63,7 +63,7 @@ public class ZScanMarker : MonoBehaviour
 
                 return false;
             }
-            else if(item.GetTrackingState() == NRKernal.TrackingState.Stopped)
+            else if (item.GetTrackingState() == NRKernal.TrackingState.Stopped)
             {
                 MarkerPrefab.SetActive(false);
                 DragonManager.Instance.ShowScanMarkerTip();
@@ -110,6 +110,9 @@ public class ZScanMarker : MonoBehaviour
 
                 DragonManager.Instance.FreshScanMarkerClkEnterTip(true);
 
+                GameObject arcore = GameObject.Find("ARCore Device");
+                arcore.transform.position = Vector3.zero;
+                arcore.transform.rotation = Quaternion.identity;
 
                 if (Input.touchCount == 1 && Input.touches[0].phase == TouchPhase.Began)
                 {
@@ -119,9 +122,9 @@ public class ZScanMarker : MonoBehaviour
                     var marker_in_world = ZUtils.GetTMatrix(item.CenterPose.position, item.CenterPose.rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
-                    //GameObject arcoreCam = GameObject.Find("First Person Camera");
-                    GameObject arcore = GameObject.Find("ARCore Device");
-                    TranslatePose(arcore.transform);
+                    GameObject arcoreCam = GameObject.Find("First Person Camera");
+                    
+                    TranslatePose(arcoreCam.transform, arcore.transform);
 
 
 
@@ -159,6 +162,12 @@ public class ZScanMarker : MonoBehaviour
 
         transformParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
         transformParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
+
+        if (endParent != null)
+        {
+            endParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
+            endParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
+        }
 
         camera.SetParent(endParent);
     }
