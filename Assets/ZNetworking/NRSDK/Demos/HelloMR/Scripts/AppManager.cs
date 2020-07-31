@@ -49,7 +49,14 @@ namespace NRKernal.NRExamples
 
         private void OnHomeButtonClick()
         {
-            NRHomeMenu.Hide();
+            if (NRHomeMenu.IsShowing)
+            {
+                NRHomeMenu.Hide();
+            }
+            else
+            {
+                NRHomeMenu.Show();
+            }
         }
 
         private void OnAppButtonClick()
@@ -68,7 +75,8 @@ namespace NRKernal.NRExamples
                 if (m_ButtonPressTimer > BUTTON_LONG_PRESS_DURATION)
                 {
                     m_ButtonPressTimer = float.MinValue;
-                    NRHomeMenu.Show();
+                    //NRHomeMenu.Show();
+                    NRInput.RecenterController();
                 }
             }
             else

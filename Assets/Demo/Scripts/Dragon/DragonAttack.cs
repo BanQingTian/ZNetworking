@@ -35,8 +35,10 @@ public class DragonAttack : MonoBehaviour
     [Space(8)]
     // Audio
     public AudioSource MainAS;
-    public AudioClip FlapWingClip;
-    public AudioClip FireClip;
+    public AudioClip FlapWing_Clip; // 扇翅膀
+    public AudioClip FlapWing_Fire_Clip; //  扇翅膀&喷火
+    public AudioClip Dragon_Death_Clip;
+    public AudioClip Rose_Clip;
 
     private void Start()
     {
@@ -99,6 +101,7 @@ public class DragonAttack : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+
     #region Animation Event
 
 
@@ -108,6 +111,8 @@ public class DragonAttack : MonoBehaviour
     /// </summary>
     public void DragonDeathBegin()
     {
+        DragonSoundManager.Instance.PlayDeathAudio();
+
         DragonBubble.gameObject.SetActive(false);
 
         StopCoroutine("rotateHeadCor");
@@ -139,6 +144,7 @@ public class DragonAttack : MonoBehaviour
     public void DragonFireBegin()
     {
         dragonFire = true;
+        DragonSoundManager.Instance.PlayWingAndFireballAudio();
     }
     public void DragonFireEnd()
     {
@@ -160,7 +166,6 @@ public class DragonAttack : MonoBehaviour
     /// </summary>
     public void DragonShootFireball()
     {
-        PlayFireballAudio();
         Rig.isKinematic = true;
         Rig.isKinematic = false;
         Fireball.SetActive(true);
@@ -181,7 +186,7 @@ public class DragonAttack : MonoBehaviour
     /// </summary>
     public void PlayWing()
     {
-        PlayWingReadyAudio();
+        DragonSoundManager.Instance.PlayWingReadyAudio();
     }
 
     /// <summary>
@@ -247,7 +252,7 @@ public class DragonAttack : MonoBehaviour
             {
                 Vector3 v1 = new Vector3(targetPos.x, 0, targetPos.z) - new Vector3(DragonParent.position.x, 0, DragonParent.position.z);
                 float a = Vector3.Angle(v1, DragonParent.forward);
-                if (a > 2)
+                if (a > 3)
                 {
                     ZUtils.Look(true, DragonParent, targetPos, randomAngle);
                 }
@@ -283,39 +288,11 @@ public class DragonAttack : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 播放喷火球动画
-    /// </summary>
-    public void PlayFireAnim()
-    {
-
-    }
-
     private Transform getplyaer()
     {
         int index = Random.Range(0, ZPlayerMe.Instance.PlayerKeys.Count);
         return ZPlayerMe.Instance.PlayerMap[ZPlayerMe.Instance.PlayerKeys[index]].transform;
     }
-
-
-
-    #region Audio Event
-
-    // 上升扇翅膀音效
-    public void PlayWingReadyAudio()
-    {
-        MainAS.clip = FlapWingClip;
-        MainAS.Play();
-    }
-
-    // 喷火球动画音效
-    public void PlayFireballAudio()
-    {
-        MainAS.clip = FireClip;
-        MainAS.Play();
-    }
-
-    #endregion
 
     #endregion
 

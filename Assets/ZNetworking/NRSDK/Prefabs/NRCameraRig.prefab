@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114176646661500702}
   - component: {fileID: 114130057724730698}
   - component: {fileID: 114284810346029968}
+  - component: {fileID: 114511046669760170}
   m_Layer: 0
   m_Name: NRCameraRig
   m_TagString: Untagged
@@ -272,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857434b74457b704ba6f53c82a2d9bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quitLongPressTime: 3
+  enableTriggerProfiler: 0
 --- !u!114 &114176646661500702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ebd2de50e48bb47bf97386b2eb19a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DefaultVirtualDisplayer: {fileID: 1406232319260624, guid: e0f440c4bb94be641af5dc113d3248f5,
+  m_DefaultVirtualDisplayer: {fileID: 1406232319260624, guid: b244fee635e124541add331acbbc31a7,
     type: 2}
 --- !u!114 &114378715144848742
 MonoBehaviour:
@@ -313,5 +314,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e143cd77ac2aace40af826fca22209a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   SessionConfig: {fileID: 11400000, guid: 27d90d2c2ddcd074ca3e384fea9d08ca, type: 2}
+--- !u!114 &114511046669760170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1668515225578100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e3ee64add36494bacd699b48ffb785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

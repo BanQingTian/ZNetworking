@@ -10,7 +10,15 @@ namespace NRKernal.NRExamples
 
         private static NRHomeMenu m_Instance;
         private static bool m_IsShowing = false;
-        private static string m_MenuPrefabPath = "NRUI/NRHomeMenu";
+        private static string m_MenuPrefabPath = "NRHomeMenu_demo";
+
+        public static bool IsShowing
+        {
+            get
+            {
+                return m_IsShowing;
+            }
+        }
 
         private Transform _MainCamera;
         public Transform mainCamera

@@ -32,6 +32,8 @@ public class DragonManager : MonoBehaviour
 
     public GameObject FightingShootTip;
 
+    public Text LogUI;
+
     #endregion
 
     /// <summary>
@@ -191,9 +193,12 @@ public class DragonManager : MonoBehaviour
     {
         PlayingFight = true;
         if (Global.DeviceType == DeviceTypeEnum.NRLight)
+        {
+            NRInput.ControllerVisualActive = false;
             (ZPlayerMe.Instance.PlayerMap[ZClient.Instance.PlayerID] as PlayerEntity).Weapon.gameObject.SetActive(true);
+        }
 
-        if(Global.DeviceType == DeviceTypeEnum.NRLight)
+        if (Global.DeviceType == DeviceTypeEnum.NRLight)
         {
             ShowFightingShootTip();
         }
@@ -202,6 +207,8 @@ public class DragonManager : MonoBehaviour
     public void ResetGame()
     {
         Debug.Log("resetGame");
+        if (Global.DeviceType == DeviceTypeEnum.NRLight)
+            NRInput.ControllerVisualActive = true;
         Playing = false;
         PlayingFight = false;
         Dragon.gameObject.SetActive(false);

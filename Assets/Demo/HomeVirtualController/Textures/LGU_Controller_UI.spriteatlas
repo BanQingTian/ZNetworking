@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: LGU_Controller_UI
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 2
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 7d19c06090b4eef4d94080560b3427e0, type: 3}
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: df646c30b40e42942b5b43aa8fe13a9c, type: 3}
+  - {fileID: 21300000, guid: f0ab22d16811ed7488374273e74754f8, type: 3}
+  - {fileID: 21300000, guid: e7b62ed2d331aa2419673e69073cb71b, type: 3}
+  - {fileID: 21300000, guid: 533a3d548c977fb48bb64f1878ef6af8, type: 3}
+  - {fileID: 21300000, guid: 72655f052846d6640bae08934e6d389e, type: 3}
+  - {fileID: 21300000, guid: 08bf22258c2a1644a9a0d294ef58c885, type: 3}
+  - {fileID: 21300000, guid: 8b6acc6529299d542807a904bdbce4d6, type: 3}
+  - {fileID: 21300000, guid: 2ee9d9b60e47c414faee4ba97ebdebdf, type: 3}
+  - {fileID: 21300000, guid: cfbf6a1744edf2843b6c803885da3adf, type: 3}
+  - {fileID: 21300000, guid: d914e1fabb5938643b198ac1347ed07b, type: 3}
+  - {fileID: 21300000, guid: 13efbd7b67762e3459a85b2138bf19cb, type: 3}
+  - {fileID: 21300000, guid: b5019e6c99478254d89aad80da4597d3, type: 3}
+  - {fileID: 21300000, guid: 565b8edcbecd31140bdbd274a6199cfa, type: 3}
+  - {fileID: 21300000, guid: b4bc69ec6fcd61646981a9bad0336160, type: 3}
+  - {fileID: 21300000, guid: ca25ccecd485c34448442d1015ceb470, type: 3}
+  - {fileID: 21300000, guid: 9b61e00df200d904eabbd98e03e19358, type: 3}
+  - {fileID: 21300000, guid: 1ed3179d41945c644ab9bb45a75ab57b, type: 3}
+  - {fileID: 21300000, guid: a0799c4e76c416c45a515a249a9ac2f1, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - collect-Click 2
+  - snapshot-Idle 2
+  - logo
+  - Home-btn bg
+  - 3Dof follow-click 2
+  - trackpad_trackpad
+  - magnifier-enabled 2
+  - 0Dof follow-click 2
+  - 0Dof follow-Idle 2
+  - magnifier-click 2
+  - Home-icon
+  - collect-Idle 2
+  - 3Dof follow-Idle 2
+  - 6Dof follow-click 2
+  - magnifier-Idle 2
+  - 6Dof follow-Idle 2
+  - snapshot-Click 2
+  - magnifier-enabled-click 2
+  m_Tag: LGU_Controller_UI
+  m_IsVariant: 0

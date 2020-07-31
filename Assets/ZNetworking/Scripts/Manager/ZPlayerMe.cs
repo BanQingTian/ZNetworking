@@ -35,11 +35,6 @@ public class ZPlayerMe
     /// </summary>
     public Dictionary<string, bool> PlayerReadyDic = new Dictionary<string, bool>();
 
-    /// <summary>
-    /// 所有玩家动画播放到准备喷火阶段
-    /// </summary>
-    public Dictionary<string, bool> PlayerReadyToBeFire = new Dictionary<string, bool>();
-
     public void Init()
     {
         RemovePlayerEvent += Remove;
@@ -72,7 +67,6 @@ public class ZPlayerMe
             PlayerMap.Remove(id);
             PlayerKeys.Remove(id);
             PlayerReadyDic.Remove(id);
-            PlayerReadyToBeFire.Remove(id);
         }
         else
         {
@@ -93,8 +87,6 @@ public class ZPlayerMe
             PlayerMap[id] = player;
             PlayerKeys.Add(id);
             PlayerReadyDic[id] = false;
-            PlayerReadyToBeFire[id] = false;
-
         }
 
         DragonManager.Instance.RefreshUI(id);
@@ -105,7 +97,6 @@ public class ZPlayerMe
         for (int i = 0; i < PlayerKeys.Count; i++)
         {
             PlayerReadyDic[PlayerKeys[i]] = false;
-            PlayerReadyToBeFire[PlayerKeys[i]] = false;
         }
     }
 

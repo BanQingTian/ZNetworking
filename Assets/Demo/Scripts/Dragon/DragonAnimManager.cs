@@ -58,6 +58,7 @@ public class DragonAnimManager : MonoBehaviour {
     }
     public void PlayDeathEff()
     {
+        DragonSoundManager.Instance.PlayRoseAudio();
         DeathEffSwitch.SetActive(true);
         StartCoroutine(roofAppear());
     }

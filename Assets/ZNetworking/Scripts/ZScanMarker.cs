@@ -15,7 +15,6 @@ public class ZScanMarker : MonoBehaviour
 
     public bool MarkerTrackingUpdate()
     {
-        Debug.Log("czlog RUnning");
 #if UNITY_EDITOR
         return true;
 #else
@@ -34,11 +33,13 @@ public class ZScanMarker : MonoBehaviour
         {
             if (item.GetTrackingState() == NRKernal.TrackingState.Tracking)
             {
-                Debug.Log("czlog" + item.GetCenterPose().position);
                 MarkerPrefab.SetActive(true);
                 MarkerPrefab.transform.position = item.GetCenterPose().position;
                 MarkerPrefab.transform.rotation = item.GetCenterPose().rotation;
                 MarkerPrefab.transform.localScale = new Vector3(item.Size.x, MarkerPrefab.transform.localScale.y, item.Size.y);
+
+                var marker_in_world = ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
+                world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
                 DragonManager.Instance.FreshScanMarkerClkEnterTip(true);
 
@@ -48,21 +49,21 @@ public class ZScanMarker : MonoBehaviour
 
                     MarkerPrefab.SetActive(false);
 
-                    var marker_in_world = ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);//ZUtils.GetTMatrix(item.GetCenterPose().position, item.GetCenterPose().rotation);
-                    world_in_marker = Matrix4x4.Inverse(marker_in_world);
-
                     GameObject nrCam = GameObject.Find("NRCameraRig");
                     //GameObject nrInput = GameObject.Find("NRInput");
 
                     TranslatePose(nrCam.transform);
 
+                    NRInput.RecenterController();
+
                     SwitchImageTrackingMode(false); // 关闭maker识别
 
                     return true;
                 }
-                scanCount++;
+
+                return false;
             }
-            else
+            else if(item.GetTrackingState() == NRKernal.TrackingState.Stopped)
             {
                 MarkerPrefab.SetActive(false);
                 DragonManager.Instance.ShowScanMarkerTip();
@@ -118,9 +119,11 @@ public class ZScanMarker : MonoBehaviour
                     var marker_in_world = ZUtils.GetTMatrix(item.CenterPose.position, item.CenterPose.rotation);
                     world_in_marker = Matrix4x4.Inverse(marker_in_world);
 
-                    GameObject arcoreCam = GameObject.Find("ARCore Device");
+                    //GameObject arcoreCam = GameObject.Find("First Person Camera");
+                    GameObject arcore = GameObject.Find("ARCore Device");
+                    TranslatePose(arcore.transform);
 
-                    TranslatePose(arcoreCam.transform);
+
 
                     MarkerPrefab.SetActive(false);
 
@@ -142,7 +145,7 @@ public class ZScanMarker : MonoBehaviour
         return false;
     }
 
-    private void TranslatePose(Transform camera)
+    private void TranslatePose(Transform camera, Transform endParent = null)
     {
         if (transformParent == null)
         {
@@ -157,7 +160,7 @@ public class ZScanMarker : MonoBehaviour
         transformParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
         transformParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
 
-        //camera.SetParent(null);
+        camera.SetParent(endParent);
     }
 
 

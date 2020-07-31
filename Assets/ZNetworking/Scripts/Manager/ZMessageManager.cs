@@ -18,6 +18,7 @@ public static class MsgId
     public const string __DRAGON_DEATH_MSG_ = "dragon_death_msg";
     public const string __RESET_GAME_MSG_ = "reset_game_msg";
     public const string __RANDOM_PLAYER_MSG_ = "random_player_msg";
+    public const string __TEST_MSG_ = "test_msg";
 
     #endregion
 }
