@@ -52,7 +52,7 @@ public class ZScanMarker : MonoBehaviour
                     GameObject nrCam = GameObject.Find("NRCameraRig");
                     //GameObject nrInput = GameObject.Find("NRInput");
 
-                    TranslatePose(nrCam.transform);
+                    TranslatePose_NR(nrCam.transform);
 
                     NRInput.RecenterController();
 
@@ -147,7 +147,29 @@ public class ZScanMarker : MonoBehaviour
 
         return false;
     }
+    private void TranslatePose_NR(Transform camera, Transform endParent = null)
+    {
+        if (transformParent == null)
+        {
+            transformParent = new GameObject("---TransformParent---").transform;
+        }
 
+        transformParent.position = camera.position;
+        transformParent.rotation = camera.rotation;
+
+        camera.SetParent(transformParent);
+
+        transformParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
+        transformParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
+
+        if (endParent != null)
+        {
+            endParent.position = ZUtils.GetPositionFromTMatrix(world_in_marker);
+            endParent.rotation = ZUtils.GetRotationFromTMatrix(world_in_marker);
+        }
+
+        //camera.SetParent(endParent);
+    }
     private void TranslatePose(Transform camera, Transform endParent = null)
     {
         if (transformParent == null)
