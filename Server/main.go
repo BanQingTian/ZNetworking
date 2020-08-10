@@ -404,9 +404,9 @@ func main() {
 	listener, err = net.Listen("tcp", ":50010")
 
 	if err != nil {
-		err = nil
-		zport = zport + 1 // 规避掉端口重复err
-		listener, err = net.Listen("tcp", ":"+strconv.Itoa(zport))
+		// err = nil
+		// zport = zport + 1 // 规避掉端口重复err
+		// listener, err = net.Listen("tcp", ":"+strconv.Itoa(zport))
 		if err != nil {
 			log.Fatal("[ZLOG] [ERROR] Creating The Server Failed : ", err)
 		}
