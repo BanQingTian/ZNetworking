@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
 	"sync"
 
 	pb "szcw/cz/Rime"
@@ -15,7 +16,7 @@ import (
 )
 
 var (
-	zport    string = ":50010"
+	zport    int    = 50010
 	roomName string = "szcw"
 	seaworld string = "seaworld"
 	exhibit  string = "exhibit"
@@ -397,14 +398,22 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	listener, err := net.Listen("tcp", zport)
+
+	var listener net.Listener
+	var err error
+	listener, err = net.Listen("tcp", ":50010")
 
 	if err != nil {
-		log.Fatal("[ZLOG] [ERROR] creating the server : ", err)
+		err = nil
+		zport = zport + 1 // 规避掉端口重复err
+		listener, err = net.Listen("tcp", ":"+strconv.Itoa(zport))
+		if err != nil {
+			log.Fatal("[ZLOG] [ERROR] Creating The Server Failed : ", err)
+		}
 	}
 
 	ip, _ := getClientIP()
-	log.Println("[ZLOG] [INFO] Starting server at", ip+zport)
+	log.Println("[ZLOG] [INFO] Starting server at", ip+":"+strconv.Itoa(zport))
 
 	pb.RegisterExhibitServer(grpcServer, server)
 	grpcServer.Serve(listener)
