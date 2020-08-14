@@ -1,0 +1,15 @@
+{
+    "name": "NRSDKTests",
+    "references": [
+        "NRSDK",
+        "NRSDKEditor"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

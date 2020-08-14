@@ -19,6 +19,9 @@ public class ZMain : MonoBehaviour
     public ZScanMarker MarkerHelper;
 
     [Space(12)]
+    public string IPAdress;
+
+    [Space(12)]
     public bool IS_MATCH = false;
 
     void Start()
@@ -113,7 +116,7 @@ public class ZMain : MonoBehaviour
     {
         Global.CurRoom = Global.GetRoomName(RoomName);
         ZMessageManager.Instance.Init();
-        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.68.76", "50010"); //192.168.0.33 //192.168.69.39
+        ZMessageManager.Instance.SendConnectAndJoinRoom(IPAdress, "50010"); //192.168.0.33 //192.168.69.39
     }
 
     public void LoadTipUI()

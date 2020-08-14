@@ -173,8 +173,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomName: 0
   DeviceType: 1
-  LanguageType: 2
+  LanguageType: 1
   MarkerHelper: {fileID: 532413258}
+  IPAdress: 192.168.69.39
   IS_MATCH: 0
 --- !u!1001 &640348780
 Prefab:
