@@ -113,7 +113,7 @@ public class ZMain : MonoBehaviour
     {
         Global.CurRoom = Global.GetRoomName(RoomName);
         ZMessageManager.Instance.Init();
-        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.43.144", "50010"); //192.168.0.33 //192.168.69.39
+        ZMessageManager.Instance.SendConnectAndJoinRoom("192.168.68.76", "50010"); //192.168.0.33 //192.168.69.39
     }
 
     public void LoadTipUI()
