@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomName: 0
   DeviceType: 0
-  LanguageType: 2
+  LanguageType: 1
   MarkerHelper: {fileID: 1615707423}
   IPAdress: 192.168.69.39
   IS_MATCH: 0
