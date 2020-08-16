@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1208cb4bfc946f7aa1d7b5348cb086, type: 3}
+  m_Name: New Database
+  m_EditorClassIdentifier: 
+  m_Images:
+  - Name: marker
+    Width: 0
+    Quality: 
+    TextureGUID: d35b259f6563de048a9be54e647d6a1a
+    LastModifiedTime: 2020/8/13 18:12:22
+  - Name: nreal_trib1
+    Width: 0
+    Quality: 
+    TextureGUID: df876ed3d53d4094dbf1ad1b914bb311
+    LastModifiedTime: 2019/9/11 16:43:23
+  m_RawData: 
+  m_IsRawDataDirty: 1
+  m_CliVersion: 
