@@ -12948,7 +12948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowImage: {fileID: 114414644398993362}
   Sprite_en: {fileID: 21300000, guid: 051afe47abf97a249bf368a1ba7a7c22, type: 3}
-  Sprite_ch: {fileID: 21300000, guid: f51c5ea9dc50cad43bac0c6e3401d4c9, type: 3}
+  Sprite_ch: {fileID: 21300000, guid: aca3191b8f382924d85e6cc46c6d41a5, type: 3}
   Sprite_kr: {fileID: 21300000, guid: 194d73ff4a449624aace8e879a02677c, type: 3}
 --- !u!114 &114188989253376484
 MonoBehaviour:
@@ -13375,7 +13375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowImage: {fileID: 114817921127553956}
   Sprite_en: {fileID: 21300000, guid: b4983d1b4f9e8fa4eaf137aa61ee0dd4, type: 3}
-  Sprite_ch: {fileID: 21300000, guid: c28568ed117a2ea41baa6101c9fbc08e, type: 3}
+  Sprite_ch: {fileID: 21300000, guid: 2bb076c3f0e50ad4091909bf8ebc6b08, type: 3}
   Sprite_kr: {fileID: 21300000, guid: 08f7fe36f695c3344bec290b4e3b43f3, type: 3}
 --- !u!114 &114927936199497580
 MonoBehaviour:
